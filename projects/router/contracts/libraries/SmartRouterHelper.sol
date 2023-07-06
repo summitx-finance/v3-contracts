@@ -6,7 +6,7 @@ import '../interfaces/IStableSwapFactory.sol';
 import '../interfaces/IStableSwapInfo.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 import '@pancakeswap/v3-core/contracts/libraries/LowGasSafeMath.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/IPancakeV3Pool.sol';
+import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 library SmartRouterHelper {
     using LowGasSafeMath for uint256;
@@ -69,7 +69,7 @@ library SmartRouterHelper {
     // bytes32 internal constant V2_INIT_CODE_HASH = 0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66; // BSC TESTNET
     // bytes32 internal constant V2_INIT_CODE_HASH = 0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5; // BSC
     // bytes32 internal constant V2_INIT_CODE_HASH = 0x57224589c67f3f30a6b0d7a1b54cf3153ab84563bc609ef41dfb34f8b2974d2d; // ETH, GOERLI
-    bytes32 internal constant V2_INIT_CODE_HASH = 0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66;
+    bytes32 internal constant V2_INIT_CODE_HASH = 0x58c684aeb03fe49c8a3080db88e425fae262c5ef5bf0e8acffc0526c6e3c03a0;
 
     // returns sorted token addresses, used to handle return values from pairs sorted in this order
     function sortTokens(address tokenA, address tokenB) public pure returns (address token0, address token1) {
@@ -156,7 +156,7 @@ library SmartRouterHelper {
 
     /************************************************** V3 **************************************************/
 
-    bytes32 internal constant V3_INIT_CODE_HASH = 0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2;
+    bytes32 internal constant V3_INIT_CODE_HASH = 0x85d1b844c7e4f41da12d827a883c02e1479e62bd1dcd08713c056c081343f476;
 
     /// @notice The identifying key of the pool
     struct PoolKey {
@@ -180,7 +180,7 @@ library SmartRouterHelper {
     }
 
     /// @notice Deterministically computes the pool address given the deployer and PoolKey
-    /// @param deployer The PancakeSwap V3 deployer contract address
+    /// @param deployer The FusionX V3 deployer contract address
     /// @param key The PoolKey
     /// @return pool The contract address of the V3 pool
     function computeAddress(address deployer, PoolKey memory key) public pure returns (address pool) {
@@ -205,12 +205,12 @@ library SmartRouterHelper {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) public pure returns (IPancakeV3Pool) {
-        return IPancakeV3Pool(computeAddress(deployer, getPoolKey(tokenA, tokenB, fee)));
+    ) public pure returns (IFusionXV3Pool) {
+        return IFusionXV3Pool(computeAddress(deployer, getPoolKey(tokenA, tokenB, fee)));
     }
 
-    /// @notice Returns the address of a valid PancakeSwap V3 Pool
-    /// @param deployer The contract address of the PancakeSwap V3 deployer
+    /// @notice Returns the address of a valid FusionX V3 Pool
+    /// @param deployer The contract address of the FusionX V3 deployer
     /// @param tokenA The contract address of either token0 or token1
     /// @param tokenB The contract address of the other token
     /// @param fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
@@ -220,20 +220,20 @@ library SmartRouterHelper {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) public view returns (IPancakeV3Pool pool) {
+    ) public view returns (IFusionXV3Pool pool) {
         return verifyCallback(deployer, getPoolKey(tokenA, tokenB, fee));
     }
 
-    /// @notice Returns the address of a valid PancakeSwap V3 Pool
-    /// @param deployer The contract address of the PancakeSwap V3 deployer
+    /// @notice Returns the address of a valid FusionX V3 Pool
+    /// @param deployer The contract address of the FusionX V3 deployer
     /// @param poolKey The identifying key of the V3 pool
     /// @return pool The V3 pool contract address
     function verifyCallback(address deployer, PoolKey memory poolKey)
         public
         view
-        returns (IPancakeV3Pool pool)
+        returns (IFusionXV3Pool pool)
     {
-        pool = IPancakeV3Pool(computeAddress(deployer, poolKey));
+        pool = IFusionXV3Pool(computeAddress(deployer, poolKey));
         require(msg.sender == address(pool));
     }
 }

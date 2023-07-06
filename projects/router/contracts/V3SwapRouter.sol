@@ -14,8 +14,8 @@ import './base/OracleSlippage.sol';
 import './libraries/Constants.sol';
 import './libraries/SmartRouterHelper.sol';
 
-/// @title PancakeSwap V3 Swap Router
-/// @notice Router for stateless execution of swaps against PancakeSwap V3
+/// @title FusionX V3 Swap Router
+/// @notice Router for stateless execution of swaps against FusionX V3
 abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtended, OracleSlippage, ReentrancyGuard {
     using Path for bytes;
     using SafeCast for uint256;
@@ -32,8 +32,8 @@ abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtende
         address payer;
     }
 
-    /// @inheritdoc IPancakeV3SwapCallback
-    function pancakeV3SwapCallback(
+    /***/
+    function fusionXV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata _data

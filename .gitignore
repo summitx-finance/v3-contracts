@@ -8,6 +8,7 @@ node_modules/
 **/coverage
 **/coverage.json
 **/.env
+**/.secret_testnet
 .idea
 .vscode
 .DS_Store

@@ -3,10 +3,10 @@ pragma solidity =0.7.6;
 
 import '../interfaces/IERC20Minimal.sol';
 
-import '../interfaces/callback/IPancakeV3SwapCallback.sol';
-import '../interfaces/IPancakeV3Pool.sol';
+import '../interfaces/callback/IFusionXV3SwapCallback.sol';
+import '../interfaces/IFusionXV3Pool.sol';
 
-contract PancakeV3PoolSwapTest is IPancakeV3SwapCallback {
+contract FusionXV3PoolSwapTest is IFusionXV3SwapCallback {
     int256 private _amount0Delta;
     int256 private _amount1Delta;
 
@@ -23,7 +23,7 @@ contract PancakeV3PoolSwapTest is IPancakeV3SwapCallback {
             uint160 nextSqrtRatio
         )
     {
-        (amount0Delta, amount1Delta) = IPancakeV3Pool(pool).swap(
+        (amount0Delta, amount1Delta) = IFusionXV3Pool(pool).swap(
             address(0),
             zeroForOne,
             amountSpecified,
@@ -31,10 +31,10 @@ contract PancakeV3PoolSwapTest is IPancakeV3SwapCallback {
             abi.encode(msg.sender)
         );
 
-        (nextSqrtRatio, , , , , , ) = IPancakeV3Pool(pool).slot0();
+        (nextSqrtRatio, , , , , , ) = IFusionXV3Pool(pool).slot0();
     }
 
-    function pancakeV3SwapCallback(
+    function fusionXV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata data
@@ -42,9 +42,9 @@ contract PancakeV3PoolSwapTest is IPancakeV3SwapCallback {
         address sender = abi.decode(data, (address));
 
         if (amount0Delta > 0) {
-            IERC20Minimal(IPancakeV3Pool(msg.sender).token0()).transferFrom(sender, msg.sender, uint256(amount0Delta));
+            IERC20Minimal(IFusionXV3Pool(msg.sender).token0()).transferFrom(sender, msg.sender, uint256(amount0Delta));
         } else if (amount1Delta > 0) {
-            IERC20Minimal(IPancakeV3Pool(msg.sender).token1()).transferFrom(sender, msg.sender, uint256(amount1Delta));
+            IERC20Minimal(IFusionXV3Pool(msg.sender).token1()).transferFrom(sender, msg.sender, uint256(amount1Delta));
         }
     }
 }

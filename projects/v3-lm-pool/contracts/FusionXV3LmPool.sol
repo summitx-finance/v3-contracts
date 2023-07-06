@@ -5,14 +5,14 @@ import '@pancakeswap/v3-core/contracts/libraries/LowGasSafeMath.sol';
 import '@pancakeswap/v3-core/contracts/libraries/SafeCast.sol';
 import '@pancakeswap/v3-core/contracts/libraries/FullMath.sol';
 import '@pancakeswap/v3-core/contracts/libraries/FixedPoint128.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/IPancakeV3Pool.sol';
+import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 import './libraries/LmTick.sol';
 
-import './interfaces/IPancakeV3LmPool.sol';
+import './interfaces/IFusionXV3LmPool.sol';
 import './interfaces/IMasterChefV3.sol';
 
-contract PancakeV3LmPool is IPancakeV3LmPool {
+contract FusionXV3LmPool is IFusionXV3LmPool {
   using LowGasSafeMath for uint256;
   using LowGasSafeMath for int256;
   using SafeCast for uint256;
@@ -21,7 +21,7 @@ contract PancakeV3LmPool is IPancakeV3LmPool {
 
   uint256 public constant REWARD_PRECISION = 1e12;
 
-  IPancakeV3Pool public immutable pool;
+  IFusionXV3Pool public immutable pool;
   IMasterChefV3 public immutable masterChef;
 
   uint256 public rewardGrowthGlobalX128;
@@ -48,7 +48,7 @@ contract PancakeV3LmPool is IPancakeV3LmPool {
   }
 
   constructor(address _pool, address _masterChef, uint32 rewardStartTimestamp) {
-    pool = IPancakeV3Pool(_pool);
+    pool = IFusionXV3Pool(_pool);
     masterChef = IMasterChefV3(_masterChef);
     lastRewardTimestamp = rewardStartTimestamp;
   }

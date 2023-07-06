@@ -15,7 +15,7 @@ async function main() {
   // Verify masterChefV3
   console.log("Verify masterChefV3");
   await verifyContract(deployedContracts_masterchef_v3.MasterChefV3, [
-    config.cake,
+    config.FSX,
     deployedContracts_v3_periphery.NonfungiblePositionManager,
     config.WNATIVE,
   ]);

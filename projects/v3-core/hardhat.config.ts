@@ -7,7 +7,8 @@ import 'hardhat-watcher'
 import 'dotenv/config'
 import 'solidity-docgen'
 require('dotenv').config({ path: require('find-config')('.env') })
-
+const fs = require("fs");
+const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
@@ -74,6 +75,12 @@ const eth: NetworkUserConfig = {
   accounts: [process.env.KEY_ETH!],
 }
 
+const localhost: NetworkUserConfig = {
+  url: "HTTP://127.0.0.1:8545",
+  chainId: 5777,
+  accounts: [deployer],
+};
+
 export default {
   networks: {
     hardhat: {
@@ -91,8 +98,8 @@ export default {
   solidity: {
     compilers: [DEFAULT_COMPILER_SETTINGS],
     overrides: {
-      'contracts/PancakeV3Pool.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
-      'contracts/PancakeV3PoolDeployer.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
+      'contracts/FusionXV3Pool.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
+      'contracts/FusionXV3PoolDeployer.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
       'contracts/test/OutputCodeHash.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
     },
   },

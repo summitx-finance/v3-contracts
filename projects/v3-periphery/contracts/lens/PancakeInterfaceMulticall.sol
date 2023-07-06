@@ -2,7 +2,7 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-/// @notice A fork of Multicall2 specifically tailored for the Pancake Interface
+/// @notice A fork of Multicall2 specifically tailored for the FusionX Interface
 contract PancakeInterfaceMulticall {
     struct Call {
         address target;

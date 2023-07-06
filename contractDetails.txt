@@ -1,0 +1,118 @@
+V3 Monorepo contracts comparison	
+************************************************************************************************************************************************************************************************************************************
+        V3-masterchef (contracts having 8.0+ version)
+	"admin": "0xa49c702b69a57D373c0629256F85DaeC61DadE16",
+        "treasury": "0x3AB25a052a30104645977E315048BC52C15d176a",
+        "operator": "0xD4f8f9D983aBAaE941628246480124e061C459b8",
+        "keeperRegister":"0x705A9ccEEdeab1DCa662fccF72cC5000B80572D8",
+        "wnative": "0x8734110e5e1dcF439c7F549db740E546fea82d66",
+        "dai": "0xB38E748dbCe79849b8298A1D206C8374EFc16DA7",
+        "usdc": "0xc92747b1e4Bd5F89BBB66bAE657268a5F4c4850C",
+        "usdt": "0xa9b72cCC9968aFeC98A96239B5AA48d828e8D827",
+        "fusionXToken": "0x6dFB16bc471982f19DB32DEE9b6Fb40Db4503cBF",
+        "masterChefV2": "0x52e6139556A8cF15d0ccA15EdE028982268E6f9e",
+        "fusionXV3Factory":"0xf811BF0B2174135Ff1c8E615eB6B678caECa8d61",
+        "fusionXStableSwapLegacyFactory": "0x3d72EB96f8E2947763afC2bc56E1fFc560f0a1B8",
+        "fusionXStableSwapLPFactory":"0x41c99Eb446f59aa4e9AC0688CFed58a4f83F1007",
+        "fusionXStableSwapTwoPoolDeployer": "0xE28A3ec49d026dcb3C1329b0130e05BD2b829A9e",
+        "fusionXStableSwapThreePoolDeployer":"0x58E6e43ebFCfB1c6faF39E70365688a917Ea8Cb8",
+        "fusionXStableSwapFactory": "0x5Ae69cf305D51d42E5C1d6dC18Bd2973F2fFe701",
+        "fusionXStableSwapTwoPoolInfo": "0xBd7ccfBC8d9A0e220A546B5bEE08D4e9088d83B7",
+        "fusionXStableSwapInfo": "0x990845D04d2d4551B3f5498030c24B393401189a",
+        "fusionXStableSwap": "0xf61882BD808Bc7ee5d161e5c72eF510e41F7760a",
+        "fusionXStableSwapWNativeHelper": "0xFA8327fe8F64c112DC4f9379c8cd6ad86968fdfF",
+        "nonFungiblePositionManager": "0x94705da51466F3Bb1E8c1591D71C09c9760f5F59",
+        "fusionXV3LmPoolDeployer": "0xA391EDE12EdBA2e534822688635Fe89fd1bA3D35",
+        "masterChefV3": "0x9316938Eaa09E71CBB1Bf713212A42beCBa2998F",
+        "fusionXPool": "0x7285F76E42d258d0a9aC4C56BEf045fc4c64FF4A",
+        "fusionXFlexiblePool": "0x0a0D46de365429364D198276cAb423a923EB9F20",
+        "multicall3": "0xa302CCe0e64362eC5e0B9671AFD05593B147e267",
+        "mockTokenForMasterChefV2Pool": "0xa0C4c6D6486DEC605F0191a301377687F3A9eA27",
+        "masterPoolIdForV3": "2",
+        "masterChefV3Receiver": "0x129f98c9d37739A0ec59c6F330904508CD9EdB52",
+        "masterChefV3KeeperV1": "0xd79879d31a551997d49a93aA93Ad878Cb1bCA539"
+	
+Contracts having <8.0 version
+	 "feeToSetter": "0x0661BaE846806e858e648BECdF2CF7Cc3F9c7582",
+        "baseTokenURI": "https://nft.fusionX.finance/v3/5001/",
+        "wnative": "0x8734110e5e1dcF439c7F549db740E546fea82d66",
+        "dai": "0xB38E748dbCe79849b8298A1D206C8374EFc16DA7",
+        "usdc": "0xc92747b1e4Bd5F89BBB66bAE657268a5F4c4850C",
+        "usdt": "0xa9b72cCC9968aFeC98A96239B5AA48d828e8D827",
+        "fusionXV2Factory": "0x272465431A6b86E3B9E5b9bD33f5D103a3F59eDb",
+        "fusionXV3LmPoolDeployer": "0xA391EDE12EdBA2e534822688635Fe89fd1bA3D35",
+        "fusionXV3PoolDeployer": "0xD7427359c552cb797eAc23d2E1D171e8000Ff40b",
+        "fusionXV3Factory": "0xf811BF0B2174135Ff1c8E615eB6B678caECa8d61",
+        "uniswapInterfaceMulticall": "0x4F90c9105ABE5e693C883E106fEf9c7EaE3cb4CC",
+        "tickLens": "0x0296e6A2Ad3741a41e996E05250C6d591335FAc7",
+        "fusionXStableSwapInfo": "0x990845D04d2d4551B3f5498030c24B393401189a",
+        "fusionXStableSwapFactory": "0x5Ae69cf305D51d42E5C1d6dC18Bd2973F2fFe701",
+        "nonfungibleTokenPositionDescriptorOffChainV2": "0x339a8E7F5A396911F871A50Da6062B644a2F7063",
+        "nonfungibleTokenPositionDescriptorOffChainV2Implementation": "0xC02101F983195afDe02e9f6c48BEA1F9B5a12484",
+        "nonfungiblePositionManager": "0x94705da51466F3Bb1E8c1591D71C09c9760f5F59",
+        "smartRouterHelper": "0x0420184Ab7a500CE3718D8c9Bf68669b33492e1B",
+        "fusionXStableSwapTwoPoolInfo": "0xBd7ccfBC8d9A0e220A546B5bEE08D4e9088d83B7",
+        "swapRouter": "0x8fC0B6585d73C94575555B3970D7A79c5bfc6E36",
+        "v3Migrator": "0x216b0bd1DFaDa39a9a43d3C2c2282AdfB0e9211d",
+        "mixedRouteQuoterV1": "0xce79dBa349C689ac75CC164F069c1b281087737b",
+        "quoterV2": "0xa4e57d8FD802cc6b1b01218dfF0046fA571241da",
+        "tokenValidator": "0xc72AB6f7fF3423Cb664Dd5a5822d6F61c4Fc02b2",
+        "smartRouter": "0xE3a68317a2F1c41E5B2efBCe2951088efB0Cf524",
+        "masterChefV3": "0x9316938Eaa09E71CBB1Bf713212A42beCBa2998F"
+**********************************************************************************************************************************************************************************************
+MonoRepo Contract details
+V3-core Repo
+owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+pancakeV3PoolDeployer 0x5FbDB2315678afecb367f032d93F642f64180aa3
+pancakeV3Factory 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+
+V3-periphery Repo
+owner 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+swapRouter 0x5FbDB2315678afecb367f032d93F642f64180aa3
+nonfungibleTokenPositionDescriptor 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+nonfungiblePositionManager 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9
+PancakeInterfaceMulticall 0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
+V3Migrator 0x0165878A594ca255338adfa4d48449f69242Eb8F
+TickLens 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853
+QuoterV2 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+
+SmartRouter Repo
+Deploying SmartRouterHelper...
+SmartRouterHelper deployed to: 0x21465A9713279cFa6DF78CF9F701Fb438E8E7460
+Deploying SmartRouter...
+SmartRouter deployed to: 0x0d47519477B59f01D0AeE564795C01049F913e21
+MixedRouteQuoterV1 deployed to: 0x850C2372De34410260796C5FD7cD5438CE1AB3e4
+QuoterV2 deployed to: 0xaBc85406485Dc606977efCCC4Fa657d25F7681Ff
+TokenValidator deployed to: 0xf24F60cf4aBeFD18427933e9a590668e9FcCe4F7
+
+MasterChefV3 Repo 
+masterChefV3 deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+V3-lm-pool Repo 
+pancakeV3LmPoolDeployer deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+Last printed addresses in mono repo 
+"MasterChefV3": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "SmartRouter": "0x0d47519477B59f01D0AeE564795C01049F913e21",
+  "SmartRouterHelper": "0x21465A9713279cFa6DF78CF9F701Fb438E8E7460",
+  "MixedRouteQuoterV1": "0x850C2372De34410260796C5FD7cD5438CE1AB3e4",
+  "QuoterV2": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+  "TokenValidator": "0xf24F60cf4aBeFD18427933e9a590668e9FcCe4F7",
+  "FusionXV3Factory": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "FusionXV3PoolDeployer": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "SwapRouter": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "V3Migrator": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+  "TickLens": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+  "NonfungibleTokenPositionDescriptor": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+  "NonfungiblePositionManager": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+  "PancakeInterfaceMulticall": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+  "FusionXV3LmPoolDeployer": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+
+
+Missing Contracts : 
+fusionXPool
+fusionXFlexiblePool
+mockTokenForMasterChefV2Pool
+multicall3
+masterChefV3Receiver
+masterChefV3KeeperV1

@@ -31,7 +31,7 @@ The PancakeSwap v3 interfaces are available for import into solidity smart contr
 via the npm artifact `@pancakeswap/v3-core`, e.g.:
 
 ```solidity
-import '@pancakeswap/v3-core/contracts/interfaces/IPancakeV3Pool.sol';
+import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 contract MyContract {
   IPancakeV3Pool pool;

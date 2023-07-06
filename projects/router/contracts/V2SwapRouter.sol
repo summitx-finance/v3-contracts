@@ -12,8 +12,8 @@ import './base/PeripheryPaymentsWithFeeExtended.sol';
 import './libraries/Constants.sol';
 import './libraries/SmartRouterHelper.sol';
 
-/// @title PancakeSwap V2 Swap Router
-/// @notice Router for stateless execution of swaps against PancakeSwap V2
+/// @title FusionX V2 Swap Router
+/// @notice Router for stateless execution of swaps against FusionXV2
 abstract contract V2SwapRouter is IV2SwapRouter, ImmutableState, PeripheryPaymentsWithFeeExtended, ReentrancyGuard {
     using LowGasSafeMath for uint256;
 
