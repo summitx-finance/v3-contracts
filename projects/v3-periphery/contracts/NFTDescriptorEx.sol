@@ -2,10 +2,10 @@
 pragma solidity >=0.7.0;
 pragma abicoder v2;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
-import '@pancakeswap/v3-core/contracts/libraries/TickMath.sol';
-import '@pancakeswap/v3-core/contracts/libraries/BitMath.sol';
-import '@pancakeswap/v3-core/contracts/libraries/FullMath.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
+import '@fusionx/v3-core/contracts/libraries/BitMath.sol';
+import '@fusionx/v3-core/contracts/libraries/FullMath.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 import '@openzeppelin/contracts/math/SafeMath.sol';
 import '@openzeppelin/contracts/math/SignedSafeMath.sol';
@@ -184,7 +184,7 @@ contract NFTDescriptorEx {
     return
         string(
             abi.encodePacked(
-                'Pancake - ',
+                'FusionX - ',
                 feeTier,
                 ' - ',
                 escapeQuotes(params.quoteTokenSymbol),

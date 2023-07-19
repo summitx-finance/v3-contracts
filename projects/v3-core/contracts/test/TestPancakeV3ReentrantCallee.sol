@@ -7,7 +7,7 @@ import '../interfaces/callback/IFusionXV3SwapCallback.sol';
 
 import '../interfaces/IFusionXV3Pool.sol';
 
-contract TestPancakeV3ReentrantCallee is IFusionXV3SwapCallback {
+contract TestFusionXV3ReentrantCallee is IFusionXV3SwapCallback {
     string private constant expectedReason = 'LOK';
 
     function swapToReenter(address pool) external {

@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@pancakeswap/v3-core/contracts/libraries/SafeCast.sol';
-import '@pancakeswap/v3-core/contracts/libraries/TickMath.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/libraries/SafeCast.sol';
+import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 import './interfaces/ISwapRouter.sol';
 import './base/PeripheryImmutableState.sol';

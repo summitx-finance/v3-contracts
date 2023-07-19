@@ -12,7 +12,7 @@ import '../interfaces/callback/IFusionXV3FlashCallback.sol';
 
 import '../interfaces/IFusionXV3Pool.sol';
 
-contract TestPancakeV3Callee is IFusionXV3MintCallback, IFusionXV3SwapCallback, IFusionXV3FlashCallback {
+contract TestFusionXV3Callee is IFusionXV3MintCallback, IFusionXV3SwapCallback, IFusionXV3FlashCallback {
     using SafeCast for uint256;
 
     function swapExact0For1(

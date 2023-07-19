@@ -8,7 +8,7 @@ import '../interfaces/IERC20Minimal.sol';
 import '../interfaces/callback/IFusionXV3SwapCallback.sol';
 import '../interfaces/IFusionXV3Pool.sol';
 
-contract TestPancakeV3Router is IFusionXV3SwapCallback {
+contract TestFusionXV3Router is IFusionXV3SwapCallback {
     using SafeCast for uint256;
 
     // flash swaps for an exact amount of token0 in the output pool

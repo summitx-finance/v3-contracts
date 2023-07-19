@@ -2,7 +2,7 @@
 pragma solidity >=0.5.0;
 pragma abicoder v2;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 import '../interfaces/ITickLens.sol';
 

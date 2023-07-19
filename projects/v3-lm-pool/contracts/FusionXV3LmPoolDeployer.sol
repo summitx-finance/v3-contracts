@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity =0.7.6;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Factory.sol';
-import '@pancakeswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Factory.sol';
+import '@fusionx/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol';
 
 import './FusionXV3LmPool.sol';
 

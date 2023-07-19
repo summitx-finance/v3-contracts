@@ -6,7 +6,7 @@ import '../interfaces/IERC20Minimal.sol';
 import '../interfaces/callback/IFusionXV3SwapCallback.sol';
 import '../interfaces/IFusionXV3Pool.sol';
 
-contract TestPancakeV3SwapPay is IFusionXV3SwapCallback {
+contract TestFusionXV3SwapPay is IFusionXV3SwapCallback {
     function swap(
         address pool,
         address recipient,

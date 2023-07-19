@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity =0.7.6;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 import './PoolAddress.sol';
 
 /// @notice Provides validation for callbacks from FusionX V3 Pools

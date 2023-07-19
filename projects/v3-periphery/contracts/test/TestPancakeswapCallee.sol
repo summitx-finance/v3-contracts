@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.7.6;
 
-import '@pancakeswap/v3-core/contracts/interfaces/callback/IFusionXV3SwapCallback.sol';
-import '@pancakeswap/v3-core/contracts/libraries/SafeCast.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/interfaces/callback/IFusionXV3SwapCallback.sol';
+import '@fusionx/v3-core/contracts/libraries/SafeCast.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
-contract TestPancakeswapCallee is IFusionXV3SwapCallback {
+contract TestFusionXswapCallee is IFusionXV3SwapCallback {
     using SafeCast for uint256;
 
     function swapExact0For1(

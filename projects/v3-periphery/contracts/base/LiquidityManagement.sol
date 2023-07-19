@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Factory.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/callback/IFusionXV3MintCallback.sol';
-import '@pancakeswap/v3-core/contracts/libraries/TickMath.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Factory.sol';
+import '@fusionx/v3-core/contracts/interfaces/callback/IFusionXV3MintCallback.sol';
+import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
 
 import '../libraries/PoolAddress.sol';
 import '../libraries/CallbackValidation.sol';

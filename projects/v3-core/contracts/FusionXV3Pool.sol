@@ -25,7 +25,7 @@ import './interfaces/callback/IFusionXV3MintCallback.sol';
 import './interfaces/callback/IFusionXV3SwapCallback.sol';
 import './interfaces/callback/IFusionXV3FlashCallback.sol';
 
-import '@pancakeswap/v3-lm-pool/contracts/interfaces/IFusionXV3LmPool.sol';
+import '@fusionx/v3-lm-pool/contracts/interfaces/IFusionXV3LmPool.sol';
 
 contract FusionXV3Pool is IFusionXV3Pool {
     using LowGasSafeMath for uint256;

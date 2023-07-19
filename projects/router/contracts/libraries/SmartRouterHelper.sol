@@ -5,8 +5,8 @@ pragma abicoder v2;
 import '../interfaces/IStableSwapFactory.sol';
 import '../interfaces/IStableSwapInfo.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
-import '@pancakeswap/v3-core/contracts/libraries/LowGasSafeMath.sol';
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/libraries/LowGasSafeMath.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
 
 library SmartRouterHelper {
     using LowGasSafeMath for uint256;
@@ -156,7 +156,7 @@ library SmartRouterHelper {
 
     /************************************************** V3 **************************************************/
 
-    bytes32 internal constant V3_INIT_CODE_HASH = 0x85d1b844c7e4f41da12d827a883c02e1479e62bd1dcd08713c056c081343f476;
+    bytes32 internal constant V3_INIT_CODE_HASH = 0x1bce652aaa6528355d7a339037433a20cd28410e3967635ba8d2ddb037440dbf;
 
     /// @notice The identifying key of the pool
     struct PoolKey {

@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@pancakeswap/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
-import '@pancakeswap/v3-core/contracts/libraries/FixedPoint128.sol';
-import '@pancakeswap/v3-core/contracts/libraries/FullMath.sol';
+import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@fusionx/v3-core/contracts/libraries/FixedPoint128.sol';
+import '@fusionx/v3-core/contracts/libraries/FullMath.sol';
 
 import './interfaces/INonfungiblePositionManager.sol';
 import './interfaces/INonfungibleTokenPositionDescriptor.sol';
@@ -73,7 +73,7 @@ contract NonfungiblePositionManager is
         address _factory,
         address _WETH9,
         address _tokenDescriptor_
-    ) ERC721Permit('Pancake V3 Positions NFT-V1', 'PCS-V3-POS', '1') PeripheryImmutableState(_deployer, _factory, _WETH9) {
+    ) ERC721Permit('FusionX V3 Positions NFT-V1', 'PCS-V3-POS', '1') PeripheryImmutableState(_deployer, _factory, _WETH9) {
         _tokenDescriptor = _tokenDescriptor_;
     }
 
