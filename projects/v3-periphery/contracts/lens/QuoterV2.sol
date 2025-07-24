@@ -2,11 +2,11 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/libraries/SafeCast.sol';
-import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
-import '@fusionx/v3-core/contracts/libraries/TickBitmap.sol';
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
-import '@fusionx/v3-core/contracts/interfaces/callback/IFusionXV3SwapCallback.sol';
+import '@summitx/v3-core/contracts/libraries/SafeCast.sol';
+import '@summitx/v3-core/contracts/libraries/TickMath.sol';
+import '@summitx/v3-core/contracts/libraries/TickBitmap.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@summitx/v3-core/contracts/interfaces/callback/ISummitXV3SwapCallback.sol';
 
 import '../interfaces/IQuoterV2.sol';
 import '../base/PeripheryImmutableState.sol';
@@ -19,10 +19,10 @@ import '../libraries/PoolTicksCounter.sol';
 /// @notice Allows getting the expected amount out or amount in for a given swap without executing the swap
 /// @dev These functions are not gas efficient and should _not_ be called on chain. Instead, optimistically execute
 /// the swap and check the amounts in the callback.
-contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState {
+contract QuoterV2 is IQuoterV2, ISummitXV3SwapCallback, PeripheryImmutableState {
     using Path for bytes;
     using SafeCast for uint256;
-    using PoolTicksCounter for IFusionXV3Pool;
+    using PoolTicksCounter for ISummitXV3Pool;
 
     /// @dev Transient storage variable used to check a safety condition in exact output swaps.
     uint256 private amountOutCached;
@@ -33,12 +33,12 @@ contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState 
         address tokenA,
         address tokenB,
         uint24 fee
-    ) private view returns (IFusionXV3Pool) {
-        return IFusionXV3Pool(PoolAddress.computeAddress(deployer, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
+    ) private view returns (ISummitXV3Pool) {
+        return ISummitXV3Pool(PoolAddress.computeAddress(deployer, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
     }
 
     /***/
-    function fusionXV3SwapCallback(
+    function summitxV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes memory path
@@ -52,7 +52,7 @@ contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState 
                 ? (tokenIn < tokenOut, uint256(amount0Delta), uint256(-amount1Delta))
                 : (tokenOut < tokenIn, uint256(amount1Delta), uint256(-amount0Delta));
 
-        IFusionXV3Pool pool = getPool(tokenIn, tokenOut, fee);
+        ISummitXV3Pool pool = getPool(tokenIn, tokenOut, fee);
         (uint160 sqrtPriceX96After, int24 tickAfter, , , , , ) = pool.slot0();
 
         if (isExactInput) {
@@ -98,7 +98,7 @@ contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState 
 
     function handleRevert(
         bytes memory reason,
-        IFusionXV3Pool pool,
+        ISummitXV3Pool pool,
         uint256 gasEstimate
     )
         private
@@ -131,7 +131,7 @@ contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState 
         )
     {
         bool zeroForOne = params.tokenIn < params.tokenOut;
-        IFusionXV3Pool pool = getPool(params.tokenIn, params.tokenOut, params.fee);
+        ISummitXV3Pool pool = getPool(params.tokenIn, params.tokenOut, params.fee);
 
         uint256 gasBefore = gasleft();
         try
@@ -205,7 +205,7 @@ contract QuoterV2 is IQuoterV2, IFusionXV3SwapCallback, PeripheryImmutableState 
         )
     {
         bool zeroForOne = params.tokenIn < params.tokenOut;
-        IFusionXV3Pool pool = getPool(params.tokenIn, params.tokenOut, params.fee);
+        ISummitXV3Pool pool = getPool(params.tokenIn, params.tokenOut, params.fee);
 
         // if no price limit has been specified, cache the output amount for comparison in the swap callback
         if (params.sqrtPriceLimitX96 == 0) amountOutCached = params.amount;

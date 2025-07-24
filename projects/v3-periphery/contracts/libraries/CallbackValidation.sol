@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity =0.7.6;
 
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
 import './PoolAddress.sol';
 
-/// @notice Provides validation for callbacks from FusionX V3 Pools
+/// @notice Provides validation for callbacks from SummitX V3 Pools
 library CallbackValidation {
-    /// @notice Returns the address of a valid FusionX V3 Pool
-    /// @param deployer The contract address of the FusionX V3 Deployer
+    /// @notice Returns the address of a valid SummitX V3 Pool
+    /// @param deployer The contract address of the SummitX V3 Deployer
     /// @param tokenA The contract address of either token0 or token1
     /// @param tokenB The contract address of the other token
     /// @param fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
@@ -17,20 +17,20 @@ library CallbackValidation {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) internal view returns (IFusionXV3Pool pool) {
+    ) internal view returns (ISummitXV3Pool pool) {
         return verifyCallback(deployer, PoolAddress.getPoolKey(tokenA, tokenB, fee));
     }
 
-    /// @notice Returns the address of a valid FusionX V3 Pool
-    /// @param deployer The contract address of the FusionX V3 deployer
+    /// @notice Returns the address of a valid SummitX V3 Pool
+    /// @param deployer The contract address of the SummitX V3 deployer
     /// @param poolKey The identifying key of the V3 pool
     /// @return pool The V3 pool contract address
     function verifyCallback(address deployer, PoolAddress.PoolKey memory poolKey)
         internal
         view
-        returns (IFusionXV3Pool pool)
+        returns (ISummitXV3Pool pool)
     {
-        pool = IFusionXV3Pool(PoolAddress.computeAddress(deployer, poolKey));
+        pool = ISummitXV3Pool(PoolAddress.computeAddress(deployer, poolKey));
         require(msg.sender == address(pool));
     }
 }

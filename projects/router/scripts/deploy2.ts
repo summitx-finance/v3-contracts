@@ -1,6 +1,6 @@
 import { ethers, network } from 'hardhat'
-import { configs } from '@pancakeswap/common/config'
-import { tryVerify } from '@pancakeswap/common/verify'
+import { configs } from '@summitx/common/config'
+import { tryVerify } from '@summitx/common/verify'
 import { writeFileSync } from 'fs'
 
 async function main() {
@@ -11,11 +11,11 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`)
   }
 
-  const v3DeployedContracts = await import(`@pancakeswap/v3-core/deployments/${networkName}.json`)
-  const v3PeripheryDeployedContracts = await import(`@pancakeswap/v3-periphery/deployments/${networkName}.json`)
-
-  const pancakeV3PoolDeployer_address = v3DeployedContracts.FusionXV3PoolDeployer
-  const pancakeV3Factory_address = v3DeployedContracts.FusionXV3Factory
+  const v3DeployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
+  const v3PeripheryDeployedContracts = await import(`@summitx/v3-periphery/deployments/${networkName}.json`)
+  const v2DeployedContracts = await import(`@summitx/v2-core/deployments/${networkName}.json`)
+  const summitxV3PoolDeployer_address = v3DeployedContracts.SummitXV3PoolDeployer
+  const summitxV3Factory_address = v3DeployedContracts.SummitXV3Factory
   const positionManager_address = v3PeripheryDeployedContracts.NonfungiblePositionManager
 
   /** SmartRouterHelper */
@@ -23,7 +23,7 @@ async function main() {
   const SmartRouterHelper = await ethers.getContractFactory('SmartRouterHelper')
   const smartRouterHelper = await SmartRouterHelper.deploy()
   console.log('SmartRouterHelper deployed to:', smartRouterHelper.address)
-  // await tryVerify(smartRouterHelper)
+  await tryVerify(smartRouterHelper)
 
   /** SmartRouter */
   console.log('Deploying SmartRouter...')
@@ -33,25 +33,25 @@ async function main() {
     },
   })
   const smartRouter = await SmartRouter.deploy(
-    config.v2Factory,
-    pancakeV3PoolDeployer_address,
-    pancakeV3Factory_address,
+    v2DeployedContracts.SummitXV2Factory,
+    summitxV3PoolDeployer_address,
+    summitxV3Factory_address,
     positionManager_address,
     config.stableFactory,
     config.stableInfo,
-    config.WNATIVE
+    v2DeployedContracts.WNative
   )
   console.log('SmartRouter deployed to:', smartRouter.address)
 
-  // await tryVerify(smartRouter, [
-  //   config.v2Factory,
-  //   pancakeV3PoolDeployer_address,
-  //   pancakeV3Factory_address,
-  //   positionManager_address,
-  //   config.stableFactory,
-  //   config.stableInfo,
-  //   config.WNATIVE,
-  // ])
+  await tryVerify(smartRouter, [
+    v2DeployedContracts.SummitXV2Factory,
+    summitxV3PoolDeployer_address,
+    summitxV3Factory_address,
+    positionManager_address,
+    config.stableFactory,
+    config.stableInfo,
+    v2DeployedContracts.WNative,
+  ])
 
   /** MixedRouteQuoterV1 */
   const MixedRouteQuoterV1 = await ethers.getContractFactory('MixedRouteQuoterV1', {
@@ -60,32 +60,32 @@ async function main() {
     },
   })
   const mixedRouteQuoterV1 = await MixedRouteQuoterV1.deploy(
-    pancakeV3PoolDeployer_address,
-    pancakeV3Factory_address,
-    config.v2Factory,
+    summitxV3PoolDeployer_address,
+    summitxV3Factory_address,
+    v2DeployedContracts.SummitXV2Factory,
     config.stableFactory,
-    config.WNATIVE
+    v2DeployedContracts.WNative
   )
   console.log('MixedRouteQuoterV1 deployed to:', mixedRouteQuoterV1.address)
 
-  // await tryVerify(mixedRouteQuoterV1, [
-  //   pancakeV3PoolDeployer_address,
-  //   pancakeV3Factory_address,
-  //   config.v2Factory,
-  //   config.stableFactory,
-  //   config.WNATIVE,
-  // ])
+  await tryVerify(mixedRouteQuoterV1, [
+    summitxV3PoolDeployer_address,
+    summitxV3Factory_address,
+    v2DeployedContracts.SummitXV2Factory,
+    config.stableFactory,
+    v2DeployedContracts.WNative,
+  ])
 
-  /** QuoterV2 */
-  const QuoterV2 = await ethers.getContractFactory('QuoterV2', {
-    libraries: {
-      SmartRouterHelper: smartRouterHelper.address,
-    },
-  })
-  const quoterV2 = await QuoterV2.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE)
-  console.log('QuoterV2 deployed to:', quoterV2.address)
+  // /** QuoterV2 */
+  // const QuoterV2 = await ethers.getContractFactory('QuoterV2', {
+  //   libraries: {
+  //     SmartRouterHelper: smartRouterHelper.address,
+  //   },
+  // })
+  // const quoterV2 = await QuoterV2.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, v2DeployedContracts.WNative)
+  // console.log('QuoterV2 deployed to:', quoterV2.address)
 
-  // await tryVerify(quoterV2, [pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE])
+  // // await tryVerify(quoterV2, [summitxV3PoolDeployer_address, summitxV3Factory_address, v2DeployedContracts.WNative])
 
   /** TokenValidator */
   const TokenValidator = await ethers.getContractFactory('TokenValidator', {
@@ -93,16 +93,16 @@ async function main() {
       SmartRouterHelper: smartRouterHelper.address,
     },
   })
-  const tokenValidator = await TokenValidator.deploy(config.v2Factory, positionManager_address)
+  const tokenValidator = await TokenValidator.deploy(v2DeployedContracts.SummitXV2Factory, positionManager_address)
   console.log('TokenValidator deployed to:', tokenValidator.address)
 
-  // await tryVerify(tokenValidator, [config.v2Factory, positionManager_address])
+  await tryVerify(tokenValidator, [v2DeployedContracts.SummitXV2Factory, positionManager_address])
 
   const contracts = {
     SmartRouter: smartRouter.address,
     SmartRouterHelper: smartRouterHelper.address,
     MixedRouteQuoterV1: mixedRouteQuoterV1.address,
-    QuoterV2: quoterV2.address,
+    //QuoterV2: quoterV2.address,
     TokenValidator: tokenValidator.address,
   }
 

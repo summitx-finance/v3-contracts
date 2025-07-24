@@ -44,7 +44,7 @@ Adjust the `hardhat.config.ts` to:
 
 ```json
 hardhat: {
-    allowUnlimitedContractSize: true,
+    allowUnlimitedContractSize: false,
     gas: 950000000,
     blockGasLimit: 950000000,
     gasPrice: 1,

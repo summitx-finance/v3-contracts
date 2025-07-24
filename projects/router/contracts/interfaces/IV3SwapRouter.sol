@@ -2,11 +2,11 @@
 pragma solidity >=0.7.5;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/interfaces/callback/IFusionXV3SwapCallback.sol';
+import '@summitx/v3-core/contracts/interfaces/callback/ISummitXV3SwapCallback.sol';
 
 /// @title Router token swapping functionality
-/// @notice Functions for swapping tokens via FusionX V3
-interface IV3SwapRouter is IFusionXV3SwapCallback {
+/// @notice Functions for swapping tokens via SummitX V3
+interface IV3SwapRouter is ISummitXV3SwapCallback {
     struct ExactInputSingleParams {
         address tokenIn;
         address tokenOut;

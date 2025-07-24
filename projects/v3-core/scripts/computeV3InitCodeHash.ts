@@ -1,5 +1,5 @@
 import { ethers } from 'hardhat'
-import FusionXV3PoolArtifact from '../artifacts/contracts/FusionXV3Pool.sol/FusionXV3Pool.json'
+import SummitXV3PoolArtifact from '../artifacts/contracts/SummitXV3Pool.sol/SummitXV3Pool.json'
 
-const hash = ethers.utils.keccak256(FusionXV3PoolArtifact.bytecode)
+const hash = ethers.utils.keccak256(SummitXV3PoolArtifact.bytecode)
 console.log(hash)

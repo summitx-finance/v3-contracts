@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/libraries/SafeCast.sol';
-import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
-import '@fusionx/v3-periphery/contracts/libraries/Path.sol';
+import '@summitx/v3-core/contracts/libraries/SafeCast.sol';
+import '@summitx/v3-core/contracts/libraries/TickMath.sol';
+import '@summitx/v3-periphery/contracts/libraries/Path.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
 
@@ -14,8 +14,8 @@ import './base/OracleSlippage.sol';
 import './libraries/Constants.sol';
 import './libraries/SmartRouterHelper.sol';
 
-/// @title FusionX V3 Swap Router
-/// @notice Router for stateless execution of swaps against FusionX V3
+/// @title SummitX V3 Swap Router
+/// @notice Router for stateless execution of swaps against SummitX V3
 abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtended, OracleSlippage, ReentrancyGuard {
     using Path for bytes;
     using SafeCast for uint256;
@@ -33,7 +33,7 @@ abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtende
     }
 
     /***/
-    function fusionXV3SwapCallback(
+    function summitxV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata _data

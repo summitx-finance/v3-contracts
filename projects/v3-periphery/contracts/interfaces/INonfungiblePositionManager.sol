@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity >=0.7.5;
+pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import '@openzeppelin/contracts/token/ERC721/IERC721Metadata.sol';
@@ -12,7 +12,7 @@ import './IPeripheryImmutableState.sol';
 import '../libraries/PoolAddress.sol';
 
 /// @title Non-fungible token for positions
-/// @notice Wraps FusionX V3 positions in a non-fungible token interface which allows for them to be transferred
+/// @notice Wraps SummitX V3 positions in a non-fungible token interface which allows for them to be transferred
 /// and authorized.
 interface INonfungiblePositionManager is
     IPoolInitializer,
@@ -22,7 +22,7 @@ interface INonfungiblePositionManager is
     IERC721Enumerable,
     IERC721Permit
 {
-    /// @notice Emitted when liquidity is increased for a position NFT
+    /// @notice Emitted when liquidity is increased for a position IERC721EnumerableNFT
     /// @dev Also emitted when a token is minted
     /// @param tokenId The ID of the token for which liquidity was increased
     /// @param liquidity The amount by which liquidity for the NFT position was increased

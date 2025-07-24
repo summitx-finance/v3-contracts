@@ -19,10 +19,10 @@ struct SwapCallbackData {
 }
 ```
 
-### pancakeV3SwapCallback
+### summitxV3SwapCallback
 
 ```solidity
-function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes _data) external
+function summitxV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes _data) external
 ```
 
 Called to `msg.sender` after executing a swap via IPancakeV3Pool#swap.

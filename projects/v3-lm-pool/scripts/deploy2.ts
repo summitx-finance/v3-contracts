@@ -1,8 +1,8 @@
 import { ethers, network } from 'hardhat'
-import { configs } from '@pancakeswap/common/config'
-import { tryVerify } from '@pancakeswap/common/verify'
+import { configs } from '@summitx/common/config'
+import { tryVerify } from '@summitx/common/verify'
 import fs from 'fs'
-import { abi } from '@pancakeswap/v3-core/artifacts/contracts/FusionXV3Factory.sol/FusionXV3Factory.json'
+import { abi } from '@summitx/v3-core/artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json'
 
 import { parseEther } from 'ethers/lib/utils'
 const currentNetwork = network.name
@@ -16,22 +16,22 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`)
   }
 
-  const v3DeployedContracts = await import(`@pancakeswap/v3-core/deployments/${networkName}.json`)
-  const mcV3DeployedContracts = await import(`@pancakeswap/masterchef-v3/deployments/${networkName}.json`)
+  const v3DeployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
+  const mcV3DeployedContracts = await import(`@summitx/masterchef-v3/deployments/${networkName}.json`)
 
-  const pancakeV3Factory_address = v3DeployedContracts.FusionXV3Factory
+  const summitxV3Factory_address = v3DeployedContracts.SummitXV3Factory
 
-  const FusionXV3LmPoolDeployer = await ethers.getContractFactory('FusionXV3LmPoolDeployer')
-  const pancakeV3LmPoolDeployer = await FusionXV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3)
+  const SummitXV3LmPoolDeployer = await ethers.getContractFactory('SummitXV3LmPoolDeployer')
+  const summitxV3LmPoolDeployer = await SummitXV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3)
 
-  console.log('pancakeV3LmPoolDeployer deployed to:', pancakeV3LmPoolDeployer.address)
+  console.log('summitxV3LmPoolDeployer deployed to:', summitxV3LmPoolDeployer.address)
 
-  const pancakeV3Factory = new ethers.Contract(pancakeV3Factory_address, abi, owner)
+  const summitxV3Factory = new ethers.Contract(summitxV3Factory_address, abi, owner)
 
-  await pancakeV3Factory.setLmPoolDeployer(pancakeV3LmPoolDeployer.address)
+  await summitxV3Factory.setLmPoolDeployer(summitxV3LmPoolDeployer.address)
 
   const contracts = {
-    FusionXV3LmPoolDeployer: pancakeV3LmPoolDeployer.address,
+    SummitXV3LmPoolDeployer: summitxV3LmPoolDeployer.address,
   }
   fs.writeFileSync(`./deployments/${networkName}.json`, JSON.stringify(contracts, null, 2))
 }

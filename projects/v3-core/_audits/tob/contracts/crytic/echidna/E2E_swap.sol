@@ -4,7 +4,7 @@ pragma abicoder v2;
 import './Setup.sol';
 import '../../../../../contracts/test/TestERC20.sol';
 import '../../../../../contracts/libraries/TickMath.sol';
-import '../../../../../contracts/FusionXV3Pool.sol';
+import '../../../../../contracts/SummitXV3Pool.sol';
 
 // import 'hardhat/console.sol';
 
@@ -12,7 +12,7 @@ contract E2E_swap {
     SetupTokens tokens;
     SetupUniswap uniswap;
 
-    FusionXV3Pool pool;
+    SummitXV3Pool pool;
 
     TestERC20 token0;
     TestERC20 token1;

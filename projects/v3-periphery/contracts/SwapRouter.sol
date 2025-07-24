@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/libraries/SafeCast.sol';
-import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@summitx/v3-core/contracts/libraries/SafeCast.sol';
+import '@summitx/v3-core/contracts/libraries/TickMath.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
 
 import './interfaces/ISwapRouter.sol';
 import './base/PeripheryImmutableState.sol';
@@ -17,8 +17,8 @@ import './libraries/PoolAddress.sol';
 import './libraries/CallbackValidation.sol';
 import './interfaces/external/IWETH9.sol';
 
-/// @title FusionX V3 Swap Router
-/// @notice Router for stateless execution of swaps against FusionX V3
+/// @title SummitX V3 Swap Router
+/// @notice Router for stateless execution of swaps against SummitX V3
 contract SwapRouter is
     ISwapRouter,
     PeripheryImmutableState,
@@ -44,8 +44,8 @@ contract SwapRouter is
         address tokenA,
         address tokenB,
         uint24 fee
-    ) private view returns (IFusionXV3Pool) {
-        return IFusionXV3Pool(PoolAddress.computeAddress(deployer, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
+    ) private view returns (ISummitXV3Pool) {
+        return ISummitXV3Pool(PoolAddress.computeAddress(deployer, PoolAddress.getPoolKey(tokenA, tokenB, fee)));
     }
 
     struct SwapCallbackData {
@@ -54,7 +54,7 @@ contract SwapRouter is
     }
 
     /***/
-    function fusionXV3SwapCallback(
+    function summitxV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata _data

@@ -6,11 +6,11 @@ import 'hardhat-abi-exporter'
 import 'hardhat-contract-sizer'
 import 'dotenv/config'
 import 'hardhat-tracer'
-import '@nomiclabs/hardhat-etherscan'
+import '@nomicfoundation/hardhat-verify'
 import 'solidity-docgen'
 require('dotenv').config({ path: require('find-config')('.env') })
 const fs = require("fs");
-const deployer = fs.readFileSync(".secret_testnet").toString().trim();
+//const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 // const bscTestnet: NetworkUserConfig = {
 //   url: 'https://rpc.ankr.com/bsc_testnet_chapel',
 //   chainId: 97,
@@ -28,7 +28,12 @@ const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 //   chainId: 56,
 //   // accounts: [process.env.KEY_MAINNET!],
 // }
+const baseCamp: NetworkUserConfig = {
+  url: "https://rpc.basecamp.t.raas.gelato.cloud",
+  accounts: [process.env.KEY_BASE_CAMP!],
 
+  
+};
 const bscTestnet: NetworkUserConfig = {
   url: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97,
@@ -54,11 +59,21 @@ const eth: NetworkUserConfig = {
 }
 
 const localhost: NetworkUserConfig = {
-  url: "HTTP://127.0.0.1:8545",
+  url: "HTTP://127.0.0.1:7545",
   chainId: 5777,
-  accounts: [deployer],
-};
+  accounts: [process.env.KEY_TESTNET!],
 
+};
+const mumbai: NetworkUserConfig = {
+  url: "https://rpc-mumbai.maticvigil.com",
+  chainId: 80001,
+  accounts: [process.env.KEY_TESTNET!],
+};
+const sepolia: NetworkUserConfig = {
+  url: "https://eth-sepolia.g.alchemy.com/v2/wUAOjtKSS75xfUEZah0k9ODHKHDC5PO0",
+  chainId: 11155111,
+  accounts: [process.env.KEY_SEPOLIA_TESTNET!],
+};
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',
   networks: {
@@ -67,15 +82,33 @@ const config: HardhatUserConfig = {
         url: bscTestnet.url || '',
       },
     },
+    ...(process.env.KEY_TESTNET && { mumbai }),
+    ...(process.env.KEY_SEPOLIA_TESTNET && { sepolia }),
+   ...(process.env.KEY_BASE_CAMP && { baseCamp }),
+    ...(process.env.KEY_TESTNET && { localhost }),
     ...(process.env.KEY_TESTNET && { bscTestnet }),
     ...(process.env.KEY_MAINNET && { bscMainnet }),
     ...(process.env.KEY_GOERLI && { goerli }),
     ...(process.env.KEY_ETH && { eth }),
+    ...(process.env.KEY_BASE_CAMP && { baseCamp }),
     // goerli: goerli,
     // mainnet: bscMainnet,
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY || '',
+    apiKey: {
+      baseCamp: process.env.ETHERSCAN_API_KEY,
+    },
+    customChains: [
+      
+      {
+        network: "baseCamp",
+        chainId: 123420001114,
+        urls: {
+          apiURL: "https://basecamp.cloud.blockscout.com/api",
+          browserURL: "https://basecamp.cloud.blockscout.com/",
+        },
+      },
+    ],
   },
   solidity: {
     compilers: [
@@ -126,19 +159,19 @@ const config: HardhatUserConfig = {
       },
     ],
     overrides: {
-      '@pancakeswap/v3-core/contracts/libraries/FullMath.sol': {
+      '@summitx/v3-core/contracts/libraries/FullMath.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@pancakeswap/v3-core/contracts/libraries/TickBitmap.sol': {
+      '@summitx/v3-core/contracts/libraries/TickBitmap.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@pancakeswap/v3-core/contracts/libraries/TickMath.sol': {
+      '@summitx/v3-core/contracts/libraries/TickMath.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@pancakeswap/v3-periphery/contracts/libraries/PoolAddress.sol': {
+      '@summitx/v3-periphery/contracts/libraries/PoolAddress.sol': {
         version: '0.7.6',
         settings: {},
       },

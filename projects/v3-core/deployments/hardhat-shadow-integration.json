@@ -1,0 +1,12 @@
+{
+  "SummitXV3Factory": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "SummitXV3PoolDeployer": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "V3_POOL_INIT_CODE_HASH": "0xba3618219aa57bdcf5246b1c03814d54abcb66cb9fda2368c0f9f301b61a8c1e",
+  "ProtocolFeeCollector": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+  "Voter": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+  "Treasury": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "TreasuryFeePercentage": "10%",
+  "Network": "hardhat",
+  "DeployedAt": "2025-07-15T13:33:12.060Z",
+  "Deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+}

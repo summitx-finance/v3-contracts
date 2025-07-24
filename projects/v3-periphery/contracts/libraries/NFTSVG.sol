@@ -2,11 +2,11 @@
 pragma solidity >=0.7.6;
 
 import '@openzeppelin/contracts/utils/Strings.sol';
-import '@fusionx/v3-core/contracts/libraries/BitMath.sol';
+import '@summitx/v3-core/contracts/libraries/BitMath.sol';
 import 'base64-sol/base64.sol';
 
 /// @title NFTSVG
-/// @notice Provides a function for generating an SVG associated with a FusionXNFT
+/// @notice Provides a function for generating an SVG associated with a SummitXNFT
 library NFTSVG {
     using Strings for uint256;
 
@@ -46,7 +46,7 @@ library NFTSVG {
     function generateSVG(SVGParams memory params) internal pure returns (string memory svg) {
         /*
         address: "0xe8ab59d3bcde16a29912de83a90eb39628cfc163",
-        msg: "Forged in SVG for FusionXin 2021 by 0xe8ab59d3bcde16a29912de83a90eb39628cfc163",
+        msg: "Forged in SVG for SummitXin 2021 by 0xe8ab59d3bcde16a29912de83a90eb39628cfc163",
         sig: "0x2df0e99d9cbfec33a705d83f75666d98b22dea7c1af412c584f7d626d83f02875993df740dc87563b9c73378f8462426da572d7989de88079a382ad96c57b68d1b",
         version: "2"
         */
@@ -60,7 +60,7 @@ library NFTSVG {
                         params.quoteTokenSymbol,
                         params.baseTokenSymbol
                     ),
-                    generateSVGCardMantle(params.quoteTokenSymbol, params.baseTokenSymbol, params.feeTier),
+                    generateSVGCardTaiko(params.quoteTokenSymbol, params.baseTokenSymbol, params.feeTier),
                     generageSvgCurve(params.tickLower, params.tickUpper, params.tickSpacing, params.overRange),
                     generateSVGPositionDataAndLocationCurve(
                         params.tokenId.toString(),
@@ -191,7 +191,7 @@ library NFTSVG {
         );
     }
 
-    function generateSVGCardMantle(
+    function generateSVGCardTaiko(
         string memory quoteTokenSymbol,
         string memory baseTokenSymbol,
         string memory feeTier

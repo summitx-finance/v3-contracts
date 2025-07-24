@@ -1,18 +1,19 @@
-import { verifyContract } from '@pancakeswap/common/verify'
-import { sleep } from '@pancakeswap/common/sleep'
+import { verifyContract } from '@summitx/common/verify'
+import { sleep } from '@summitx/common/sleep'
+import { network } from 'hardhat'
 
 async function main() {
   const networkName = network.name
-  const deployedContracts = await import(`@pancakeswap/v3-core/deployments/${networkName}.json`)
+  const deployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
 
-  // Verify FusionXV3PoolDeployer
-  console.log('Verify FusionXV3PoolDeployer')
-  await verifyContract(deployedContracts.FusionXV3PoolDeployer)
+  // Verify SummitXV3PoolDeployer
+  console.log('Verify SummitXV3PoolDeployer')
+  await verifyContract(deployedContracts.SummitXV3PoolDeployer)
   await sleep(10000)
 
-  // Verify pancakeV3Factory
-  console.log('Verify pancakeV3Factory')
-  await verifyContract(deployedContracts.FusionXV3Factory, [deployedContracts.FusionXV3PoolDeployer])
+  // Verify summitxV3Factory
+  console.log('Verify summitxV3Factory')
+  await verifyContract(deployedContracts.SummitXV3Factory, [deployedContracts.SummitXV3PoolDeployer])
   await sleep(10000)
 }
 

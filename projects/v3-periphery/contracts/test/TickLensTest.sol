@@ -2,7 +2,7 @@
 pragma solidity >=0.5.0;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
 import '../lens/TickLens.sol';
 
 /// @title Tick Lens contract

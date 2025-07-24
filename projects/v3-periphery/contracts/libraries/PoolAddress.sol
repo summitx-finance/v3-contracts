@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-pragma solidity >=0.5.0;
+pragma solidity =0.7.6;
 
 /// @title Provides functions for deriving a pool address from the factory, tokens, and the fee
 library PoolAddress {
-    bytes32 internal constant POOL_INIT_CODE_HASH = 0x1bce652aaa6528355d7a339037433a20cd28410e3967635ba8d2ddb037440dbf;
+    bytes32 internal constant POOL_INIT_CODE_HASH = 0xad24137281f1cbc0e08b6a694a579d28bec81340939402623fe69c7c7d6667fb;
 
     /// @notice The identifying key of the pool
     struct PoolKey {
@@ -27,7 +27,7 @@ library PoolAddress {
     }
 
     /// @notice Deterministically computes the pool address given the factory and PoolKey
-    /// @param deployer The FusionXV3 deployer contract address
+    /// @param deployer The SummitXV3 deployer contract address
     /// @param key The PoolKey
     /// @return pool The contract address of the V3 pool
     function computeAddress(address deployer, PoolKey memory key) internal pure returns (address pool) {

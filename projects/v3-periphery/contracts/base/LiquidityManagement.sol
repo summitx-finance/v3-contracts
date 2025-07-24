@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Factory.sol';
-import '@fusionx/v3-core/contracts/interfaces/callback/IFusionXV3MintCallback.sol';
-import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Factory.sol';
+import '@summitx/v3-core/contracts/interfaces/callback/ISummitXV3MintCallback.sol';
+import '@summitx/v3-core/contracts/libraries/TickMath.sol';
 
 import '../libraries/PoolAddress.sol';
 import '../libraries/CallbackValidation.sol';
@@ -14,15 +14,15 @@ import './PeripheryPayments.sol';
 import './PeripheryImmutableState.sol';
 
 /// @title Liquidity management functions
-/// @notice Internal functions for safely managing liquidity in FusionX V3
-abstract contract LiquidityManagement is IFusionXV3MintCallback, PeripheryImmutableState, PeripheryPayments {
+/// @notice Internal functions for safely managing liquidity in SummitX V3
+abstract contract LiquidityManagement is ISummitXV3MintCallback, PeripheryImmutableState, PeripheryPayments {
     struct MintCallbackData {
         PoolAddress.PoolKey poolKey;
         address payer;
     }
 
     /****/
-    function fusionXV3MintCallback(
+    function summitxV3MintCallback(
         uint256 amount0Owed,
         uint256 amount1Owed,
         bytes calldata data
@@ -54,13 +54,13 @@ abstract contract LiquidityManagement is IFusionXV3MintCallback, PeripheryImmuta
             uint128 liquidity,
             uint256 amount0,
             uint256 amount1,
-            IFusionXV3Pool pool
+            ISummitXV3Pool pool
         )
     {
         PoolAddress.PoolKey memory poolKey =
             PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee});
 
-        pool = IFusionXV3Pool(PoolAddress.computeAddress(deployer, poolKey));
+        pool = ISummitXV3Pool(PoolAddress.computeAddress(deployer, poolKey));
 
         // compute the liquidity amount
         {

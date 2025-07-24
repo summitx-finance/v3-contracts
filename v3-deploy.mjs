@@ -7,6 +7,9 @@ const networks = {
   bscMainnet: 'bscMainnet',
   bscTestnet: 'bscTestnet',
   hardhat: 'hardhat',
+  localhost: 'localhost',
+  mumbai: 'mumbai',
+  baseCamp: 'baseCamp',
 }
 
 let network = process.env.NETWORK
@@ -15,30 +18,56 @@ if (!network || !networks[network]) {
   throw new Error(`env NETWORK: ${network}`)
 }
 
-await $`yarn workspace @pancakeswap/v3-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/mocktokens run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @pancakeswap/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
+// await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @pancakeswap/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
+await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @pancakeswap/masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
+await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @pancakeswap/v3-lm-pool run hardhat run scripts/deploy2.ts --network ${network}`
+await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
+
+await $`yarn workspace @summitx/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
+
+// await $`yarn workspace @summitx/masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
+
+// await $`yarn workspace @summitx/v3-lm-pool run hardhat run scripts/deploy2.ts --network ${network}`
+
+// await $`yarn workspace @summitx/lbp-masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
+
+// await $`yarn workspace @summitx/lbp-v3-lm-pool run hardhat run scripts/deploy2.ts --network ${network}`
+
+// await $`yarn workspace @summitx/ifo run hardhat run scripts/deploy.ts --network ${network}`
 
 console.log(chalk.blue('Done!'))
 
-const m = await fs.readJson(`./projects/masterchef-v3/deployments/${network}.json`)
+//const mocktokens = await fs.readJson(`./projects/mocktokens/deployments/${network}.json`)
+const multiCall3 = await fs.readJson(`./projects/multicall3/deployments/${network}.json`)
+const v2 = await fs.readJson(`./projects/v2-core/deployments/${network}.json`)
 const r = await fs.readJson(`./projects/router/deployments/${network}.json`)
 const c = await fs.readJson(`./projects/v3-core/deployments/${network}.json`)
 const p = await fs.readJson(`./projects/v3-periphery/deployments/${network}.json`)
-const l = await fs.readJson(`./projects/v3-lm-pool/deployments/${network}.json`)
+// const i = await fs.readJson(`./projects/ifo/deployments/${network}.json`)
+//const m = await fs.readJson(`./projects/masterchef-v3/deployments/${network}.json`)
+//const l = await fs.readJson(`./projects/v3-lm-pool/deployments/${network}.json`)
+
+// const lbpMasterChefV3 = await fs.readJson(`./projects/lbp-masterchef-v3/deployments/${network}.json`)
+
+// const lbpLMPool = await fs.readJson(`./projects/lbp-v3-lm-pool/deployments/${network}.json`)
 
 const addresses = {
-  ...m,
+  // ...mocktokens,
+  ...multiCall3,
+  ...v2,
   ...r,
   ...c,
   ...p,
-  ...l,
+  // ...m,
+  // ...l,
+    // ...lbpMasterChefV3,
+    // ...lbpLMPool,
+    // ...i,
 }
 
 console.log(chalk.blue('Writing to file...'))

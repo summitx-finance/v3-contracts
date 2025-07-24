@@ -13,5 +13,5 @@
   "NonfungibleTokenPositionDescriptor": "0x3D00CdB4785F0ef20C903A13596e0b9B2c652227",
   "NonfungiblePositionManager": "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364",
   "PancakeInterfaceMulticall": "0xac1cE734566f390A94b00eb9bf561c2625BF44ea",
-  "PancakeV3LmPoolDeployer": "0x769449da49D1Eb1FF44A6B366BE46960fDF46Ad6"
+  "SummitXV3LmPoolDeployer": "0x769449da49D1Eb1FF44A6B366BE46960fDF46Ad6"
 }

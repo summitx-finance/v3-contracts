@@ -26,10 +26,10 @@ function swapExact1For0(address pool, uint256 amount1In, address recipient, uint
 function swap1ForExact0(address pool, uint256 amount0Out, address recipient, uint160 sqrtPriceLimitX96) external
 ```
 
-### pancakeV3SwapCallback
+### summitxV3SwapCallback
 
 ```solidity
-function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes data) external
+function summitxV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes data) external
 ```
 
 Called to `msg.sender` after executing a swap via IPancakeV3Pool#swap.

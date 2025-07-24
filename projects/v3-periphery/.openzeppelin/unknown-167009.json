@@ -1,0 +1,65 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xe3142f9E5e5993097bD49c40232225FBEEF1Ac0f",
+    "txHash": "0xc3efda1f50eff30646beee56cacd85db78ece34f5f9ab4b9104187720c175556"
+  },
+  "proxies": [
+    {
+      "address": "0xbe0B9E5eA2bF8C7681F23db27A39bA2Bec15e2bf",
+      "txHash": "0x14a619aabbf6324b6e8f526747e239eefea01c3bf6d9e2120c5b1e3c3bf34f2d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x738E374868852C65FF4D19DE07dbEe4f77d2DeFB",
+      "txHash": "0x313ef8d68f9d0cb547d1bdb3a02236bafbd1876f9cbcb80c4247ae4f17811a61",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "2a88f0a49a9c25b1c479a31be14897cf1d01115d45ba4287ded3734b5bb356e7": {
+      "address": "0x03F72a40Dc3e196BEAAEEB5aEF2E86bdE8749e54",
+      "txHash": "0x2bb09a120255821b66044d1b517e7fb87ccd41a4e351e054c9befe2810939098",
+      "layout": {
+        "solcVersion": "0.7.6",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol:25"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol:30"
+          },
+          {
+            "label": "_baseTokenURI",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage",
+            "contract": "NonfungibleTokenPositionDescriptorOffChain",
+            "src": "contracts/NonfungibleTokenPositionDescriptorOffChain.sol:14"
+          }
+        ],
+        "types": {
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}

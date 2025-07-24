@@ -1,4 +1,4 @@
-import { tryVerify } from '@pancakeswap/common/verify'
+import { tryVerify } from '@summitx/common/verify'
 import { ContractFactory } from 'ethers'
 import { ethers, network } from 'hardhat'
 import fs from 'fs'
@@ -6,59 +6,65 @@ import fs from 'fs'
 type ContractJson = { abi: any; bytecode: string }
 const artifacts: { [name: string]: ContractJson } = {
   // eslint-disable-next-line global-require
-  FusionXV3PoolDeployer: require('../artifacts/contracts/FusionXV3PoolDeployer.sol/FusionXV3PoolDeployer.json'),
+  SummitXV3PoolDeployer: require('../artifacts/contracts/SummitXV3PoolDeployer.sol/SummitXV3PoolDeployer.json'),
   // eslint-disable-next-line global-require
-  FusionXV3Factory: require('../artifacts/contracts/FusionXV3Factory.sol/FusionXV3Factory.json'),
+  SummitXV3Factory: require('../artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json'),
 }
 
 async function main() {
   const [owner] = await ethers.getSigners()
   const networkName = network.name
   console.log('owner', owner.address)
+  
+  const ownerBalance = await owner.getBalance()
+  console.log('ownerBalance', ownerBalance.toString())
 
-  let pancakeV3PoolDeployer_address = ''
-  let pancakeV3PoolDeployer
-  const FusionXV3PoolDeployer = new ContractFactory(
-    artifacts.FusionXV3PoolDeployer.abi,
-    artifacts.FusionXV3PoolDeployer.bytecode,
+  let summitxV3PoolDeployer_address = ''
+  let summitxV3PoolDeployer
+  const SummitXV3PoolDeployer = new ContractFactory(
+    artifacts.SummitXV3PoolDeployer.abi,
+    artifacts.SummitXV3PoolDeployer.bytecode,
     owner
   )
-  if (!pancakeV3PoolDeployer_address) {
-    pancakeV3PoolDeployer = await FusionXV3PoolDeployer.deploy()
+  if (!summitxV3PoolDeployer_address) {
+    summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy()
 
-    pancakeV3PoolDeployer_address = pancakeV3PoolDeployer.address
-    console.log('pancakeV3PoolDeployer', pancakeV3PoolDeployer_address)
+    summitxV3PoolDeployer_address = summitxV3PoolDeployer.address
+    console.log('summitxV3PoolDeployer', summitxV3PoolDeployer_address)
   } else {
-    pancakeV3PoolDeployer = new ethers.Contract(
-      pancakeV3PoolDeployer_address,
-      artifacts.FusionXV3PoolDeployer.abi,
+    summitxV3PoolDeployer = new ethers.Contract(
+      summitxV3PoolDeployer_address,
+      artifacts.SummitXV3PoolDeployer.abi,
       owner
     )
   }
+  const v3PoolInitCodeHash = await summitxV3PoolDeployer.INIT_CODE_PAIR_HASH()
+  console.log('summitxV3PoolDeployer POOL_INIT_CODE_HASH',v3PoolInitCodeHash)
 
-  let pancakeV3Factory_address = ''
-  let pancakeV3Factory
-  if (!pancakeV3Factory_address) {
-    const FusionXV3Factory = new ContractFactory(
-      artifacts.FusionXV3Factory.abi,
-      artifacts.FusionXV3Factory.bytecode,
+  let summitxV3Factory_address = ''
+  let summitxV3Factory
+  if (!summitxV3Factory_address) {
+    const SummitXV3Factory = new ContractFactory(
+      artifacts.SummitXV3Factory.abi,
+      artifacts.SummitXV3Factory.bytecode,
       owner
     )
-    pancakeV3Factory = await FusionXV3Factory.deploy(pancakeV3PoolDeployer_address)
+    summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer_address)
 
-    pancakeV3Factory_address = pancakeV3Factory.address
-    console.log('pancakeV3Factory', pancakeV3Factory_address)
+    summitxV3Factory_address = summitxV3Factory.address
+    console.log('summitxV3Factory', summitxV3Factory_address)
   } else {
-    pancakeV3Factory = new ethers.Contract(pancakeV3Factory_address, artifacts.FusionXV3Factory.abi, owner)
+    summitxV3Factory = new ethers.Contract(summitxV3Factory_address, artifacts.SummitXV3Factory.abi, owner)
   }
 
-  // Set FactoryAddress for pancakeV3PoolDeployer.
-  await pancakeV3PoolDeployer.setFactoryAddress(pancakeV3Factory_address);
+  // Set FactoryAddress for summitxV3PoolDeployer.
+  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory_address);
 
 
   const contracts = {
-    FusionXV3Factory: pancakeV3Factory_address,
-    FusionXV3PoolDeployer: pancakeV3PoolDeployer_address,
+    SummitXV3Factory: summitxV3Factory_address,
+    SummitXV3PoolDeployer: summitxV3PoolDeployer_address,
+    V3_POOL_INIT_CODE_HASH: v3PoolInitCodeHash,
   }
 
   fs.writeFileSync(`./deployments/${networkName}.json`, JSON.stringify(contracts, null, 2))

@@ -1,6 +1,6 @@
 import type { HardhatUserConfig, NetworkUserConfig } from 'hardhat/types'
 import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-etherscan'
+import '@nomicfoundation/hardhat-verify'
 import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
 import 'hardhat-watcher'
@@ -8,14 +8,14 @@ import 'dotenv/config'
 import 'solidity-docgen'
 require('dotenv').config({ path: require('find-config')('.env') })
 const fs = require("fs");
-const deployer = fs.readFileSync(".secret_testnet").toString().trim();
+// const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
-    evmVersion: 'istanbul',
+    // evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
-      runs: 2_000,
+      runs: 20,
     },
     metadata: {
       bytecodeHash: 'none',
@@ -26,10 +26,10 @@ const LOW_OPTIMIZER_COMPILER_SETTINGS = {
 const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
-    evmVersion: 'istanbul',
+    // evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
-      runs: 400,
+      runs: 20,
     },
     metadata: {
       bytecodeHash: 'none',
@@ -40,15 +40,20 @@ const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
 const DEFAULT_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
-    evmVersion: 'istanbul',
+    // evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
-      runs: 1_000_000,
+      runs: 20,
     },
     metadata: {
       bytecodeHash: 'none',
     },
   },
+}
+
+const baseCamp: NetworkUserConfig = {
+  url: "https://rpc.basecamp.t.raas.gelato.cloud",
+  accounts: [process.env.KEY_BASE_CAMP!],
 }
 
 const bscTestnet: NetworkUserConfig = {
@@ -76,16 +81,29 @@ const eth: NetworkUserConfig = {
 }
 
 const localhost: NetworkUserConfig = {
-  url: "HTTP://127.0.0.1:8545",
+  url: "HTTP://127.0.0.1:7545",
   chainId: 5777,
-  accounts: [deployer],
+  accounts: [process.env.KEY_TESTNET!],
 };
-
+const mumbai: NetworkUserConfig = {
+  url: "https://rpc-mumbai.maticvigil.com",
+  chainId: 80001,
+  accounts: [process.env.KEY_TESTNET!],
+};
+const sepolia: NetworkUserConfig = {
+  url: "https://eth-sepolia.g.alchemy.com/v2/wUAOjtKSS75xfUEZah0k9ODHKHDC5PO0",
+  chainId: 11155111,
+  accounts: [process.env.KEY_SEPOLIA_TESTNET!],
+};
 export default {
   networks: {
     hardhat: {
-      allowUnlimitedContractSize: true,
+      allowUnlimitedContractSize: true, // Only for local testing
     },
+    ...(process.env.KEY_TESTNET && { mumbai }),
+    ...(process.env.KEY_SEPOLIA_TESTNET && { sepolia }),
+   ...(process.env.KEY_BASE_CAMP && { baseCamp }),
+    ...(process.env.KEY_TESTNET && { localhost }),
     ...(process.env.KEY_TESTNET && { bscTestnet }),
     ...(process.env.KEY_MAINNET && { bscMainnet }),
     ...(process.env.KEY_GOERLI && { goerli }),
@@ -93,13 +111,26 @@ export default {
     // mainnet: bscMainnet,
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      baseCamp: process.env.ETHERSCAN_API_KEY,
+    },
+    customChains: [
+      
+      {
+        network: "baseCamp",
+        chainId: 123420001114,
+        urls: {
+          apiURL: "https://basecamp.cloud.blockscout.com/api",
+          browserURL: "https://basecamp.cloud.blockscout.com/",
+        },
+      },
+    ],
   },
   solidity: {
     compilers: [DEFAULT_COMPILER_SETTINGS],
     overrides: {
-      'contracts/FusionXV3Pool.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
-      'contracts/FusionXV3PoolDeployer.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
+      'contracts/SummitXV3Pool.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
+      'contracts/SummitXV3PoolDeployer.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
       'contracts/test/OutputCodeHash.sol': LOWEST_OPTIMIZER_COMPILER_SETTINGS,
     },
   },

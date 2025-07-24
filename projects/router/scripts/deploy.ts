@@ -2,12 +2,10 @@ import { ethers, network } from "hardhat";
 import config from "../config";
 
 import { parseEther } from "ethers/lib/utils";
-const currentNetwork = network.name;
+const networkName = network.name;
 
 async function main() {
     // Remember to update the init code hash in SC for different chains before deploying
-
-
     
     /** SmartRouterHelper */
     console.log("Deploying SmartRouterHelper...");
@@ -25,16 +23,24 @@ async function main() {
     /** SmartRouter */
     const networkName = network.name;
 
-    console.log("Deploying SmartRouter...");
+    console.log("Deploying SmartRouter...", networkName);
 
     const SmartRouter = await ethers.getContractFactory("SmartRouter", {
         libraries: {
             SmartRouterHelper: smartRouterHelper.address
         }
     });
+    console.log("Deploying SmartRouter...",config.factoryV2[networkName],
+        config.deployer[networkName],
+        config.factoryV3[networkName],
+        config.positionManager[networkName],
+        config.stableFactory[networkName],
+        config.stableInfo[networkName],
+        config.WETH[networkName]);
 
     const smartRouter = await SmartRouter.deploy(
         config.factoryV2[networkName],
+        config.deployer[networkName],
         config.factoryV3[networkName],
         config.positionManager[networkName],
         config.stableFactory[networkName],

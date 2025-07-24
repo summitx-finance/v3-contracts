@@ -2,10 +2,10 @@
 pragma solidity >=0.7.0;
 pragma abicoder v2;
 
-import '@fusionx/v3-core/contracts/interfaces/IFusionXV3Pool.sol';
-import '@fusionx/v3-core/contracts/libraries/TickMath.sol';
-import '@fusionx/v3-core/contracts/libraries/BitMath.sol';
-import '@fusionx/v3-core/contracts/libraries/FullMath.sol';
+import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@summitx/v3-core/contracts/libraries/TickMath.sol';
+import '@summitx/v3-core/contracts/libraries/BitMath.sol';
+import '@summitx/v3-core/contracts/libraries/FullMath.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 import '@openzeppelin/contracts/math/SafeMath.sol';
 import '@openzeppelin/contracts/math/SignedSafeMath.sol';
@@ -112,7 +112,7 @@ library NFTDescriptor {
         return
             string(
                 abi.encodePacked(
-                    'This NFT represents a liquidity position in a FusionXV3 ',
+                    'This NFT represents a liquidity position in a SummitXV3 ',
                     quoteTokenSymbol,
                     '-',
                     baseTokenSymbol,
@@ -160,7 +160,7 @@ library NFTDescriptor {
         return
             string(
                 abi.encodePacked(
-                    'FusionX - ',
+                    'SummitX - ',
                     feeTier,
                     ' - ',
                     escapeQuotes(params.quoteTokenSymbol),

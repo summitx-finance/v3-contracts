@@ -4,10 +4,10 @@ pragma solidity >=0.5.0;
 /// @title Immutable state
 /// @notice Functions that return immutable state of the router
 interface IPeripheryImmutableState {
-    /// @return Returns the address of the FusionXV3 deployer
+    /// @return Returns the address of the SummitXV3 deployer
     function deployer() external view returns (address);
 
-    /// @return Returns the address of the FusionXV3 factory
+    /// @return Returns the address of the SummitXV3 factory
     function factory() external view returns (address);
 
     /// @return Returns the address of WETH9
