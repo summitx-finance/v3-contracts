@@ -64,8 +64,8 @@ async function main() {
 
   const deployedContracts = await import(`@pancakeswap/v3-core/deployments/${networkName}.json`)
 
-  const pancakeV3PoolDeployer_address = deployedContracts.PancakeV3PoolDeployer
-  const pancakeV3Factory_address = deployedContracts.PancakeV3Factory
+  const pancakeV3PoolDeployer_address = deployedContracts.FusionXV3PoolDeployer
+  const pancakeV3Factory_address = deployedContracts.FusionXV3Factory
 
   const SwapRouter = new ContractFactory(artifacts.SwapRouter.abi, artifacts.SwapRouter.bytecode, owner)
   const swapRouter = await SwapRouter.deploy(pancakeV3PoolDeployer_address, pancakeV3Factory_address, config.WNATIVE)

@@ -14,8 +14,8 @@ async function main() {
   const v3DeployedContracts = await import(`@pancakeswap/v3-core/deployments/${networkName}.json`)
   const v3PeripheryDeployedContracts = await import(`@pancakeswap/v3-periphery/deployments/${networkName}.json`)
 
-  const pancakeV3PoolDeployer_address = v3DeployedContracts.PancakeV3PoolDeployer
-  const pancakeV3Factory_address = v3DeployedContracts.PancakeV3Factory
+  const pancakeV3PoolDeployer_address = v3DeployedContracts.FusionXV3PoolDeployer
+  const pancakeV3Factory_address = v3DeployedContracts.FusionXV3Factory
   const positionManager_address = v3PeripheryDeployedContracts.NonfungiblePositionManager
 
   /** SmartRouterHelper */

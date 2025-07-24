@@ -5,7 +5,8 @@ import 'dotenv/config'
 import { NetworkUserConfig } from 'hardhat/types'
 import 'solidity-docgen';
 require('dotenv').config({ path: require('find-config')('.env') })
-
+const fs = require("fs");
+const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 const bscTestnet: NetworkUserConfig = {
   url: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97,
@@ -29,6 +30,12 @@ const eth: NetworkUserConfig = {
   chainId: 1,
   accounts: [process.env.KEY_ETH!],
 }
+
+const localhost: NetworkUserConfig = {
+  url: "HTTP://127.0.0.1:8545",
+  chainId: 5777,
+  accounts: [deployer],
+};
 
 const config: HardhatUserConfig = {
   solidity: {

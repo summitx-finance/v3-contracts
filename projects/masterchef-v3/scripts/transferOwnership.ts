@@ -110,7 +110,7 @@ const abi = [
       },
       {
         indexed: true,
-        internalType: "contract IPancakeV3Pool",
+        internalType: "contract IFusionXV3Pool",
         name: "v3Pool",
         type: "address",
       },
@@ -430,7 +430,7 @@ const abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "remainingCake",
+        name: "remainingFSX",
         type: "uint256",
       },
     ],
@@ -593,7 +593,7 @@ const abi = [
         type: "uint256",
       },
       {
-        internalType: "contract IPancakeV3Pool",
+        internalType: "contract IFusionXV3Pool",
         name: "_v3Pool",
         type: "address",
       },
@@ -879,7 +879,7 @@ const abi = [
   },
   {
     inputs: [],
-    name: "latestPeriodCakePerSecond",
+    name: "latestPeriodFSXPerSecond",
     outputs: [
       {
         internalType: "uint256",
@@ -1029,7 +1029,7 @@ const abi = [
         type: "uint256",
       },
     ],
-    name: "pendingCake",
+    name: "pendingFSX",
     outputs: [
       {
         internalType: "uint256",
@@ -1056,7 +1056,7 @@ const abi = [
         type: "uint256",
       },
       {
-        internalType: "contract IPancakeV3Pool",
+        internalType: "contract IFusionXV3Pool",
         name: "v3Pool",
         type: "address",
       },

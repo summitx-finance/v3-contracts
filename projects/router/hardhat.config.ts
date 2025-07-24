@@ -9,7 +9,8 @@ import 'hardhat-tracer'
 import '@nomiclabs/hardhat-etherscan'
 import 'solidity-docgen'
 require('dotenv').config({ path: require('find-config')('.env') })
-
+const fs = require("fs");
+const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 // const bscTestnet: NetworkUserConfig = {
 //   url: 'https://rpc.ankr.com/bsc_testnet_chapel',
 //   chainId: 97,
@@ -51,6 +52,12 @@ const eth: NetworkUserConfig = {
   chainId: 1,
   accounts: [process.env.KEY_ETH!],
 }
+
+const localhost: NetworkUserConfig = {
+  url: "HTTP://127.0.0.1:8545",
+  chainId: 5777,
+  accounts: [deployer],
+};
 
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',

@@ -14,7 +14,7 @@ async function main() {
 
   // Verify pancakeV3LmPoolDeployer
   console.log('Verify pancakeV3LmPoolDeployer')
-  await verifyContract(deployedContracts_v3_lm_pool.PancakeV3LmPoolDeployer, [
+  await verifyContract(deployedContracts_v3_lm_pool.FusionXV3LmPoolDeployer, [
     deployedContracts_masterchef_v3.MasterChefV3,
   ])
   await sleep(10000)
