@@ -872,8 +872,8 @@ contract SummitXV3Pool is ISummitXV3Pool {
     /****/
     function setFeeProtocol(uint32 feeProtocol0, uint32 feeProtocol1) external override lock onlyFactoryOrFactoryOwner {
         require(
-            (feeProtocol0 == 0 || (feeProtocol0 >= 1000 && feeProtocol0 <= 4000)) &&
-            (feeProtocol1 == 0 || (feeProtocol1 >= 1000 && feeProtocol1 <= 4000))
+            (feeProtocol0 == 0 || (feeProtocol0 >= 1000 && feeProtocol0 <= 10000)) &&
+            (feeProtocol1 == 0 || (feeProtocol1 >= 1000 && feeProtocol1 <= 10000))
         );
 
         uint32 feeProtocolOld = slot0.feeProtocol;

@@ -22,7 +22,7 @@ if (!network || !networks[network]) {
 
 // await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
 
 await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
 

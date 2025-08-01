@@ -31,6 +31,12 @@ const baseCamp: NetworkUserConfig = {
   
   accounts: [process.env.KEY_TESTNET!],
 };
+
+const camp: NetworkUserConfig = {
+  url: "https://rpc.camp.raas.gelato.cloud",
+  gasPrice: "auto",
+  accounts: [process.env.KEY_CAMP!],
+};
 const bscTestnet: NetworkUserConfig = {
   url: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97,
@@ -70,6 +76,7 @@ export default {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
+    ...(process.env.KEY_CAMP && { camp }),
     ...(process.env.KEY_TESTNET && { mumbai }),
     ...(process.env.KEY_TESTNET && { baseCamp }),
     ...(process.env.KEY_BASE_CAMP && { baseCamp }),
@@ -83,6 +90,7 @@ export default {
   etherscan: {
     apiKey: {
       baseCamp: process.env.ETHERSCAN_API_KEY,
+      camp: process.env.ETHERSCAN_API_KEY,
     },
     customChains: [
       
@@ -92,6 +100,14 @@ export default {
         urls: {
           apiURL: "https://basecamp.cloud.blockscout.com/api",
           browserURL: "https://basecamp.cloud.blockscout.com/",
+        },
+      },
+      {
+        network: "camp",
+        chainId: 484,
+        urls: {
+          apiURL: "https://camp.cloud.blockscout.com/api",
+          browserURL: "https://camp.cloud.blockscout.com/",
         },
       },
     ],
