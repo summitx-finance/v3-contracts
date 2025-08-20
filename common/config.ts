@@ -90,6 +90,8 @@ export const configs = {
     stableInfo: '0x0000000000000000000000000000000000000000',
     SUMMITX: '',
     smartRouterHelper: '',
+    poolHelperV3: '0x33E92442c2D17Cf13a98C25952a997827aEa5E05',
+    poolHelperV2: '0x456E1C55C9b4a55f2b01Ff203a5A576669BbC1Fb',
     RSUMMITX: '0x46aFd39366Af0Ed157043361418742e7686EF44A',
     lbpMasterChefV3: '0x2D1C63d518BAcD95e5Bad9429f04f5804438346e',
     lbpMasterChefV3ReceiverV2: '',

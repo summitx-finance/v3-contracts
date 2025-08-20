@@ -22,13 +22,18 @@ if (!network || !networks[network]) {
 
 // await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
-// await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
+// Deploy core contracts first
+//await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
 
-await $`yarn workspace @summitx/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
+// await $`yarn workspace @summitx/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
+
+// Deploy and configure PoolCreationHandler at the end
+// console.log(chalk.yellow('\nDeploying and configuring PoolCreationHandler...'))
+await $`yarn workspace @summitx/pool-creation-handler run hardhat run scripts/deploy-and-setup.ts --network ${network}`
 
 // await $`yarn workspace @summitx/masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
 
@@ -48,6 +53,14 @@ const v2 = await fs.readJson(`./projects/v2-core/deployments/${network}.json`)
 const r = await fs.readJson(`./projects/router/deployments/${network}.json`)
 const c = await fs.readJson(`./projects/v3-core/deployments/${network}.json`)
 const p = await fs.readJson(`./projects/v3-periphery/deployments/${network}.json`)
+
+// Include PoolCreationHandler deployment
+let handler = {}
+try {
+  handler = await fs.readJson(`./projects/pool-creation-handler/deployments/${network}.json`)
+} catch (e) {
+  console.log(chalk.yellow('PoolCreationHandler not found in deployments'))
+}
 // const i = await fs.readJson(`./projects/ifo/deployments/${network}.json`)
 //const m = await fs.readJson(`./projects/masterchef-v3/deployments/${network}.json`)
 //const l = await fs.readJson(`./projects/v3-lm-pool/deployments/${network}.json`)
@@ -63,6 +76,7 @@ const addresses = {
   ...r,
   ...c,
   ...p,
+  PoolCreationHandler: handler.PoolCreationHandler || '',
   // ...m,
   // ...l,
     // ...lbpMasterChefV3,

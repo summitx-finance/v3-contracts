@@ -19,13 +19,15 @@ if (!network || !networks[network]) {
 
 // await $`yarn workspace @summitx/multicall3 run hardhat run scripts/verify.ts --network ${network}`
 
-await $`yarn workspace @summitx/v2-core run hardhat run scripts/verify.ts --network ${network}`
+// await $`yarn workspace @summitx/v2-core run hardhat run scripts/verify.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-core run hardhat run scripts/verify.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-core run hardhat run scripts/verify.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/verify.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/verify.ts --network ${network}`
 
-await $`yarn workspace @summitx/smart-router run hardhat run scripts/verify.ts --network ${network}`
+// await $`yarn workspace @summitx/smart-router run hardhat run scripts/verify.ts --network ${network}`
+
+await $`yarn workspace @summitx/pool-creation-handler run hardhat run scripts/verify.ts --network ${network}`
 
 // await $`yarn workspace @summitx/masterchef-v3 run hardhat run scripts/verify.ts --network ${network}`
 

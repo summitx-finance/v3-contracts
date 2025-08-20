@@ -4,6 +4,7 @@ pragma solidity =0.7.6;
 import './interfaces/ISummitXV3Factory.sol';
 import "./interfaces/ISummitXV3PoolDeployer.sol";
 import './interfaces/ISummitXV3Pool.sol';
+import './interfaces/IPoolCreationHandler.sol';
 
 /// @title Canonical SummitX V3 factory
 /// @notice Deploys SummitX V3 pools and manages ownership and control over pool protocol fees
@@ -23,6 +24,7 @@ contract SummitXV3Factory is ISummitXV3Factory {
 
     address public lmPoolDeployer;
     address public override protocolFeeCollector;
+    address public poolCreationHandler;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
@@ -73,6 +75,13 @@ contract SummitXV3Factory is ISummitXV3Factory {
             require(_whiteListAddresses[msg.sender], "user should be in the white list for this fee tier");
         }
         require(getPool[token0][token1][fee] == address(0));
+        
+        // Check with pool creation handler if set
+        if (poolCreationHandler != address(0)) {
+            (bool canCreate, string memory reason) = IPoolCreationHandler(poolCreationHandler)
+                .beforeV3PoolCreation(token0, token1, fee, msg.sender);
+            require(canCreate, reason);
+        }
         pool = ISummitXV3PoolDeployer(poolDeployer).deploy(address(this), token0, token1, fee, tickSpacing);
         getPool[token0][token1][fee] = pool;
         // populate mapping in the reverse direction, deliberate choice to avoid the cost of comparing addresses
@@ -150,4 +159,14 @@ contract SummitXV3Factory is ISummitXV3Factory {
         emit ProtocolFeeCollectorChanged(protocolFeeCollector, _protocolFeeCollector);
         protocolFeeCollector = _protocolFeeCollector;
     }
+    
+    function setPoolCreationHandler(address _handler) external onlyOwner {
+        emit PoolCreationHandlerUpdated(poolCreationHandler, _handler);
+        poolCreationHandler = _handler;
+    }
+    
+    event PoolCreationHandlerUpdated(
+        address indexed previousHandler,
+        address indexed newHandler
+    );
 }

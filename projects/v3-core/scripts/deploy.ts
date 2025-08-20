@@ -38,6 +38,7 @@ async function main() {
       owner
     )
   }
+  await sleep(10000)
   const v3PoolInitCodeHash = await summitxV3PoolDeployer.INIT_CODE_PAIR_HASH()
   console.log('summitxV3PoolDeployer POOL_INIT_CODE_HASH',v3PoolInitCodeHash)
 
@@ -76,3 +77,7 @@ main()
     console.error(error)
     process.exit(1)
   })
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+

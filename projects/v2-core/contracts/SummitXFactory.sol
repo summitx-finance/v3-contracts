@@ -1,5 +1,7 @@
 pragma solidity =0.5.16;
 
+import './interfaces/IPoolCreationHandler.sol';
+
 interface ISummitXFactory {
     event PairCreated(
         address indexed token0,
@@ -705,6 +707,7 @@ contract SummitXFactory is ISummitXFactory {
 
     address public feeTo;
     address public feeToSetter;
+    address public poolCreationHandler;
 
     mapping(address => mapping(address => address)) public getPair;
     address[] public allPairs;
@@ -714,6 +717,11 @@ contract SummitXFactory is ISummitXFactory {
         address indexed token1,
         address pair,
         uint256
+    );
+    
+    event PoolCreationHandlerUpdated(
+        address indexed previousHandler,
+        address indexed newHandler
     );
 
     constructor(address _feeToSetter) public {
@@ -734,6 +742,13 @@ contract SummitXFactory is ISummitXFactory {
             : (tokenB, tokenA);
         require(token0 != address(0), "SummitX: ZERO_ADDRESS");
         require(getPair[token0][token1] == address(0), "SummitX: PAIR_EXISTS"); // single check is sufficient
+        
+        // Check with pool creation handler if set
+        if (poolCreationHandler != address(0)) {
+            (bool canCreate, string memory reason) = IPoolCreationHandler(poolCreationHandler)
+                .beforeV2PoolCreation(token0, token1, msg.sender);
+            require(canCreate, reason);
+        }
         bytes memory bytecode = type(SummitXPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
@@ -754,5 +769,11 @@ contract SummitXFactory is ISummitXFactory {
     function setFeeToSetter(address _feeToSetter) external {
         require(msg.sender == feeToSetter, "SummitX: FORBIDDEN");
         feeToSetter = _feeToSetter;
+    }
+    
+    function setPoolCreationHandler(address _handler) external {
+        require(msg.sender == feeToSetter, "SummitX: FORBIDDEN");
+        emit PoolCreationHandlerUpdated(poolCreationHandler, _handler);
+        poolCreationHandler = _handler;
     }
 }

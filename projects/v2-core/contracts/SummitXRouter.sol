@@ -444,7 +444,7 @@ library SummitXLibrary {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"7abdcc751b853d863815cc1e6c3bfb21cb4b7cdc882bb90ea9a2e404b57b90d9" // init code hash
+                        hex"848bcb19c9f5583a80beddbf0a5bcf824c1558acf8afc998a76dd1aaa08a60d1" // init code hash
                     )
                 )
             )
