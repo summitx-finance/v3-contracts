@@ -97,7 +97,7 @@ const config: HardhatUserConfig = {
     ...(process.env.KEY_MAINNET && { bscMainnet }),
     ...(process.env.KEY_GOERLI && { goerli }),
     ...(process.env.KEY_ETH && { eth }),
-    ...(process.env.KEY_BASE_CAMP && { baseCamp }),
+    ...(process.env.KEY_CAMP && { camp }),
     // goerli: goerli,
     // mainnet: bscMainnet,
   },

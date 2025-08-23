@@ -10,6 +10,7 @@ const networks = {
   localhost: 'localhost',
   mumbai: 'mumbai',
   baseCamp: 'baseCamp',
+  camp: 'camp',
 }
 
 let network = process.env.NETWORK
@@ -23,7 +24,7 @@ if (!network || !networks[network]) {
 // await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
 // Deploy core contracts first
-//await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
 
 // await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
 

@@ -11,8 +11,11 @@
     "compile": "yarn workspaces run compile",
     "test": "yarn workspaces run test",
     "deploy-base-camp": "NETWORK=baseCamp yarn zx v3-deploy.mjs",
+    "verify-base-camp": "NETWORK=baseCamp yarn zx v3-verify.mjs",
+    "deploy-camp": "NETWORK=camp yarn zx v3-deploy.mjs",
+    "verify-camp": "NETWORK=camp yarn zx v3-verify.mjs",
     "deploy-hardhat": "NETWORK=hardhat yarn zx v3-deploy.mjs",
-    "verify-base-camp": "NETWORK=baseCamp yarn zx v3-verify.mjs"
+    "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs"
   },
   "devDependencies": {
     "zx": "^7.2.0",

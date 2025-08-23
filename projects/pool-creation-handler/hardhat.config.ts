@@ -11,6 +11,11 @@ const baseCamp: NetworkUserConfig = {
   accounts: [process.env.KEY_TESTNET!],
 };
 
+const camp: NetworkUserConfig = {
+  url: "https://rpc.camp.raas.gelato.cloud",
+  accounts: [process.env.KEY_CAMP!],
+}
+
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -31,7 +36,8 @@ const config: HardhatUserConfig = {
     localhost: {
       url: 'http://127.0.0.1:8545',
     },
-    baseCamp: baseCamp
+    baseCamp: baseCamp,
+    camp: camp,
   },
   paths: {
     sources: './contracts',

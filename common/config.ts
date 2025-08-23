@@ -53,6 +53,8 @@ export const configs = {
     masterChefV3: '',
     masterChefV3ReceiverV2: '',
     masterChefV3KeeperV2: '',
+    poolHelperV3: '0x0000000000000000000000000000000000000000',
+    poolHelperV2: '0x0000000000000000000000000000000000000000',
     ifoDeployerV3: '0x26b6875dD143C19F2CA945d4b083E6A96b378a8d',
     ifos: [
       {
