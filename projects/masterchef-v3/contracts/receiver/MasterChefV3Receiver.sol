@@ -57,7 +57,7 @@ contract MasterChefV3Receiver is Ownable {
         emit Deposit(msg.sender, address(MasterChefV2), balance, V2_Pid);
     }
 
-    /// @notice Harvest pending SUMMITX tokens from MasterChef V2.
+    /// @notice Harvest pending MUCHFI tokens from MasterChef V2.
     function harvestFromV2() internal {
         MasterChefV2.withdraw(V2_Pid, 0);
     }

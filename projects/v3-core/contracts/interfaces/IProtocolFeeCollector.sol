@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity >=0.5.0;
 
-import './ISummitXV3Pool.sol';
+import './IMuchFiV3Pool.sol';
 
 interface IProtocolFeeCollector {
     event FeesCollected(
@@ -36,5 +36,5 @@ interface IProtocolFeeCollector {
 
     /// @notice Collects protocol fees from a pool and distributes them
     /// @param pool The pool to collect fees from
-    function collectProtocolFees(ISummitXV3Pool pool) external;
+    function collectProtocolFees(IMuchFiV3Pool pool) external;
 }

@@ -2,7 +2,7 @@
 pragma solidity =0.7.6;
 
 import '../ProtocolFeeCollector.sol';
-import '../interfaces/ISummitXV3Pool.sol';
+import '../interfaces/IMuchFiV3Pool.sol';
 import '../interfaces/IERC20Minimal.sol';
 
 contract MockToken is IERC20Minimal {
@@ -43,7 +43,7 @@ contract MockToken is IERC20Minimal {
     }
 }
 
-contract MockPool is ISummitXV3Pool {
+contract MockPool is IMuchFiV3Pool {
     address public immutable override factory;
     address public immutable override token0;
     address public immutable override token1;

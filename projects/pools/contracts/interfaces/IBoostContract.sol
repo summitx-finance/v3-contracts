@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IBoostContract {
-    function onSummitXPoolUpdate(
+    function onMuchFiPoolUpdate(
         address _user,
         uint256 _lockedAmount,
         uint256 _lockedDuration,

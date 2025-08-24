@@ -376,7 +376,7 @@ library SignedSafeMath {
 interface IRewarder {
     //using BoringERC20 for IERC20;
     function rewardToken() external returns(address);
-    function onSUMMITXReward(uint256 pid, address user, address recipient, uint256 fsxAmount, uint256 newLpAmount) external;
+    function onMUCHFIReward(uint256 pid, address user, address recipient, uint256 fsxAmount, uint256 newLpAmount) external;
     function pendingTokens(uint256 pid, address user, uint256 fsxAmount) external view returns (IERC20[] memory, uint256[] memory);
 }
 
@@ -393,9 +393,9 @@ interface IMasterChef {
 
     struct PoolInfo {
         IERC20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. SUMMITX to distribute per block.
-        uint256 lastRewardBlock;  // Last block number that SUMMITX distribution occurs.
-        uint256 accSUMMITXPerShare; // Accumulated SUMMITX per share, times 1e12. See below.
+        uint256 allocPoint;       // How many allocation points assigned to this pool. MUCHFI to distribute per block.
+        uint256 lastRewardBlock;  // Last block number that MUCHFI distribution occurs.
+        uint256 accMUCHFIPerShare; // Accumulated MUCHFI per share, times 1e12. See below.
     }
 
     function poolInfo(uint256 pid) external view returns (IMasterChef.PoolInfo memory);
@@ -407,8 +407,8 @@ interface IMasterChef {
 // File contracts/Masterchef.sol
 
 
-/// @notice The (older) MasterChef contract gives out a constant number of SUMMITX tokens per block.
-/// It is the only address with minting rights for SUMMITX.
+/// @notice The (older) MasterChef contract gives out a constant number of MUCHFI tokens per block.
+/// It is the only address with minting rights for MUCHFI.
 /// The idea for this MasterChef V2 (MCV2) contract is therefore to be the owner of a dummy token
 /// that is deposited into the MasterChef V1 (MCV1) contract.
 /// The allocation point for this pool on MCV1 is the total allocation point for all pools that receive double incentives.
@@ -420,7 +420,7 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
 
     /// @notice Info of each MCV2 user.
     /// `amount` LP token amount the user has provided.
-    /// `rewardDebt` The amount of SUMMITX entitled to the user.
+    /// `rewardDebt` The amount of MUCHFI entitled to the user.
     struct UserInfo {
         uint256 amount;
         int256 rewardDebt;
@@ -428,16 +428,16 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
 
     /// @notice Info of each MCV2 pool.
     /// `allocPoint` The amount of allocation points assigned to the pool.
-    /// Also known as the amount of SUMMITX to distribute per block.
+    /// Also known as the amount of MUCHFI to distribute per block.
     struct PoolInfo {
-        uint128 accSUMMITXPerShare;
+        uint128 accMUCHFIPerShare;
         uint64 lastRewardTime;
         uint64 allocPoint;
         IRewarder[] rewarders;
     }
 
-    /// @notice Address of SUMMITX contract.
-    IERC20 public immutable SUMMITX;
+    /// @notice Address of MUCHFI contract.
+    IERC20 public immutable MUCHFI;
 
     /// @notice Info of each MCV2 pool.
     PoolInfo[] public poolInfo;
@@ -450,7 +450,7 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
     uint256 public totalAllocPoint;
 
     uint256 public fsxPerSecond;
-    uint256 private constant ACC_SUMMITX_PRECISION = 1e12;
+    uint256 private constant ACC_MUCHFI_PRECISION = 1e12;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount, address indexed to);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount, address indexed to);
@@ -458,13 +458,13 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
     event Harvest(address indexed user, uint256 indexed pid, uint256 amount);
     event LogPoolAddition(uint256 indexed pid, uint256 allocPoint, IERC20 indexed lpToken);
     event LogSetPool(uint256 indexed pid, uint256 allocPoint);
-    event LogUpdatePool(uint256 indexed pid, uint64 lastRewardTime, uint256 lpSupply, uint256 accSUMMITXPerShare);
-    event LogSUMMITXPerSecond(uint256 fsxPerSecond);
+    event LogUpdatePool(uint256 indexed pid, uint64 lastRewardTime, uint256 lpSupply, uint256 accMUCHFIPerShare);
+    event LogMUCHFIPerSecond(uint256 fsxPerSecond);
     event LogRewarderAdded(uint256 indexed pid, IRewarder indexed rewarder);
 
-    /// @param _fsx The SUMMITX token contract address.
+    /// @param _fsx The MUCHFI token contract address.
     constructor(IERC20 _fsx) public {
-        SUMMITX = _fsx;
+        MUCHFI = _fsx;
     }
 
     /// @notice Returns the number of MCV2 pools.
@@ -483,7 +483,7 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
         poolInfo.push(PoolInfo({
             allocPoint: allocPoint.to64(),
             lastRewardTime: block.timestamp.to64(),
-            accSUMMITXPerShare: 0,
+            accMUCHFIPerShare: 0,
             rewarders: (new IRewarder[](0))
         }));
         emit LogPoolAddition(lpToken.length.sub(1), allocPoint, _lpToken);
@@ -500,7 +500,7 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
         emit LogRewarderAdded(_pid, _rewarder);
     }
 
-    /// @notice Update the given pool's SUMMITX allocation point and `IRewarder` contract. Can only be called by the owner.
+    /// @notice Update the given pool's MUCHFI allocation point and `IRewarder` contract. Can only be called by the owner.
     /// @param _pid The index of the pool. See `poolInfo`.
     /// @param _allocPoint New AP of the pool.
     function set(uint256 _pid, uint256 _allocPoint) public onlyOwner {
@@ -510,27 +510,27 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
     }
 
     /// @notice Sets the fsx per second to be distributed. Can only be called by the owner.
-    /// @param _fsxPerSecond The amount of SUMMITX to be distributed per second.
-    function setSUMMITXPerSecond(uint256 _fsxPerSecond) public onlyOwner {
+    /// @param _fsxPerSecond The amount of MUCHFI to be distributed per second.
+    function setMUCHFIPerSecond(uint256 _fsxPerSecond) public onlyOwner {
         fsxPerSecond = _fsxPerSecond;
-        emit LogSUMMITXPerSecond(_fsxPerSecond);
+        emit LogMUCHFIPerSecond(_fsxPerSecond);
     }
 
-    /// @notice View function to see pending SUMMITX on frontend.
+    /// @notice View function to see pending MUCHFI on frontend.
     /// @param _pid The index of the pool. See `poolInfo`.
     /// @param _user Address of user.
-    /// @return pending SUMMITX reward for a given user.
-    function pendingSUMMITX(uint256 _pid, address _user) external view returns (uint256 pending) {
+    /// @return pending MUCHFI reward for a given user.
+    function pendingMUCHFI(uint256 _pid, address _user) external view returns (uint256 pending) {
         PoolInfo memory pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
-        uint256 accSUMMITXPerShare = pool.accSUMMITXPerShare;
+        uint256 accMUCHFIPerShare = pool.accMUCHFIPerShare;
         uint256 lpSupply = lpToken[_pid].balanceOf(address(this));
         if (block.timestamp > pool.lastRewardTime && lpSupply != 0) {
             uint256 time = block.timestamp.sub(pool.lastRewardTime);
             uint256 fsxReward = time.mul(fsxPerSecond).mul(pool.allocPoint) / totalAllocPoint;
-            accSUMMITXPerShare = accSUMMITXPerShare.add(fsxReward.mul(ACC_SUMMITX_PRECISION) / lpSupply);
+            accMUCHFIPerShare = accMUCHFIPerShare.add(fsxReward.mul(ACC_MUCHFI_PRECISION) / lpSupply);
         }
-        pending = int256(user.amount.mul(accSUMMITXPerShare) / ACC_SUMMITX_PRECISION).sub(user.rewardDebt).toUInt256();
+        pending = int256(user.amount.mul(accMUCHFIPerShare) / ACC_MUCHFI_PRECISION).sub(user.rewardDebt).toUInt256();
     }
 
     /// @notice Update reward variables for all pools. Be careful of gas spending!
@@ -552,15 +552,15 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
             if (lpSupply > 0) {
                 uint256 time = block.timestamp.sub(pool.lastRewardTime);
                 uint256 fsxReward = time.mul(fsxPerSecond).mul(pool.allocPoint) / totalAllocPoint;
-                pool.accSUMMITXPerShare = pool.accSUMMITXPerShare.add((fsxReward.mul(ACC_SUMMITX_PRECISION) / lpSupply).to128());
+                pool.accMUCHFIPerShare = pool.accMUCHFIPerShare.add((fsxReward.mul(ACC_MUCHFI_PRECISION) / lpSupply).to128());
             }
             pool.lastRewardTime = block.timestamp.to64();
             poolInfo[pid] = pool;
-            emit LogUpdatePool(pid, pool.lastRewardTime, lpSupply, pool.accSUMMITXPerShare);
+            emit LogUpdatePool(pid, pool.lastRewardTime, lpSupply, pool.accMUCHFIPerShare);
         }
     }
 
-    /// @notice Deposit LP tokens to MCV2 for SUMMITX allocation.
+    /// @notice Deposit LP tokens to MCV2 for MUCHFI allocation.
     /// @param pid The index of the pool. See `poolInfo`.
     /// @param amount LP token amount to deposit.
     /// @param to The receiver of `amount` deposit benefit.
@@ -570,13 +570,13 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
 
         // Effects
         user.amount = user.amount.add(amount);
-        user.rewardDebt = user.rewardDebt.add(int256(amount.mul(pool.accSUMMITXPerShare) / ACC_SUMMITX_PRECISION));
+        user.rewardDebt = user.rewardDebt.add(int256(amount.mul(pool.accMUCHFIPerShare) / ACC_MUCHFI_PRECISION));
 
         // Interactions
         for( uint256 i = 0; i < poolInfo[pid].rewarders.length; i++) {
             IRewarder _rewarder = poolInfo[pid].rewarders[i];
             if (address(_rewarder) != address(0)) {
-                _rewarder.onSUMMITXReward(pid, to, to, 0, user.amount);
+                _rewarder.onMUCHFIReward(pid, to, to, 0, user.amount);
             }
         }
 
@@ -594,14 +594,14 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
         UserInfo storage user = userInfo[pid][msg.sender];
 
         // Effects
-        user.rewardDebt = user.rewardDebt.sub(int256(amount.mul(pool.accSUMMITXPerShare) / ACC_SUMMITX_PRECISION));
+        user.rewardDebt = user.rewardDebt.sub(int256(amount.mul(pool.accMUCHFIPerShare) / ACC_MUCHFI_PRECISION));
         user.amount = user.amount.sub(amount);
 
         // Interactions
         for( uint256 i = 0; i < poolInfo[pid].rewarders.length; i++) {
             IRewarder _rewarder = poolInfo[pid].rewarders[i];
             if (address(_rewarder) != address(0)) {
-                _rewarder.onSUMMITXReward(pid, msg.sender, to, 0, user.amount);
+                _rewarder.onMUCHFIReward(pid, msg.sender, to, 0, user.amount);
             }
         }       
         lpToken[pid].safeTransfer(to, amount);
@@ -611,57 +611,57 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
 
     /// @notice Harvest proceeds for transaction sender to `to`.
     /// @param pid The index of the pool. See `poolInfo`.
-    /// @param to Receiver of SUMMITX rewards.
+    /// @param to Receiver of MUCHFI rewards.
     function harvest(uint256 pid, address to) nonReentrant public {
         PoolInfo memory pool = updatePool(pid);
         UserInfo storage user = userInfo[pid][msg.sender];
-        int256 accumulatedSUMMITX = int256(user.amount.mul(pool.accSUMMITXPerShare) / ACC_SUMMITX_PRECISION);
-        uint256 _pendingSUMMITX = accumulatedSUMMITX.sub(user.rewardDebt).toUInt256();
+        int256 accumulatedMUCHFI = int256(user.amount.mul(pool.accMUCHFIPerShare) / ACC_MUCHFI_PRECISION);
+        uint256 _pendingMUCHFI = accumulatedMUCHFI.sub(user.rewardDebt).toUInt256();
 
         // Effects
-        user.rewardDebt = accumulatedSUMMITX;
+        user.rewardDebt = accumulatedMUCHFI;
 
         // Interactions
-        if (_pendingSUMMITX != 0) {
-            SUMMITX.safeTransfer(to, _pendingSUMMITX);
+        if (_pendingMUCHFI != 0) {
+            MUCHFI.safeTransfer(to, _pendingMUCHFI);
         }
         
         for( uint256 i = 0; i < poolInfo[pid].rewarders.length; i++) {
             IRewarder _rewarder = poolInfo[pid].rewarders[i];
             if (address(_rewarder) != address(0)) {
-                _rewarder.onSUMMITXReward( pid, msg.sender, to, _pendingSUMMITX, user.amount);
+                _rewarder.onMUCHFIReward( pid, msg.sender, to, _pendingMUCHFI, user.amount);
             }
         }  
-        emit Harvest(msg.sender, pid, _pendingSUMMITX);
+        emit Harvest(msg.sender, pid, _pendingMUCHFI);
     }
     
     /// @notice Withdraw LP tokens from MCV2 and harvest proceeds for transaction sender to `to`.
     /// @param pid The index of the pool. See `poolInfo`.
     /// @param amount LP token amount to withdraw.
-    /// @param to Receiver of the LP tokens and SUMMITX rewards.
+    /// @param to Receiver of the LP tokens and MUCHFI rewards.
     function withdrawAndHarvest(uint256 pid, uint256 amount, address to) nonReentrant public {
         PoolInfo memory pool = updatePool(pid);
         UserInfo storage user = userInfo[pid][msg.sender];
-        int256 accumulatedSUMMITX = int256(user.amount.mul(pool.accSUMMITXPerShare) / ACC_SUMMITX_PRECISION);
-        uint256 _pendingSUMMITX = accumulatedSUMMITX.sub(user.rewardDebt).toUInt256();
+        int256 accumulatedMUCHFI = int256(user.amount.mul(pool.accMUCHFIPerShare) / ACC_MUCHFI_PRECISION);
+        uint256 _pendingMUCHFI = accumulatedMUCHFI.sub(user.rewardDebt).toUInt256();
 
         // Effects
-        user.rewardDebt = accumulatedSUMMITX.sub(int256(amount.mul(pool.accSUMMITXPerShare) / ACC_SUMMITX_PRECISION));
+        user.rewardDebt = accumulatedMUCHFI.sub(int256(amount.mul(pool.accMUCHFIPerShare) / ACC_MUCHFI_PRECISION));
         user.amount = user.amount.sub(amount);
         
         // Interactions
-        SUMMITX.safeTransfer(to, _pendingSUMMITX);
+        MUCHFI.safeTransfer(to, _pendingMUCHFI);
 
         for( uint256 i = 0; i < poolInfo[pid].rewarders.length; i++) {
             IRewarder _rewarder = poolInfo[pid].rewarders[i];
             if (address(_rewarder) != address(0)) {
-              _rewarder.onSUMMITXReward(pid, msg.sender, to, _pendingSUMMITX, user.amount);
+              _rewarder.onMUCHFIReward(pid, msg.sender, to, _pendingMUCHFI, user.amount);
             }
         }
         lpToken[pid].safeTransfer(to, amount);
 
         emit Withdraw(msg.sender, pid, amount, to);
-        emit Harvest(msg.sender, pid, _pendingSUMMITX);
+        emit Harvest(msg.sender, pid, _pendingMUCHFI);
     }
 
     /// @notice Withdraw without caring about rewards. EMERGENCY ONLY.
@@ -676,7 +676,7 @@ contract MasterChef is BoringOwnable, BoringBatchable, ReentrancyGuard {
         for( uint256 i = 0; i < poolInfo[pid].rewarders.length; i++) {
             IRewarder _rewarder = poolInfo[pid].rewarders[i];
             if (address(_rewarder) != address(0)) {
-              _rewarder.onSUMMITXReward(pid, msg.sender, to, 0, 0);
+              _rewarder.onMUCHFIReward(pid, msg.sender, to, 0, 0);
             }
         }
         // Note: transfer can fail or succeed if `amount` is zero.

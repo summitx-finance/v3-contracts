@@ -2,10 +2,10 @@
 pragma solidity >=0.7.0;
 pragma abicoder v2;
 
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
-import '@summitx/v3-core/contracts/libraries/TickMath.sol';
-import '@summitx/v3-core/contracts/libraries/BitMath.sol';
-import '@summitx/v3-core/contracts/libraries/FullMath.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Pool.sol';
+import '@muchfi/v3-core/contracts/libraries/TickMath.sol';
+import '@muchfi/v3-core/contracts/libraries/BitMath.sol';
+import '@muchfi/v3-core/contracts/libraries/FullMath.sol';
 import '@openzeppelin/contracts/utils/Strings.sol';
 import '@openzeppelin/contracts/math/SafeMath.sol';
 import '@openzeppelin/contracts/math/SignedSafeMath.sol';
@@ -136,7 +136,7 @@ contract NFTDescriptorEx {
         return
         string(
             abi.encodePacked(
-                'This NFT represents a liquidity position in a SummitX V3 ',
+                'This NFT represents a liquidity position in a MuchFi V3 ',
                 quoteTokenSymbol,
                 '-',
                 baseTokenSymbol,
@@ -184,7 +184,7 @@ contract NFTDescriptorEx {
     return
         string(
             abi.encodePacked(
-                'SummitX - ',
+                'MuchFi - ',
                 feeTier,
                 ' - ',
                 escapeQuotes(params.quoteTokenSymbol),

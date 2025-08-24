@@ -62,7 +62,7 @@ contract MasterChefV3KeeperV1 is KeeperCompatibleInterface, Ownable, Pausable {
     //The logic is consistent with the following performUpkeep function, in order to make the code logic clearer.
     function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory) {
         if (!paused()) {
-            uint256 penddingFsxAmount = MasterChefV2.pendingSummitX(V2Pid, address(Receiver));
+            uint256 penddingFsxAmount = MasterChefV2.pendingMuchFi(V2Pid, address(Receiver));
             uint256 fsxBalanceInReceiver = Fsx.balanceOf(address(Receiver));
             uint256 latestPeriodEndTime = MasterChefV3.latestPeriodEndTime();
             if (penddingFsxAmount + fsxBalanceInReceiver > 0 && latestPeriodEndTime < block.timestamp + bufferSecond)

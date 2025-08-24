@@ -1,5 +1,5 @@
 {
-  "name": "@summitx/lbp-v3-lm-pool",
+  "name": "@muchfi/lbp-v3-lm-pool",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -14,9 +14,9 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomicfoundation/hardhat-verify": "1.0.0",
-    "@summitx/v3-core": "*",
+    "@muchfi/v3-core": "*",
     "@openzeppelin/contracts": "3.4.2-solc-0.7",
-    "@summitx/lbp-masterchef-v3": "*",
+    "@muchfi/lbp-masterchef-v3": "*",
     "@typechain/ethers-v5": "^10.2.0",
     "@typechain/hardhat": "^6.1.5",
     "@types/chai": "^4.2.0",

@@ -2,7 +2,7 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Pool.sol';
 import '@uniswap/lib/contracts/libraries/SafeERC20Namer.sol';
 
 import './libraries/ChainId.sol';
@@ -59,8 +59,8 @@ contract NonfungibleTokenPositionDescriptor is INonfungibleTokenPositionDescript
         (, , address token0, address token1, uint24 fee, int24 tickLower, int24 tickUpper, , , , , ) =
             positionManager.positions(tokenId);
 
-        ISummitXV3Pool pool =
-            ISummitXV3Pool(
+        IMuchFiV3Pool pool =
+            IMuchFiV3Pool(
                 PoolAddress.computeAddress(
                     positionManager.deployer(),
                     PoolAddress.PoolKey({token0: token0, token1: token1, fee: fee})

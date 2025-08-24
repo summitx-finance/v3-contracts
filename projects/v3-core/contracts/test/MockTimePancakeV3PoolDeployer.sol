@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.7.6;
 
-import '../interfaces/ISummitXV3PoolDeployer.sol';
+import '../interfaces/IMuchFiV3PoolDeployer.sol';
 
-import './MockTimeSummitXV3Pool.sol';
+import './MockTimeMuchFiV3Pool.sol';
 
-contract MockTimeSummitXV3PoolDeployer is ISummitXV3PoolDeployer {
+contract MockTimeMuchFiV3PoolDeployer is IMuchFiV3PoolDeployer {
     struct Parameters {
         address factory;
         address token0;
@@ -27,7 +27,7 @@ contract MockTimeSummitXV3PoolDeployer is ISummitXV3PoolDeployer {
     ) external override returns (address pool) {
         parameters = Parameters({factory: factory, token0: token0, token1: token1, fee: fee, tickSpacing: tickSpacing});
         pool = address(
-            new MockTimeSummitXV3Pool{salt: keccak256(abi.encodePacked(token0, token1, fee, tickSpacing))}()
+            new MockTimeMuchFiV3Pool{salt: keccak256(abi.encodePacked(token0, token1, fee, tickSpacing))}()
         );
         emit PoolDeployed(pool);
         delete parameters;

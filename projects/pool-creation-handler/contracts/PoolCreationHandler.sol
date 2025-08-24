@@ -8,7 +8,7 @@ import './interfaces/IPoolHelper.sol';
 import './interfaces/ILaunchpadGauge.sol';
 /**
  * @title PoolCreationHandler
- * @notice Unified pool creation handler for both SummitX V2 and V3 factories
+ * @notice Unified pool creation handler for both MuchFi V2 and V3 factories
  * @dev Provides validation logic to prevent pool creation for certain assets
  * and enforces special rules for tokens with gauges
  */

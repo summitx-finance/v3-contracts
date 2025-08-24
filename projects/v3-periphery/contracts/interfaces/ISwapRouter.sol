@@ -2,11 +2,11 @@
 pragma solidity >=0.7.5;
 pragma abicoder v2;
 
-import '@summitx/v3-core/contracts/interfaces/callback/ISummitXV3SwapCallback.sol';
+import '@muchfi/v3-core/contracts/interfaces/callback/IMuchFiV3SwapCallback.sol';
 
 /// @title Router token swapping functionality
-/// @notice Functions for swapping tokens via SummitXV3
-interface ISwapRouter is ISummitXV3SwapCallback {
+/// @notice Functions for swapping tokens via MuchFiV3
+interface ISwapRouter is IMuchFiV3SwapCallback {
     struct ExactInputSingleParams {
         address tokenIn;
         address tokenOut;

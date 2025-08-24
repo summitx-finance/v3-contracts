@@ -1,14 +1,14 @@
 {
-    "name": "@summitx/ifo",
+    "name": "@muchfi/ifo",
     "version": "1.0.0",
-    "description": "SummitX IFO",
+    "description": "MuchFi IFO",
     "publishConfig": {
         "access": "public"
     },
-    "author": "SummitX",
+    "author": "MuchFi",
     "license": "MIT",
     "keywords": [
-        "summitx",
+        "muchfi",
         "ifo"
     ],
     "files": [

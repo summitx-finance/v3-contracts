@@ -13,7 +13,7 @@ import './libraries/Constants.sol';
 
 import './base/PeripheryPaymentsWithFeeExtended.sol';
 
-/// @title SummitX Stable Swap Router
+/// @title MuchFi Stable Swap Router
 abstract contract StableSwapRouter is IStableSwapRouter, PeripheryPaymentsWithFeeExtended, Ownable, ReentrancyGuard {
     address public stableSwapFactory;
     address public stableSwapInfo;
@@ -29,7 +29,7 @@ abstract contract StableSwapRouter is IStableSwapRouter, PeripheryPaymentsWithFe
     }
 
     /**
-     * @notice Set SummitX Stable Swap Factory and Info
+     * @notice Set MuchFi Stable Swap Factory and Info
      * @dev Only callable by contract owner
      */
     function setStableSwap(

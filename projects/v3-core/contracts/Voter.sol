@@ -4,7 +4,7 @@ pragma solidity =0.7.6;
 import './interfaces/IVoter.sol';
 import './interfaces/IGauge.sol';
 import './interfaces/IFeeDistributor.sol';
-import './interfaces/ISummitXV3Pool.sol';
+import './interfaces/IMuchFiV3Pool.sol';
 import './libraries/LowGasSafeMath.sol';
 
 contract Voter is IVoter {

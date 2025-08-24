@@ -5,5 +5,5 @@
   "TickLens": "0xaDa8e1Eb508193b61769CE80b7Dbe3F193ee2469",
   "NonfungibleTokenPositionDescriptor": "0x561CFf28F129F8298A76347dE2Dc1Ff025C5AdAd",
   "NonfungiblePositionManager": "0xf7b99371d7dD1698651830DCc02f59bE9F1aCb46",
-  "SummitXInterfaceMulticall": "0xE38Fa24DB947C35a246Fd2a1744865e7498180Bb"
+  "MuchFiInterfaceMulticall": "0xE38Fa24DB947C35a246Fd2a1744865e7498180Bb"
 }

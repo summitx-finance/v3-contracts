@@ -1,5 +1,5 @@
 {
-  "name": "summitx-v3",
+  "name": "muchfi-v3",
   "private": true,
   "workspaces": [
     "projects/*",

@@ -1,5 +1,5 @@
 {
-  "name": "@summitx/v3-periphery",
+  "name": "@muchfi/v3-periphery",
   "description": "Peripheral smart contracts for interacting with PancakeSwap V3",
   "license": "GPL-2.0-or-later",
   "publishConfig": {
@@ -7,7 +7,7 @@
   },
   "version": "1.0.2",
   "keywords": [
-    "summitx",
+    "muchfi",
     "periphery",
     "v3"
   ],
@@ -35,7 +35,7 @@
     "@nomicfoundation/hardhat-verify": "1.0.0",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
-    "@summitx/v3-core": "*",
+    "@muchfi/v3-core": "*",
     "@typechain/ethers-v5": "^10.2.0",
     "@types/chai": "^4.2.6",
     "@types/mocha": "^5.2.7",

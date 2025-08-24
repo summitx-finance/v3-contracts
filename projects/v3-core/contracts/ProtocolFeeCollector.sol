@@ -4,7 +4,7 @@ pragma solidity =0.7.6;
 import './interfaces/IProtocolFeeCollector.sol';
 import './interfaces/IVoter.sol';
 import './interfaces/IFeeDistributor.sol';
-import './interfaces/ISummitXV3Pool.sol';
+import './interfaces/IMuchFiV3Pool.sol';
 import './interfaces/IERC20Minimal.sol';
 import './libraries/TransferHelper.sol';
 import './libraries/LowGasSafeMath.sol';
@@ -40,7 +40,7 @@ contract ProtocolFeeCollector is IProtocolFeeCollector {
         treasuryFees = _treasuryFees;
     }
 
-    function collectProtocolFees(ISummitXV3Pool pool) external override {
+    function collectProtocolFees(IMuchFiV3Pool pool) external override {
         // Get tokens
         IERC20Minimal token0 = IERC20Minimal(pool.token0());
         IERC20Minimal token1 = IERC20Minimal(pool.token1());

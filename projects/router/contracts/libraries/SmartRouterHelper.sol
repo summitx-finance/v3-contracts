@@ -5,8 +5,8 @@ pragma abicoder v2;
 import '../interfaces/IStableSwapFactory.sol';
 import '../interfaces/IStableSwapInfo.sol';
 import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
-import '@summitx/v3-core/contracts/libraries/LowGasSafeMath.sol';
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@muchfi/v3-core/contracts/libraries/LowGasSafeMath.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Pool.sol';
 
 library SmartRouterHelper {
     using LowGasSafeMath for uint256;
@@ -180,7 +180,7 @@ library SmartRouterHelper {
     }
 
     /// @notice Deterministically computes the pool address given the deployer and PoolKey
-    /// @param deployer The SummitX V3 deployer contract address
+    /// @param deployer The MuchFi V3 deployer contract address
     /// @param key The PoolKey
     /// @return pool The contract address of the V3 pool
     function computeAddress(address deployer, PoolKey memory key) public pure returns (address pool) {
@@ -205,12 +205,12 @@ library SmartRouterHelper {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) public pure returns (ISummitXV3Pool) {
-        return ISummitXV3Pool(computeAddress(deployer, getPoolKey(tokenA, tokenB, fee)));
+    ) public pure returns (IMuchFiV3Pool) {
+        return IMuchFiV3Pool(computeAddress(deployer, getPoolKey(tokenA, tokenB, fee)));
     }
 
-    /// @notice Returns the address of a valid SummitX V3 Pool
-    /// @param deployer The contract address of the SummitX V3 deployer
+    /// @notice Returns the address of a valid MuchFi V3 Pool
+    /// @param deployer The contract address of the MuchFi V3 deployer
     /// @param tokenA The contract address of either token0 or token1
     /// @param tokenB The contract address of the other token
     /// @param fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
@@ -220,20 +220,20 @@ library SmartRouterHelper {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) public view returns (ISummitXV3Pool pool) {
+    ) public view returns (IMuchFiV3Pool pool) {
         return verifyCallback(deployer, getPoolKey(tokenA, tokenB, fee));
     }
 
-    /// @notice Returns the address of a valid SummitX V3 Pool
-    /// @param deployer The contract address of the SummitX V3 deployer
+    /// @notice Returns the address of a valid MuchFi V3 Pool
+    /// @param deployer The contract address of the MuchFi V3 deployer
     /// @param poolKey The identifying key of the V3 pool
     /// @return pool The V3 pool contract address
     function verifyCallback(address deployer, PoolKey memory poolKey)
         public
         view
-        returns (ISummitXV3Pool pool)
+        returns (IMuchFiV3Pool pool)
     {
-        pool = ISummitXV3Pool(computeAddress(deployer, poolKey));
+        pool = IMuchFiV3Pool(computeAddress(deployer, poolKey));
         require(msg.sender == address(pool));
     }
 }

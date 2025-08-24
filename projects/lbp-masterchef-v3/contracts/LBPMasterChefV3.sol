@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./libraries/SafeCast.sol";
 import "./interfaces/INonfungiblePositionManager.sol";
 import "./interfaces/INonfungiblePositionManagerStruct.sol";
-import "./interfaces/ISummitXV3Pool.sol";
+import "./interfaces/IMuchFiV3Pool.sol";
 // import "./interfaces/IMasterChefV2.sol";
 import "./interfaces/ILMPool.sol";
 import "./interfaces/ILMPoolDeployer.sol";
@@ -23,7 +23,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     struct PoolInfo {
         uint256 allocPoint;
         // V3 pool address
-        ISummitXV3Pool v3Pool;
+        IMuchFiV3Pool v3Pool;
         // V3 pool token0 address
         address token0;
         // V3 pool token1 address
@@ -61,8 +61,8 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     /// @notice v3PoolAddressPid[v3PoolAddress] => pid
     mapping(address => uint256) public v3PoolAddressPid;
 
-    /// @notice Address of RSUMMITX contract.
-    IERC20 public immutable RSUMMITX;
+    /// @notice Address of RMUCHFI contract.
+    IERC20 public immutable RMUCHFI;
 
     /// @notice Address of WETH contract.
     address public immutable WETH;
@@ -87,7 +87,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     uint256 public latestPeriodNumber;
     uint256 public latestPeriodStartTime;
     uint256 public latestPeriodEndTime;
-    uint256 public latestPeriodSummitXPerSecond;
+    uint256 public latestPeriodMuchFiPerSecond;
 
     /// @notice Address of the operator.
     address public operatorAddress;
@@ -102,13 +102,13 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     uint256 public constant MAX_BOOST_PRECISION = 200 * 1e10;
     uint256 constant Q128 = 0x100000000000000000000000000000000;
 
-    /// @notice Record the summitx amount belong to MasterChefV3.
-    uint256 public summitxAmountBelongToMC;
+    /// @notice Record the muchfi amount belong to MasterChefV3.
+    uint256 public muchfiAmountBelongToMC;
 
     error ZeroAddress();
     error NotOwnerOrOperator();
     error NoBalance();
-    error NotSummitXNFT();
+    error NotMuchFiNFT();
     error InvalidNFT();
     error NotOwner();
     error NoLiquidity();
@@ -121,7 +121,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     error InconsistentAmount();
     error InsufficientAmount();
 
-    event AddPool(uint256 indexed pid, uint256 allocPoint, ISummitXV3Pool indexed v3Pool, ILMPool indexed lmPool);
+    event AddPool(uint256 indexed pid, uint256 allocPoint, IMuchFiV3Pool indexed v3Pool, ILMPool indexed lmPool);
     event SetPool(uint256 indexed pid, uint256 allocPoint);
     event Deposit(
         address indexed from,
@@ -149,14 +149,14 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         uint256 indexed periodNumber,
         uint256 startTime,
         uint256 endTime,
-        uint256 summitxPerSecond,
-        uint256 summitxAmount
+        uint256 muchfiPerSecond,
+        uint256 muchfiAmount
     );
     event UpdateUpkeepPeriod(
         uint256 indexed periodNumber,
         uint256 oldEndTime,
         uint256 newEndTime,
-        uint256 remainingSummitX
+        uint256 remainingMuchFi
     );
     event UpdateFarmBoostContract(address indexed farmBoostContract);
     event SetEmergency(bool emergency);
@@ -184,43 +184,43 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         _;
     }
 
-    /// @param _RSUMMITX The Reward SUMMITX token contract address.
+    /// @param _RMUCHFI The Reward MUCHFI token contract address.
     /// @param _nonfungiblePositionManager the NFT position manager contract address.
-    constructor(IERC20 _RSUMMITX, INonfungiblePositionManager _nonfungiblePositionManager, address _WETH) {
-        RSUMMITX = _RSUMMITX;
+    constructor(IERC20 _RMUCHFI, INonfungiblePositionManager _nonfungiblePositionManager, address _WETH) {
+        RMUCHFI = _RMUCHFI;
         nonfungiblePositionManager = _nonfungiblePositionManager;
         WETH = _WETH;
     }
 
-    /// @notice Returns the summitx per second , period end time.
+    /// @notice Returns the muchfi per second , period end time.
     /// @param _pid The pool pid.
-    /// @return summitxPerSecond SummitX reward per second.
+    /// @return muchfiPerSecond MuchFi reward per second.
     /// @return endTime Period end time.
-    function getLatestPeriodInfoByPid(uint256 _pid) public view returns (uint256 summitxPerSecond, uint256 endTime) {
+    function getLatestPeriodInfoByPid(uint256 _pid) public view returns (uint256 muchfiPerSecond, uint256 endTime) {
         if (totalAllocPoint > 0) {
-            summitxPerSecond = (latestPeriodSummitXPerSecond * poolInfo[_pid].allocPoint) / totalAllocPoint;
+            muchfiPerSecond = (latestPeriodMuchFiPerSecond * poolInfo[_pid].allocPoint) / totalAllocPoint;
         }
         endTime = latestPeriodEndTime;
     }
 
-    /// @notice Returns the summitx per second , period end time. This is for liquidity mining pool.
+    /// @notice Returns the muchfi per second , period end time. This is for liquidity mining pool.
     /// @param _v3Pool Address of the V3 pool.
-    /// @return summitxPerSecond SummitX reward per second.
+    /// @return muchfiPerSecond MuchFi reward per second.
     /// @return endTime Period end time.
-    function getLatestPeriodInfo(address _v3Pool) public view returns (uint256 summitxPerSecond, uint256 endTime) {
+    function getLatestPeriodInfo(address _v3Pool) public view returns (uint256 muchfiPerSecond, uint256 endTime) {
         if (totalAllocPoint > 0) {
-            summitxPerSecond =
-                (latestPeriodSummitXPerSecond * poolInfo[v3PoolAddressPid[_v3Pool]].allocPoint) /
+            muchfiPerSecond =
+                (latestPeriodMuchFiPerSecond * poolInfo[v3PoolAddressPid[_v3Pool]].allocPoint) /
                 totalAllocPoint;
         }
         endTime = latestPeriodEndTime;
     }
 
-    /// @notice View function for checking pending RSUMMITX rewards.
-    /// @dev The pending summitx amount is based on the last state in LMPool. The actual amount will happen whenever liquidity changes or harvest.
+    /// @notice View function for checking pending RMUCHFI rewards.
+    /// @dev The pending muchfi amount is based on the last state in LMPool. The actual amount will happen whenever liquidity changes or harvest.
     /// @param _tokenId Token Id of NFT.
     /// @return reward Pending reward.
-    function pendingSummitX(uint256 _tokenId) external view returns (uint256 reward) {
+    function pendingMuchFi(uint256 _tokenId) external view returns (uint256 reward) {
         UserPositionInfo memory positionInfo = userPositionInfos[_tokenId];
         if (positionInfo.pid != 0) {
             PoolInfo memory pool = poolInfo[positionInfo.pid];
@@ -249,7 +249,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
 
     function setReceiver(address _receiver) external onlyOwner {
         if (_receiver == address(0)) revert ZeroAddress();
-        if (RSUMMITX.allowance(_receiver, address(this)) != type(uint256).max) revert();
+        if (RMUCHFI.allowance(_receiver, address(this)) != type(uint256).max) revert();
         receiver = _receiver;
         emit NewReceiver(_receiver);
     }
@@ -265,7 +265,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     /// @param _allocPoint Number of allocation points for the new pool.
     /// @param _v3Pool Address of the V3 pool.
     /// @param _withUpdate Whether call "massUpdatePools" operation.
-    function add(uint256 _allocPoint, ISummitXV3Pool _v3Pool, bool _withUpdate) external onlyOwner {
+    function add(uint256 _allocPoint, IMuchFiV3Pool _v3Pool, bool _withUpdate) external onlyOwner {
         if (_withUpdate) massUpdatePools();
 
         ILMPool lmPool = LMPoolDeployer.deploy(_v3Pool);
@@ -297,7 +297,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         emit AddPool(poolLength, _allocPoint, _v3Pool, lmPool);
     }
 
-    /// @notice Update the given pool's RSUMMITX allocation point. Can only be called by the owner.
+    /// @notice Update the given pool's RMUCHFI allocation point. Can only be called by the owner.
     /// @param _pid The id of the pool. See `poolInfo`.
     /// @param _allocPoint New number of allocation points for the pool.
     /// @param _withUpdate Whether call "massUpdatePools" operation.
@@ -331,7 +331,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         uint256 _tokenId,
         bytes calldata
     ) external nonReentrant returns (bytes4) {
-        if (msg.sender != address(nonfungiblePositionManager)) revert NotSummitXNFT();
+        if (msg.sender != address(nonfungiblePositionManager)) revert NotMuchFiNFT();
         DepositCache memory cache;
         (
             ,
@@ -373,10 +373,10 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         return this.onERC721Received.selector;
     }
 
-    /// @notice harvest summitx from pool.
+    /// @notice harvest muchfi from pool.
     /// @param _tokenId Token Id of NFT.
     /// @param _to Address to.
-    /// @return reward SummitX reward.
+    /// @return reward MuchFi reward.
     function harvest(uint256 _tokenId, address _to) external nonReentrant returns (uint256 reward) {
         UserPositionInfo storage positionInfo = userPositionInfos[_tokenId];
         if (positionInfo.user != msg.sender) revert NotOwner();
@@ -419,7 +419,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     /// @notice Withdraw LP tokens from pool.
     /// @param _tokenId Token Id of NFT to deposit.
     /// @param _to Address to which NFT token to withdraw.
-    /// @return reward SummitX reward.
+    /// @return reward MuchFi reward.
     function withdraw(uint256 _tokenId, address _to) external nonReentrant returns (uint256 reward) {
         if (_to == address(this) || _to == address(0)) revert WrongReceiver();
         UserPositionInfo storage positionInfo = userPositionInfos[_tokenId];
@@ -628,15 +628,15 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     /// @param _to The to address.
     function transferToken(address _token, address _to) internal {
         uint256 balance = IERC20(_token).balanceOf(address(this));
-        // Need to reduce summitxAmountBelongToMC.
-        if (_token == address(RSUMMITX)) {
+        // Need to reduce muchfiAmountBelongToMC.
+        if (_token == address(RMUCHFI)) {
             unchecked {
-                // In fact balance should always be greater than or equal to summitxAmountBelongToMC, but in order to avoid any unknown issue, we added this check.
-                if (balance >= summitxAmountBelongToMC) {
-                    balance -= summitxAmountBelongToMC;
+                // In fact balance should always be greater than or equal to muchfiAmountBelongToMC, but in order to avoid any unknown issue, we added this check.
+                if (balance >= muchfiAmountBelongToMC) {
+                    balance -= muchfiAmountBelongToMC;
                 } else {
                     // This should never happend.
-                    summitxAmountBelongToMC = balance;
+                    muchfiAmountBelongToMC = balance;
                     balance = 0;
                 }
             }
@@ -672,15 +672,15 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     /// @param recipient The destination address of the token
     function sweepToken(address token, uint256 amountMinimum, address recipient) external nonReentrant {
         uint256 balanceToken = IERC20(token).balanceOf(address(this));
-        // Need to reduce summitxAmountBelongToMC.
-        if (token == address(RSUMMITX)) {
+        // Need to reduce muchfiAmountBelongToMC.
+        if (token == address(RMUCHFI)) {
             unchecked {
-                // In fact balance should always be greater than or equal to summitxAmountBelongToMC, but in order to avoid any unknown issue, we added this check.
-                if (balanceToken >= summitxAmountBelongToMC) {
-                    balanceToken -= summitxAmountBelongToMC;
+                // In fact balance should always be greater than or equal to muchfiAmountBelongToMC, but in order to avoid any unknown issue, we added this check.
+                if (balanceToken >= muchfiAmountBelongToMC) {
+                    balanceToken -= muchfiAmountBelongToMC;
                 } else {
                     // This should never happend.
-                    summitxAmountBelongToMC = balanceToken;
+                    muchfiAmountBelongToMC = balanceToken;
                     balanceToken = 0;
                 }
             }
@@ -710,15 +710,15 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
     }
 
     /// @notice Upkeep period.
-    /// @param _amount The amount of summitx injected.
+    /// @param _amount The amount of muchfi injected.
     /// @param _duration The period duration.
     /// @param _withUpdate Whether call "massUpdatePools" operation.
     function upkeep(uint256 _amount, uint256 _duration, bool _withUpdate) external onlyReceiver {
-        // Transfer summitx token from receiver.
-        RSUMMITX.safeTransferFrom(receiver, address(this), _amount);
-        // Update summitxAmountBelongToMC
+        // Transfer muchfi token from receiver.
+        RMUCHFI.safeTransferFrom(receiver, address(this), _amount);
+        // Update muchfiAmountBelongToMC
         unchecked {
-            summitxAmountBelongToMC += _amount;
+            muchfiAmountBelongToMC += _amount;
         }
 
         if (_withUpdate) massUpdatePools();
@@ -728,24 +728,24 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         if (_duration >= MIN_DURATION && _duration <= MAX_DURATION) duration = _duration;
         uint256 currentTime = block.timestamp;
         uint256 endTime = currentTime + duration;
-        uint256 summitxPerSecond;
-        uint256 summitxAmount = _amount;
+        uint256 muchfiPerSecond;
+        uint256 muchfiAmount = _amount;
         if (latestPeriodEndTime > currentTime) {
-            uint256 remainingSummitX = ((latestPeriodEndTime - currentTime) * latestPeriodSummitXPerSecond) / PRECISION;
-            emit UpdateUpkeepPeriod(latestPeriodNumber, latestPeriodEndTime, currentTime, remainingSummitX);
-            summitxAmount += remainingSummitX;
+            uint256 remainingMuchFi = ((latestPeriodEndTime - currentTime) * latestPeriodMuchFiPerSecond) / PRECISION;
+            emit UpdateUpkeepPeriod(latestPeriodNumber, latestPeriodEndTime, currentTime, remainingMuchFi);
+            muchfiAmount += remainingMuchFi;
         }
-        summitxPerSecond = (summitxAmount * PRECISION) / duration;
+        muchfiPerSecond = (muchfiAmount * PRECISION) / duration;
         unchecked {
             latestPeriodNumber++;
             latestPeriodStartTime = currentTime + 1;
             latestPeriodEndTime = endTime;
-            latestPeriodSummitXPerSecond = summitxPerSecond;
+            latestPeriodMuchFiPerSecond = muchfiPerSecond;
         }
-        emit NewUpkeepPeriod(latestPeriodNumber, currentTime + 1, endTime, summitxPerSecond, summitxAmount);
+        emit NewUpkeepPeriod(latestPeriodNumber, currentTime + 1, endTime, muchfiPerSecond, muchfiAmount);
     }
 
-    /// @notice Update summitx reward for all the liquidity mining pool.
+    /// @notice Update muchfi reward for all the liquidity mining pool.
     function massUpdatePools() internal {
         uint32 currentTime = uint32(block.timestamp);
         for (uint256 pid = 1; pid <= poolLength; pid++) {
@@ -757,7 +757,7 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         }
     }
 
-    /// @notice Update summitx reward for the liquidity mining pool.
+    /// @notice Update muchfi reward for the liquidity mining pool.
     /// @dev Avoid too many pools, and a single transaction cannot be fully executed for all pools.
     function updatePools(uint256[] calldata pids) external onlyOwnerOrOperator {
         uint32 currentTime = uint32(block.timestamp);
@@ -806,24 +806,24 @@ contract LBPMasterChefV3 is INonfungiblePositionManagerStruct, Multicall, Ownabl
         if (!success) revert();
     }
 
-    /// @notice Safe Transfer RSUMMITX.
-    /// @param _to The RSUMMITX receiver address.
-    /// @param _amount Transfer RSUMMITX amounts.
+    /// @notice Safe Transfer RMUCHFI.
+    /// @param _to The RMUCHFI receiver address.
+    /// @param _amount Transfer RMUCHFI amounts.
     function _safeTransfer(address _to, uint256 _amount) internal {
         if (_amount > 0) {
-            uint256 balance = RSUMMITX.balanceOf(address(this));
+            uint256 balance = RMUCHFI.balanceOf(address(this));
             if (balance < _amount) {
                 _amount = balance;
             }
-            // Update summitxAmountBelongToMC
+            // Update muchfiAmountBelongToMC
             unchecked {
-                if (summitxAmountBelongToMC >= _amount) {
-                    summitxAmountBelongToMC -= _amount;
+                if (muchfiAmountBelongToMC >= _amount) {
+                    muchfiAmountBelongToMC -= _amount;
                 } else {
-                    summitxAmountBelongToMC = balance - _amount;
+                    muchfiAmountBelongToMC = balance - _amount;
                 }
             }
-            RSUMMITX.safeTransfer(_to, _amount);
+            RMUCHFI.safeTransfer(_to, _amount);
         }
     }
 

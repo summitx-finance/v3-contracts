@@ -2,7 +2,7 @@ pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import '../../../../../contracts/test/TestERC20.sol';
-import '../../../../../contracts/SummitXV3Pool.sol';
+import '../../../../../contracts/MuchFiV3Pool.sol';
 import '../../../../../contracts/PancakesV3Factory.sol';
 
 contract SetupToken {
@@ -54,7 +54,7 @@ contract SetupTokens {
 }
 
 contract SetupUniswap {
-    SummitXV3Pool public pool;
+    MuchFiV3Pool public pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -71,13 +71,13 @@ contract SetupUniswap {
     }
 
     function createPool(uint24 _fee, uint160 _startPrice) public {
-        pool = SummitXV3Pool(factory.createPool(address(token0), address(token1), _fee));
+        pool = MuchFiV3Pool(factory.createPool(address(token0), address(token1), _fee));
         pool.initialize(_startPrice);
     }
 }
 
 contract UniswapMinter {
-    SummitXV3Pool pool;
+    MuchFiV3Pool pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -94,11 +94,11 @@ contract UniswapMinter {
         token1 = _token1;
     }
 
-    function setPool(SummitXV3Pool _pool) public {
+    function setPool(MuchFiV3Pool _pool) public {
         pool = _pool;
     }
 
-    function SummitXV3MintCallback(
+    function MuchFiV3MintCallback(
         uint256 amount0Owed,
         uint256 amount1Owed,
         bytes calldata data
@@ -149,7 +149,7 @@ contract UniswapMinter {
 }
 
 contract UniswapSwapper {
-    SummitXV3Pool pool;
+    MuchFiV3Pool pool;
     TestERC20 token0;
     TestERC20 token1;
 
@@ -167,11 +167,11 @@ contract UniswapSwapper {
         token1 = _token1;
     }
 
-    function setPool(SummitXV3Pool _pool) public {
+    function setPool(MuchFiV3Pool _pool) public {
         pool = _pool;
     }
 
-    function SummitXV3SwapCallback(
+    function MuchFiV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata data

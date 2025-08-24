@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@summitx/v3-core/contracts/libraries/SafeCast.sol';
-import '@summitx/v3-core/contracts/libraries/TickMath.sol';
-import '@summitx/v3-periphery/contracts/libraries/Path.sol';
+import '@muchfi/v3-core/contracts/libraries/SafeCast.sol';
+import '@muchfi/v3-core/contracts/libraries/TickMath.sol';
+import '@muchfi/v3-periphery/contracts/libraries/Path.sol';
 import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
 
@@ -14,8 +14,8 @@ import './base/OracleSlippage.sol';
 import './libraries/Constants.sol';
 import './libraries/SmartRouterHelper.sol';
 
-/// @title SummitX V3 Swap Router
-/// @notice Router for stateless execution of swaps against SummitX V3
+/// @title MuchFi V3 Swap Router
+/// @notice Router for stateless execution of swaps against MuchFi V3
 abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtended, OracleSlippage, ReentrancyGuard {
     using Path for bytes;
     using SafeCast for uint256;
@@ -33,7 +33,7 @@ abstract contract V3SwapRouter is IV3SwapRouter, PeripheryPaymentsWithFeeExtende
     }
 
     /***/
-    function summitxV3SwapCallback(
+    function muchfiV3SwapCallback(
         int256 amount0Delta,
         int256 amount1Delta,
         bytes calldata _data

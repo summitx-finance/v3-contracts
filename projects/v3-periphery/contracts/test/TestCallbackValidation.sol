@@ -9,7 +9,7 @@ contract TestCallbackValidation {
         address tokenA,
         address tokenB,
         uint24 fee
-    ) external view returns (ISummitXV3Pool pool) {
+    ) external view returns (IMuchFiV3Pool pool) {
         return CallbackValidation.verifyCallback(factory, tokenA, tokenB, fee);
     }
 }

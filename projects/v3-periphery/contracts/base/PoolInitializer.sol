@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity =0.7.6;
 
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Factory.sol';
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Factory.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Pool.sol';
 
 import './PeripheryImmutableState.sol';
 import '../interfaces/IPoolInitializer.sol';
@@ -17,15 +17,15 @@ abstract contract PoolInitializer is IPoolInitializer, PeripheryImmutableState {
         uint160 sqrtPriceX96
     ) external payable override returns (address pool) {
         require(token0 < token1);
-        pool = ISummitXV3Factory(factory).getPool(token0, token1, fee);
+        pool = IMuchFiV3Factory(factory).getPool(token0, token1, fee);
 
         if (pool == address(0)) {
-            pool = ISummitXV3Factory(factory).createPool(token0, token1, fee);
-            ISummitXV3Pool(pool).initialize(sqrtPriceX96);
+            pool = IMuchFiV3Factory(factory).createPool(token0, token1, fee);
+            IMuchFiV3Pool(pool).initialize(sqrtPriceX96);
         } else {
-            (uint160 sqrtPriceX96Existing, , , , , , ) = ISummitXV3Pool(pool).slot0();
+            (uint160 sqrtPriceX96Existing, , , , , , ) = IMuchFiV3Pool(pool).slot0();
             if (sqrtPriceX96Existing == 0) {
-                ISummitXV3Pool(pool).initialize(sqrtPriceX96);
+                IMuchFiV3Pool(pool).initialize(sqrtPriceX96);
             }
         }
     }

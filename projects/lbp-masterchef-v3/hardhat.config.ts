@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import type { HardhatUserConfig, NetworkUserConfig } from "hardhat/types";
+import type { NetworkUserConfig } from "hardhat/types";
 import "@nomiclabs/hardhat-ethers";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-waffle";
@@ -13,22 +13,10 @@ import "solidity-docgen";
 import "dotenv/config";
 
 require("dotenv").config({ path: require("find-config")(".env") });
-const fs = require("fs");
-// const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 
-const baseCamp: NetworkUserConfig = {
-  url: "https://rpc.basecamp.t.raas.gelato.cloud",
-  gasPrice: "auto",
-  maxFeePerGas: "auto",
-  maxPriorityFeePerGas: 1_000_000_000,
-  
-  accounts: [process.env.KEY_TESTNET!],
-};
-
-const mumbai: NetworkUserConfig = {
-  url: "https://rpc-mumbai.maticvigil.com",
-  chainId: 80001,
-  accounts: [process.env.KEY_TESTNET!],
+const dogeOSDevNet: NetworkUserConfig = {
+  url: "https://rpc.devnet.doge.xyz",
+  accounts: [process.env.KEY_DOGEOS_DEVNET || ''],
 };
 
 
@@ -37,22 +25,11 @@ const config = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {},
-    ...(process.env.KEY_TESTNET && { mumbai }),
-    ...(process.env.KEY_SEPOLIA_TESTNET && { sepolia }),
-   ...(process.env.KEY_BASE_CAMP && { baseCamp }),
-    ...(process.env.KEY_TESTNET && { baseCamp }),
-    ...(process.env.KEY_BASE_CAMP && { baseCamp }),
-    ...(process.env.KEY_TESTNET && { localhost }),
-    ...(process.env.KEY_TESTNET && { bscTestnet }),
-    ...(process.env.KEY_MAINNET && { bscMainnet }),
-    ...(process.env.KEY_GOERLI && { goerli }),
-    ...(process.env.KEY_ETH && { eth }),
-    // testnet: bscTestnet,
-    // mainnet: bscMainnet,
+    dogeOSDevNet
   },
   etherscan: {
     apiKey: {
-      dogeOSDevnet: process.env.ETHERSCAN_API_KEY
+      dogeOSDevnet: process.env.ETHERSCAN_API_KEY || '',
     },
     customChains: [
       

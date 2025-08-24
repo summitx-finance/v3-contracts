@@ -2,9 +2,9 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Factory.sol';
-import '@summitx/v3-core/contracts/interfaces/callback/ISummitXV3MintCallback.sol';
-import '@summitx/v3-core/contracts/libraries/TickMath.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Factory.sol';
+import '@muchfi/v3-core/contracts/interfaces/callback/IMuchFiV3MintCallback.sol';
+import '@muchfi/v3-core/contracts/libraries/TickMath.sol';
 
 import '../libraries/PoolAddress.sol';
 import '../libraries/CallbackValidation.sol';
@@ -14,15 +14,15 @@ import './PeripheryPayments.sol';
 import './PeripheryImmutableState.sol';
 
 /// @title Liquidity management functions
-/// @notice Internal functions for safely managing liquidity in SummitX V3
-abstract contract LiquidityManagement is ISummitXV3MintCallback, PeripheryImmutableState, PeripheryPayments {
+/// @notice Internal functions for safely managing liquidity in MuchFi V3
+abstract contract LiquidityManagement is IMuchFiV3MintCallback, PeripheryImmutableState, PeripheryPayments {
     struct MintCallbackData {
         PoolAddress.PoolKey poolKey;
         address payer;
     }
 
     /****/
-    function summitxV3MintCallback(
+    function muchfiV3MintCallback(
         uint256 amount0Owed,
         uint256 amount1Owed,
         bytes calldata data
@@ -54,13 +54,13 @@ abstract contract LiquidityManagement is ISummitXV3MintCallback, PeripheryImmuta
             uint128 liquidity,
             uint256 amount0,
             uint256 amount1,
-            ISummitXV3Pool pool
+            IMuchFiV3Pool pool
         )
     {
         PoolAddress.PoolKey memory poolKey =
             PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee});
 
-        pool = ISummitXV3Pool(PoolAddress.computeAddress(deployer, poolKey));
+        pool = IMuchFiV3Pool(PoolAddress.computeAddress(deployer, poolKey));
 
         // compute the liquidity amount
         {
