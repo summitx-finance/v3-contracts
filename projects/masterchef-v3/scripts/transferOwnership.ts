@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { ethers, run, network } from "hardhat";
 import { Contract } from "ethers";
-import { configs } from "@summitx/common/config";
-import { tryVerify } from "@summitx/common/verify";
+import { configs } from "@muchfi/common/config";
+import { tryVerify } from "@muchfi/common/verify";
 import { writeFileSync } from "fs";
 
 const abi = [
@@ -80,7 +80,7 @@ const abi = [
   },
   {
     inputs: [],
-    name: "NotSummitXNFT",
+    name: "NotMuchFiNFT",
     type: "error",
   },
   {
@@ -110,7 +110,7 @@ const abi = [
       },
       {
         indexed: true,
-        internalType: "contract ISummitXV3Pool",
+        internalType: "contract IMuchFiV3Pool",
         name: "v3Pool",
         type: "address",
       },
@@ -430,7 +430,7 @@ const abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "remainingSUMMITX",
+        name: "remainingMUCHFI",
         type: "uint256",
       },
     ],
@@ -593,7 +593,7 @@ const abi = [
         type: "uint256",
       },
       {
-        internalType: "contract ISummitXV3Pool",
+        internalType: "contract IMuchFiV3Pool",
         name: "_v3Pool",
         type: "address",
       },
@@ -879,7 +879,7 @@ const abi = [
   },
   {
     inputs: [],
-    name: "latestPeriodSUMMITXPerSecond",
+    name: "latestPeriodMUCHFIPerSecond",
     outputs: [
       {
         internalType: "uint256",
@@ -1029,7 +1029,7 @@ const abi = [
         type: "uint256",
       },
     ],
-    name: "pendingSUMMITX",
+    name: "pendingMUCHFI",
     outputs: [
       {
         internalType: "uint256",
@@ -1056,7 +1056,7 @@ const abi = [
         type: "uint256",
       },
       {
-        internalType: "contract ISummitXV3Pool",
+        internalType: "contract IMuchFiV3Pool",
         name: "v3Pool",
         type: "address",
       },

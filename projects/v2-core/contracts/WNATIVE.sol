@@ -2,9 +2,9 @@
 
 pragma solidity =0.7.6;
 
-contract WCAMP {
-    string public name = "Wrapped CAMP";
-    string public symbol = "WCAMP";
+contract WDOGE {
+    string public name = "Wrapped DOGE";
+    string public symbol = "WDOGE";
     uint8 public decimals = 18;
 
     event Approval(address indexed src, address indexed guy, uint256 wad);

@@ -1,4 +1,4 @@
-import { bytecode } from '@summitx/v3-core/artifacts/contracts/SummitXV3Pool.sol/SummitXV3Pool.json'
+import { bytecode } from '@muchfi/v3-core/artifacts/contracts/MuchFiV3Pool.sol/MuchFiV3Pool.json'
 import { utils } from 'ethers'
 
 export const POOL_BYTECODE_HASH = utils.keccak256(bytecode)

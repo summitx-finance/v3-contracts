@@ -1,6 +1,6 @@
-import { verifyContract } from '@summitx/common/verify'
-import { sleep } from '@summitx/common/sleep'
-import { configs } from '@summitx/common/config'
+import { verifyContract } from '@muchfi/common/verify'
+import { sleep } from '@muchfi/common/sleep'
+import { configs } from '@muchfi/common/config'
 
 async function main() {
   const networkName = network.name
@@ -9,10 +9,10 @@ async function main() {
   if (!config) {
     throw new Error(`No config found for network ${networkName}`)
   }
-  const deployedContracts_ifo_deployer = await import(`@summitx/ifo/deployments/${networkName}.json`)
-  // const deployedContracts_v3_lm_pool = await import(`@summitx/lbp-v3-lm-pool/deployments/${networkName}.json`)
+  const deployedContracts_ifo_deployer = await import(`@muchfi/ifo/deployments/${networkName}.json`)
+  // const deployedContracts_v3_lm_pool = await import(`@muchfi/lbp-v3-lm-pool/deployments/${networkName}.json`)
 
-  // Verify summitxV3LmPoolDeployer
+  // Verify muchfiV3LmPoolDeployer
   console.log('Verify IFO DeployerV3')
   await verifyContract(deployedContracts_ifo_deployer.IFODeployerV3, [
   ])

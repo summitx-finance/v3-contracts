@@ -7,16 +7,16 @@ repository.
 ## Local deployment
 
 In order to deploy this code to a local testnet, you should install the npm package
-`@summitx/v3-core`
+`@muchfi/v3-core`
 and import the factory bytecode located at
-`@summitx/v3-core/artifacts/contracts/PancakeV3Factory.sol/PancakeV3Factory.json`.
+`@muchfi/v3-core/artifacts/contracts/PancakeV3Factory.sol/PancakeV3Factory.json`.
 For example:
 
 ```typescript
 import {
   abi as FACTORY_ABI,
   bytecode as FACTORY_BYTECODE,
-} from '@summitx/v3-core/artifacts/contracts/PancakeV3Factory.sol/PancakeV3Factory.json'
+} from '@muchfi/v3-core/artifacts/contracts/PancakeV3Factory.sol/PancakeV3Factory.json'
 
 // deploy the bytecode
 ```
@@ -28,10 +28,10 @@ your local deployment.
 ## Using solidity interfaces
 
 The PancakeSwap v3 interfaces are available for import into solidity smart contracts
-via the npm artifact `@summitx/v3-core`, e.g.:
+via the npm artifact `@muchfi/v3-core`, e.g.:
 
 ```solidity
-import '@summitx/v3-core/contracts/interfaces/ISummitXV3Pool.sol';
+import '@muchfi/v3-core/contracts/interfaces/IMuchFiV3Pool.sol';
 
 contract MyContract {
   IPancakeV3Pool pool;

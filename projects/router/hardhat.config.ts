@@ -85,19 +85,19 @@ const config: HardhatUserConfig = {
       },
     ],
     overrides: {
-      '@summitx/v3-core/contracts/libraries/FullMath.sol': {
+      '@muchfi/v3-core/contracts/libraries/FullMath.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@summitx/v3-core/contracts/libraries/TickBitmap.sol': {
+      '@muchfi/v3-core/contracts/libraries/TickBitmap.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@summitx/v3-core/contracts/libraries/TickMath.sol': {
+      '@muchfi/v3-core/contracts/libraries/TickMath.sol': {
         version: '0.7.6',
         settings: {},
       },
-      '@summitx/v3-periphery/contracts/libraries/PoolAddress.sol': {
+      '@muchfi/v3-periphery/contracts/libraries/PoolAddress.sol': {
         version: '0.7.6',
         settings: {},
       },

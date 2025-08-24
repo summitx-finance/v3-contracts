@@ -108,7 +108,7 @@ function getRewardGrowthInside(int24 tickLower, int24 tickUpper) external view r
 function setLmPool(address pool, address lmPool) external
 ```
 
-## SummitXV3LmPoolDeployer
+## MuchFiV3LmPoolDeployer
 
 _This contract is for Master Chef to create a corresponding LmPool when
 adding a new farming pool. As for why not just create LmPool inside the

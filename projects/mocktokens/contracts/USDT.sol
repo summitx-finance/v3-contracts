@@ -384,8 +384,8 @@ contract USDT is Context, IERC20, Ownable {
     string public _name;
 
     constructor() public {
-        _name = "Mock USD Tether";
-        _symbol = "MUSDT";
+        _name = "USD Tether";
+        _symbol = "USDT";
         _decimals = 6;
         _totalSupply = 100000000000000;
         _balances[msg.sender] = _totalSupply;

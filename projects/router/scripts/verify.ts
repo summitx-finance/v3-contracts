@@ -1,6 +1,6 @@
-import { verifyContract } from '@summitx/common/verify'
-import { sleep } from '@summitx/common/sleep'
-import { configs } from '@summitx/common/config'
+import { verifyContract } from '@muchfi/common/verify'
+import { sleep } from '@muchfi/common/sleep'
+import { configs } from '@muchfi/common/config'
 
 async function main() {
   const networkName = network.name
@@ -9,10 +9,10 @@ async function main() {
   if (!config) {
     throw new Error(`No config found for network ${networkName}`)
   }
-  const deployedContracts_v3_core = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const deployedContracts_v3_periphery = await import(`@summitx/v3-periphery/deployments/${networkName}.json`)
-  const deployedContracts_smart_router = await import(`@summitx/smart-router/deployments/${networkName}.json`)
-  const deployedContracts_v2_core = await import(`@summitx/v2-core/deployments/${networkName}.json`)
+  const deployedContracts_v3_core = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const deployedContracts_v3_periphery = await import(`@muchfi/v3-periphery/deployments/${networkName}.json`)
+  const deployedContracts_smart_router = await import(`@muchfi/smart-router/deployments/${networkName}.json`)
+  const deployedContracts_v2_core = await import(`@muchfi/v2-core/deployments/${networkName}.json`)
   // Verify SmartRouterHelper
   console.log('Verify SmartRouterHelper')
   await verifyContract(deployedContracts_smart_router.SmartRouterHelper)
@@ -21,9 +21,9 @@ async function main() {
   // Verify swapRouter
   console.log('Verify swapRouter')
   await verifyContract(deployedContracts_smart_router.SmartRouter, [
-    deployedContracts_v2_core.SummitXV2Factory,
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
+    deployedContracts_v2_core.MuchFiV2Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
     deployedContracts_v3_periphery.NonfungiblePositionManager,
     config.stableFactory,
     config.stableInfo,
@@ -34,9 +34,9 @@ async function main() {
   // Verify mixedRouteQuoterV1
   console.log('Verify mixedRouteQuoterV1')
   await verifyContract(deployedContracts_smart_router.MixedRouteQuoterV1, [
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
-    deployedContracts_v2_core.SummitXV2Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
+    deployedContracts_v2_core.MuchFiV2Factory,
     config.stableFactory,
     deployedContracts_v2_core.WNative,
   ])
@@ -45,8 +45,8 @@ async function main() {
   // // Verify quoterV2
   // console.log('Verify QuoterV2')
   // await verifyContract(deployedContracts_smart_router.QuoterV2, [
-  //   deployedContracts_v3_core.SummitXV3PoolDeployer,
-  //   deployedContracts_v3_core.SummitXV3Factory,
+  //   deployedContracts_v3_core.MuchFiV3PoolDeployer,
+  //   deployedContracts_v3_core.MuchFiV3Factory,
   //   deployedContracts_v2_core.WNative,
   // ])
   // await sleep(10000)
@@ -54,7 +54,7 @@ async function main() {
   // Verify tokenValidator
   console.log('Verify tokenValidator')
   await verifyContract(deployedContracts_smart_router.TokenValidator, [
-    deployedContracts_v2_core.SummitXV2Factory,
+    deployedContracts_v2_core.MuchFiV2Factory,
     deployedContracts_v3_periphery.NonfungiblePositionManager,
   ])
   await sleep(10000)

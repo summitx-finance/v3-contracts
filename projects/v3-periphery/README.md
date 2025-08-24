@@ -7,16 +7,16 @@ repository.
 ## Local deployment
 
 In order to deploy this code to a local testnet, you should install the npm package
-`@summitx/v3-periphery`
+`@muchfi/v3-periphery`
 and import bytecode imported from artifacts located at
-`@summitx/v3-periphery/artifacts/contracts/*/*.json`.
+`@muchfi/v3-periphery/artifacts/contracts/*/*.json`.
 For example:
 
 ```typescript
 import {
   abi as SWAP_ROUTER_ABI,
   bytecode as SWAP_ROUTER_BYTECODE,
-} from '@summitx/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+} from '@muchfi/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
 
 // deploy the bytecode
 ```
@@ -28,10 +28,10 @@ your local deployment.
 ## Using solidity interfaces
 
 The PancakeSwap v3 periphery interfaces are available for import into solidity smart contracts
-via the npm artifact `@summitx/v3-periphery`, e.g.:
+via the npm artifact `@muchfi/v3-periphery`, e.g.:
 
 ```solidity
-import '@summitx/v3-periphery/contracts/interfaces/ISwapRouter.sol';
+import '@muchfi/v3-periphery/contracts/interfaces/ISwapRouter.sol';
 
 contract MyContract {
   ISwapRouter router;

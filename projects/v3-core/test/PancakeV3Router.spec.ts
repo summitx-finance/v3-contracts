@@ -1,8 +1,8 @@
 import { Wallet } from 'ethers'
 import { ethers, waffle } from 'hardhat'
 import { TestERC20 } from '../typechain-types/contracts/test/TestERC20'
-import { SummitXV3Factory } from '../typechain-types/contracts/SummitXV3Factory'
-import { MockTimeSummitXV3Pool } from '../typechain-types/contracts/test/MockTimeSummitXV3Pool'
+import { MuchFiV3Factory } from '../typechain-types/contracts/MuchFiV3Factory'
+import { MockTimeMuchFiV3Pool } from '../typechain-types/contracts/test/MockTimeMuchFiV3Pool'
 import { expect } from './shared/expect'
 
 import { poolFixture } from './shared/fixtures'
@@ -18,8 +18,8 @@ import {
   getMaxTick,
   expandTo18Decimals,
 } from './shared/utilities'
-import { TestSummitXV3Router } from '../typechain-types/contracts/test/TestSummitXV3Router'
-import { TestSummitXV3Callee } from '../typechain-types/contracts/test/TestSummitXV3Callee'
+import { TestMuchFiV3Router } from '../typechain-types/contracts/test/TestMuchFiV3Router'
+import { TestMuchFiV3Callee } from '../typechain-types/contracts/test/TestMuchFiV3Callee'
 
 const feeAmount = FeeAmount.MEDIUM
 const tickSpacing = TICK_SPACINGS[feeAmount]
@@ -28,15 +28,15 @@ const createFixtureLoader = waffle.createFixtureLoader
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 
-describe('SummitXV3Pool', () => {
+describe('MuchFiV3Pool', () => {
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
   let token1: TestERC20
   let token2: TestERC20
-  let factory: SummitXV3Factory
-  let pool0: MockTimeSummitXV3Pool
-  let pool1: MockTimeSummitXV3Pool
+  let factory: MuchFiV3Factory
+  let pool0: MockTimeMuchFiV3Pool
+  let pool1: MockTimeMuchFiV3Pool
 
   let pool0Functions: PoolFunctions
   let pool1Functions: PoolFunctions
@@ -44,8 +44,8 @@ describe('SummitXV3Pool', () => {
   let minTick: number
   let maxTick: number
 
-  let swapTargetCallee: TestSummitXV3Callee
-  let swapTargetRouter: TestSummitXV3Router
+  let swapTargetCallee: TestMuchFiV3Callee
+  let swapTargetRouter: TestMuchFiV3Router
 
   let loadFixture: ReturnType<typeof createFixtureLoader>
   let createPool: ThenArg<ReturnType<typeof poolFixture>>['createPool']
@@ -66,7 +66,7 @@ describe('SummitXV3Pool', () => {
       spacing: number,
       firstToken: TestERC20,
       secondToken: TestERC20
-    ): Promise<[MockTimeSummitXV3Pool, any]> => {
+    ): Promise<[MockTimeMuchFiV3Pool, any]> => {
       const pool = await createPool(amount, spacing, firstToken, secondToken)
       const poolFunctions = createPoolFunctions({
         swapTarget: swapTargetCallee,

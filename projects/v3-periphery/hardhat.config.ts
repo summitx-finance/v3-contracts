@@ -66,7 +66,7 @@ export default {
   },
   etherscan: {
     apiKey: {
-      dogeOSDevnet: process.env.ETHERSCAN_API_KEY,
+      dogeOSDevnet: process.env.ETHERSCAN_API_KEY || ''
     },
     customChains: [
       

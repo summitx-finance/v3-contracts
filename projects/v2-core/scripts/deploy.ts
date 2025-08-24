@@ -1,17 +1,17 @@
-import { tryVerify } from '@summitx/common/verify'
+import { tryVerify } from '@muchfi/common/verify'
 import { ContractFactory } from 'ethers'
-import { configs } from '@summitx/common/config'
+import { configs } from '@muchfi/common/config'
 import { ethers, network } from 'hardhat'
 import fs from 'fs'
 
 type ContractJson = { abi: any; bytecode: string }
 const artifacts: { [name: string]: ContractJson } = {
   // eslint-disable-next-line global-require
-  SummitXV2Factory: require('../artifacts/contracts/SummitXFactory.sol/SummitXFactory.json'),
+  MuchFiV2Factory: require('../artifacts/contracts/MuchFiFactory.sol/MuchFiFactory.json'),
   // eslint-disable-next-line global-require
-  SummitXRouter: require('../artifacts/contracts/SummitXRouter.sol/SummitXRouter.json'),
+  MuchFiRouter: require('../artifacts/contracts/MuchFiRouter.sol/MuchFiRouter.json'),
   // eslint-disable-next-line global-require
-  WNATIVE: require('../artifacts/contracts/WNATIVE.sol/WCAMP.json'),
+  WNATIVE: require('../artifacts/contracts/WNATIVE.sol/WDOGE.json'),
   // eslint-disable-next-line global-require
   Multicall2: require('../artifacts/contracts/Multicall2.sol/Multicall2.json'),
 }
@@ -43,48 +43,48 @@ async function main() {
   }else{
     console.log('WNATIVE is already deployed', wNative_address)
   }
-  let summitxFactory_address = ''
-  let summitxFactory
-  const SummitXFactory = new ContractFactory(
-    artifacts.SummitXV2Factory.abi,
-    artifacts.SummitXV2Factory.bytecode,
+  let muchfiFactory_address = ''
+  let muchfiFactory
+  const MuchFiFactory = new ContractFactory(
+    artifacts.MuchFiV2Factory.abi,
+    artifacts.MuchFiV2Factory.bytecode,
     owner
   )
-  if (!summitxFactory_address) {
+  if (!muchfiFactory_address) {
     if(!config.admin){
       throw new Error(`No admin found for network ${networkName}`)
     }
     if(config.admin === '0x0000000000000000000000000000000000000000'){
       throw new Error(`Admin is not set for network ${networkName}`)
     }
-    summitxFactory = await SummitXFactory.deploy(config.admin)
+    muchfiFactory = await MuchFiFactory.deploy(config.admin)
 
-    summitxFactory_address = summitxFactory.address
-    console.log('summitxFactory', summitxFactory_address)
+    muchfiFactory_address = muchfiFactory.address
+    console.log('muchfiFactory', muchfiFactory_address)
   } else {
-    summitxFactory = new ethers.Contract(
-      summitxFactory_address,
-      artifacts.SummitXV2Factory.abi,
+    muchfiFactory = new ethers.Contract(
+      muchfiFactory_address,
+      artifacts.MuchFiV2Factory.abi,
       owner
     )
   }
-    const initCodePairHash = await summitxFactory.INIT_CODE_PAIR_HASH();
+    const initCodePairHash = await muchfiFactory.INIT_CODE_PAIR_HASH();
     console.log('initCodePairHash', initCodePairHash);
 
-  let summitxRouter_address = ''
-  let summitxRouter
-  if (!summitxRouter_address) {
-    const SummitXRouter = new ContractFactory(
-      artifacts.SummitXRouter.abi,
-      artifacts.SummitXRouter.bytecode,
+  let muchfiRouter_address = ''
+  let muchfiRouter
+  if (!muchfiRouter_address) {
+    const MuchFiRouter = new ContractFactory(
+      artifacts.MuchFiRouter.abi,
+      artifacts.MuchFiRouter.bytecode,
       owner
     )
-    summitxRouter = await SummitXRouter.deploy(summitxFactory_address, wNative_address)
+    muchfiRouter = await MuchFiRouter.deploy(muchfiFactory_address, wNative_address)
 
-    summitxRouter_address = summitxRouter.address
-    console.log('summitxRouter', summitxRouter_address)
+    muchfiRouter_address = muchfiRouter.address
+    console.log('muchfiRouter', muchfiRouter_address)
   } else {
-    summitxRouter = new ethers.Contract(summitxRouter_address, artifacts.SummitXRouter.abi, owner)
+    muchfiRouter = new ethers.Contract(muchfiRouter_address, artifacts.MuchFiRouter.abi, owner)
   }
 
    let multicall2_address = ''
@@ -105,9 +105,9 @@ async function main() {
 
   const contracts = {
     WNative: wNative_address,
-    SummitXV2Factory: summitxFactory_address,
+    MuchFiV2Factory: muchfiFactory_address,
     V2_PAIR_INIT_CODE_HASH: initCodePairHash,
-    SummitXRouter: summitxRouter_address,
+    MuchFiRouter: muchfiRouter_address,
     Multicall2: multicall2_address,
   }
 

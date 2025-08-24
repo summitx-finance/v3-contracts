@@ -1,7 +1,7 @@
 import { Wallet } from 'ethers'
 import { ethers, waffle } from 'hardhat'
-import { SummitXV3Factory } from '../typechain-types/contracts/SummitXV3Factory'
-import { SummitXV3PoolDeployer } from '../typechain-types/contracts/SummitXV3PoolDeployer'
+import { MuchFiV3Factory } from '../typechain-types/contracts/MuchFiV3Factory'
+import { MuchFiV3PoolDeployer } from '../typechain-types/contracts/MuchFiV3PoolDeployer'
 import { expect } from './shared/expect'
 import snapshotGasCost from './shared/snapshotGasCost'
 
@@ -16,20 +16,20 @@ const TEST_ADDRESSES: [string, string] = [
 
 const createFixtureLoader = waffle.createFixtureLoader
 
-describe('SummitXV3Factory', () => {
+describe('MuchFiV3Factory', () => {
   let wallet: Wallet, other: Wallet
 
-  let deployer: SummitXV3PoolDeployer
-  let factory: SummitXV3Factory
+  let deployer: MuchFiV3PoolDeployer
+  let factory: MuchFiV3Factory
   let poolBytecode: string
   const fixture = async () => {
-    const deployerFactory = await ethers.getContractFactory('SummitXV3PoolDeployer')
-    const factoryFactory = await ethers.getContractFactory('SummitXV3Factory')
-    const deployer_ = (await deployerFactory.deploy()) as SummitXV3PoolDeployer
-    const factory_ = (await factoryFactory.deploy(deployer_.address)) as SummitXV3Factory
+    const deployerFactory = await ethers.getContractFactory('MuchFiV3PoolDeployer')
+    const factoryFactory = await ethers.getContractFactory('MuchFiV3Factory')
+    const deployer_ = (await deployerFactory.deploy()) as MuchFiV3PoolDeployer
+    const factory_ = (await factoryFactory.deploy(deployer_.address)) as MuchFiV3Factory
 
     await deployer_.setFactoryAddress(factory_.address)
-    return [factory_, deployer_] as [SummitXV3Factory, SummitXV3PoolDeployer]
+    return [factory_, deployer_] as [MuchFiV3Factory, MuchFiV3PoolDeployer]
   }
 
   let loadFixture: ReturnType<typeof createFixtureLoader>
@@ -40,7 +40,7 @@ describe('SummitXV3Factory', () => {
   })
 
   before('load pool bytecode', async () => {
-    poolBytecode = (await ethers.getContractFactory('SummitXV3Pool')).bytecode
+    poolBytecode = (await ethers.getContractFactory('MuchFiV3Pool')).bytecode
   })
 
   beforeEach('deploy factory', async () => {
@@ -84,7 +84,7 @@ describe('SummitXV3Factory', () => {
     expect(await factory.getPool(tokens[0], tokens[1], feeAmount), 'getPool in order').to.eq(create2Address)
     expect(await factory.getPool(tokens[1], tokens[0], feeAmount), 'getPool in reverse').to.eq(create2Address)
 
-    const poolContractFactory = await ethers.getContractFactory('SummitXV3Pool')
+    const poolContractFactory = await ethers.getContractFactory('MuchFiV3Pool')
     const pool = poolContractFactory.attach(create2Address)
     expect(await pool.factory(), 'pool factory address').to.eq(factory.address)
     expect(await pool.token0(), 'pool token0').to.eq(TEST_ADDRESSES[0])

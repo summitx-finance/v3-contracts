@@ -3,8 +3,8 @@ import { ethers } from 'hardhat'
 
 type ContractJson = { abi: any; bytecode: string }
 const artifacts: { [name: string]: ContractJson } = {
-  SummitXV3PoolDeployer: require('../artifacts/contracts/SummitXV3PoolDeployer.sol/SummitXV3PoolDeployer.json'),
-  SummitXV3Factory: require('../artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json'),
+  MuchFiV3PoolDeployer: require('../artifacts/contracts/MuchFiV3PoolDeployer.sol/MuchFiV3PoolDeployer.json'),
+  MuchFiV3Factory: require('../artifacts/contracts/MuchFiV3Factory.sol/MuchFiV3Factory.json'),
   ProtocolFeeCollector: require('../artifacts/contracts/ProtocolFeeCollector.sol/ProtocolFeeCollector.json'),
   Voter: require('../artifacts/contracts/Voter.sol/Voter.json'),
 }
@@ -18,20 +18,20 @@ async function main() {
   // 1. Deploy Core Contracts
   console.log('\n=== Step 1: Deploy Core Contracts ===')
   
-  const SummitXV3PoolDeployer = new ContractFactory(
-    artifacts.SummitXV3PoolDeployer.abi,
-    artifacts.SummitXV3PoolDeployer.bytecode,
+  const MuchFiV3PoolDeployer = new ContractFactory(
+    artifacts.MuchFiV3PoolDeployer.abi,
+    artifacts.MuchFiV3PoolDeployer.bytecode,
     owner
   )
-  const poolDeployer = await SummitXV3PoolDeployer.deploy()
+  const poolDeployer = await MuchFiV3PoolDeployer.deploy()
   console.log('✅ PoolDeployer deployed at:', poolDeployer.address)
 
-  const SummitXV3Factory = new ContractFactory(
-    artifacts.SummitXV3Factory.abi,
-    artifacts.SummitXV3Factory.bytecode,
+  const MuchFiV3Factory = new ContractFactory(
+    artifacts.MuchFiV3Factory.abi,
+    artifacts.MuchFiV3Factory.bytecode,
     owner
   )
-  const factory = await SummitXV3Factory.deploy(poolDeployer.address)
+  const factory = await MuchFiV3Factory.deploy(poolDeployer.address)
   console.log('✅ Factory deployed at:', factory.address)
 
   await poolDeployer.setFactoryAddress(factory.address)
@@ -139,7 +139,7 @@ async function main() {
     console.log('✅ Test pool created at:', poolAddress)
     
     // Test pool configuration
-    const pool = await ethers.getContractAt('SummitXV3Pool', poolAddress)
+    const pool = await ethers.getContractAt('MuchFiV3Pool', poolAddress)
     const poolFactory = await pool.factory()
     console.log('🏭 Pool factory:', poolFactory)
     

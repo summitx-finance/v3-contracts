@@ -2,8 +2,8 @@ import { ethers, network } from 'hardhat'
 import fs from 'fs'
 
 interface DeploymentConfig {
-  SummitXV3Factory: string
-  SummitXV3PoolDeployer: string
+  MuchFiV3Factory: string
+  MuchFiV3PoolDeployer: string
   ProtocolFeeCollector: string
   Voter: string
   Treasury: string
@@ -26,7 +26,7 @@ async function main() {
   console.log('📋 Loaded deployment config')
 
   // Get contracts
-  const factory = await ethers.getContractAt('SummitXV3Factory', deployment.SummitXV3Factory)
+  const factory = await ethers.getContractAt('MuchFiV3Factory', deployment.MuchFiV3Factory)
   const protocolFeeCollector = await ethers.getContractAt('ProtocolFeeCollector', deployment.ProtocolFeeCollector)
   const voter = await ethers.getContractAt('Voter', deployment.Voter)
 
@@ -75,7 +75,7 @@ async function main() {
   const totalWeight = await voter.totalWeight()
   console.log('⚖️  Total weight:', totalWeight.toString())
   
-  if (voterFactory !== deployment.SummitXV3Factory) {
+  if (voterFactory !== deployment.MuchFiV3Factory) {
     console.error('❌ Voter factory mismatch!')
     process.exit(1)
   }

@@ -1,7 +1,7 @@
-import { verifyContract } from '@summitx/common/verify'
-import { sleep } from '@summitx/common/sleep'
+import { verifyContract } from '@muchfi/common/verify'
+import { sleep } from '@muchfi/common/sleep'
 import { network } from 'hardhat'
-import { configs } from '@summitx/common/config'
+import { configs } from '@muchfi/common/config'
 async function main() {
   const networkName = network.name
   const config = configs[networkName]

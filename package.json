@@ -10,12 +10,10 @@
     "clean": "rm -rf node_modules && rm -rf yarn.lock && rm -rf package-lock.json && rm -rf .yarn && rm -rf */*/artifacts && rm -rf */*/cache && rm -rf */*/node_modules && rm -rf */*/package-lock.json && rm -rf */*/yarn.lock",
     "compile": "yarn workspaces run compile",
     "test": "yarn workspaces run test",
-    "deploy-base-camp": "NETWORK=baseCamp yarn zx v3-deploy.mjs",
-    "verify-base-camp": "NETWORK=baseCamp yarn zx v3-verify.mjs",
-    "deploy-camp": "NETWORK=camp yarn zx v3-deploy.mjs",
-    "verify-camp": "NETWORK=camp yarn zx v3-verify.mjs",
     "deploy-hardhat": "NETWORK=hardhat yarn zx v3-deploy.mjs",
-    "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs"
+    "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs",
+    "deploy-dogeOSDevNet": "NETWORK=dogeOSDevNet yarn zx v3-deploy.mjs",
+    "verify-dogeOSDevNet": "NETWORK=dogeOSDevNet yarn zx v3-verify.mjs"
   },
   "devDependencies": {
     "zx": "^7.2.0",

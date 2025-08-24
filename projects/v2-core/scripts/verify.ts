@@ -1,24 +1,24 @@
-import { verifyContract } from '@summitx/common/verify'
-import { sleep } from '@summitx/common/sleep'
+import { verifyContract } from '@muchfi/common/verify'
+import { sleep } from '@muchfi/common/sleep'
 import { network } from 'hardhat'
-import { configs } from '@summitx/common/config'
+import { configs } from '@muchfi/common/config'
 async function main() {
   const networkName = network.name
   const config = configs[networkName]
-  const deployedContracts = await import(`@summitx/v2-core/deployments/${networkName}.json`)
+  const deployedContracts = await import(`@muchfi/v2-core/deployments/${networkName}.json`)
   // Verify WNative
   console.log('Verify WNative')
   await verifyContract(deployedContracts.WNative,[])
   await sleep(10000)
 
-  // Verify SummitXFactory
-  console.log('Verify SummitXFactory')
-  await verifyContract(deployedContracts.SummitXV2Factory,[config.admin])
+  // Verify MuchFiFactory
+  console.log('Verify MuchFiFactory')
+  await verifyContract(deployedContracts.MuchFiV2Factory,[config.admin])
   await sleep(10000)
 
-  // Verify SummitXRouter
-  console.log('Verify SummitXRouter')
-  await verifyContract(deployedContracts.SummitXRouter, [deployedContracts.SummitXV2Factory, deployedContracts.WNative])
+  // Verify MuchFiRouter
+  console.log('Verify MuchFiRouter')
+  await verifyContract(deployedContracts.MuchFiRouter, [deployedContracts.MuchFiV2Factory, deployedContracts.WNative])
   await sleep(10000)
 }
 

@@ -1,6 +1,6 @@
-import { tryVerify } from '@summitx/common/verify'
+import { tryVerify } from '@muchfi/common/verify'
 import { ContractFactory } from 'ethers'
-import { configs } from '@summitx/common/config'
+import { configs } from '@muchfi/common/config'
 import { ethers, network } from 'hardhat'
 import fs from 'fs'
 

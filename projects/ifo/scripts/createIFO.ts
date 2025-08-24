@@ -1,6 +1,6 @@
 import { ethers, run, network } from "hardhat";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
-import { configs } from "@summitx/common/config";
+import { configs } from "@muchfi/common/config";
 
 async function main() {
 
@@ -9,7 +9,7 @@ const config = configs[network.name as keyof typeof configs]
   // Get the Contract Factory
   const IFODeployerV3 = await ethers.getContractFactory("IFODeployerV3");
 
-  const deployedContractsIFODeployer = await import(`@summitx/ifo/deployments/${network.name}.json`)
+  const deployedContractsIFODeployer = await import(`@muchfi/ifo/deployments/${network.name}.json`)
   
   // Deploy the contract
   const ifoDeployerV3 = IFODeployerV3.attach(deployedContractsIFODeployer.IFODeployerV3);

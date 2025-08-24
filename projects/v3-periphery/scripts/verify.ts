@@ -1,6 +1,6 @@
-import { verifyContract } from '@summitx/common/verify'
-import { sleep } from '@summitx/common/sleep'
-import { configs } from '@summitx/common/config'
+import { verifyContract } from '@muchfi/common/verify'
+import { sleep } from '@muchfi/common/sleep'
+import { configs } from '@muchfi/common/config'
 import { network } from 'hardhat'
 
 async function main() {
@@ -10,15 +10,15 @@ async function main() {
   if (!config) {
     throw new Error(`No config found for network ${networkName}`)
   }
-  const deployedContracts_v3_core = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const deployedContracts_v3_periphery = await import(`@summitx/v3-periphery/deployments/${networkName}.json`)
-  const deployedContracts_v2_core = await import(`@summitx/v2-core/deployments/${networkName}.json`)
+  const deployedContracts_v3_core = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const deployedContracts_v3_periphery = await import(`@muchfi/v3-periphery/deployments/${networkName}.json`)
+  const deployedContracts_v2_core = await import(`@muchfi/v2-core/deployments/${networkName}.json`)
   
   // Verify swapRouter
   console.log('Verify swapRouter')
   await verifyContract(deployedContracts_v3_periphery.SwapRouter, [
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
     deployedContracts_v2_core.WNative,
   ])
   await sleep(10000)
@@ -31,23 +31,23 @@ async function main() {
   // Verify NonfungiblePositionManager
   console.log('Verify NonfungiblePositionManager')
   await verifyContract(deployedContracts_v3_periphery.NonfungiblePositionManager, [
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
     deployedContracts_v2_core.WNative,
     deployedContracts_v3_periphery.NonfungibleTokenPositionDescriptor,
   ])
   await sleep(10000)
 
-  // Verify summitxInterfaceMulticall
-  console.log('Verify summitxInterfaceMulticall')
-  await verifyContract(deployedContracts_v3_periphery.SummitXInterfaceMulticall)
+  // Verify muchfiInterfaceMulticall
+  console.log('Verify muchfiInterfaceMulticall')
+  await verifyContract(deployedContracts_v3_periphery.MuchFiInterfaceMulticall)
   await sleep(10000)
 
   // Verify v3Migrator
   console.log('Verify v3Migrator')
   await verifyContract(deployedContracts_v3_periphery.V3Migrator, [
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
     deployedContracts_v2_core.WNative,
     deployedContracts_v3_periphery.NonfungiblePositionManager,
   ])
@@ -61,8 +61,8 @@ async function main() {
   // Verify QuoterV2
   console.log('Verify QuoterV2')
   await verifyContract(deployedContracts_v3_periphery.QuoterV2, [
-    deployedContracts_v3_core.SummitXV3PoolDeployer,
-    deployedContracts_v3_core.SummitXV3Factory,
+    deployedContracts_v3_core.MuchFiV3PoolDeployer,
+    deployedContracts_v3_core.MuchFiV3Factory,
     deployedContracts_v2_core.WNative,
   ])
   await sleep(10000)

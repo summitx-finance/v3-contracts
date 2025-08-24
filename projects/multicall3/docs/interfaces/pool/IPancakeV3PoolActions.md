@@ -113,7 +113,7 @@ function swap(address recipient, bool zeroForOne, int256 amountSpecified, uint16
 
 Swap token0 for token1, or token1 for token0
 
-_The caller of this method receives a callback in the form of IPancakeV3SwapCallback#summitxV3SwapCallback_
+_The caller of this method receives a callback in the form of IPancakeV3SwapCallback#muchfiV3SwapCallback_
 
 #### Parameters
 

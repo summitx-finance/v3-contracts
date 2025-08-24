@@ -49,7 +49,7 @@ describe('CallbackValidation', () => {
     ;({ callbackValidation, tokens, factory, deployer } = await loadFixture(callbackValidationFixture))
   })
 
-  it('reverts when called from an address other than the associated SummitXV3Pool', async () => {
+  it('reverts when called from an address other than the associated MuchFiV3Pool', async () => {
     expect(
       callbackValidation
         .connect(nonpairAddr)

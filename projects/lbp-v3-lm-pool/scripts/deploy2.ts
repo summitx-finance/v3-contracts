@@ -1,8 +1,8 @@
 import { ethers, network } from 'hardhat'
-import { configs } from '@summitx/common/config'
-import { tryVerify } from '@summitx/common/verify'
+import { configs } from '@muchfi/common/config'
+import { tryVerify } from '@muchfi/common/verify'
 import fs from 'fs'
-import { abi } from '@summitx/v3-core/artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json'
+import { abi } from '@muchfi/v3-core/artifacts/contracts/MuchFiV3Factory.sol/MuchFiV3Factory.json'
 
 import { parseEther } from 'ethers/lib/utils'
 const currentNetwork = network.name
@@ -16,23 +16,23 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`)
   }
 
-  const v3DeployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const mcV3DeployedContracts = await import(`@summitx/lbp-masterchef-v3/deployments/${networkName}.json`)
+  const v3DeployedContracts = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const mcV3DeployedContracts = await import(`@muchfi/lbp-masterchef-v3/deployments/${networkName}.json`)
 
-  const summitxV3Factory_address = v3DeployedContracts.SummitXV3Factory
+  const muchfiV3Factory_address = v3DeployedContracts.MuchFiV3Factory
 
-  const SummitXV3LmPoolDeployer = await ethers.getContractFactory('LBPSummitXV3LmPoolDeployer')
-  const summitxV3LmPoolDeployer = await SummitXV3LmPoolDeployer.deploy(mcV3DeployedContracts.LBPMasterChefV3)
+  const MuchFiV3LmPoolDeployer = await ethers.getContractFactory('LBPMuchFiV3LmPoolDeployer')
+  const muchfiV3LmPoolDeployer = await MuchFiV3LmPoolDeployer.deploy(mcV3DeployedContracts.LBPMasterChefV3)
 
-  console.log('summitxV3LmPoolDeployer deployed to:', summitxV3LmPoolDeployer.address)
+  console.log('muchfiV3LmPoolDeployer deployed to:', muchfiV3LmPoolDeployer.address)
 
-  const summitxV3Factory = new ethers.Contract(summitxV3Factory_address, abi, owner)
+  const muchfiV3Factory = new ethers.Contract(muchfiV3Factory_address, abi, owner)
 
-  await summitxV3Factory.setLmPoolDeployer(summitxV3LmPoolDeployer.address)
+  await muchfiV3Factory.setLmPoolDeployer(muchfiV3LmPoolDeployer.address)
 
   
   const contracts = {
-    LBPSummitXV3LmPoolDeployer: summitxV3LmPoolDeployer.address,
+    LBPMuchFiV3LmPoolDeployer: muchfiV3LmPoolDeployer.address,
   }
   fs.writeFileSync(`./deployments/${networkName}.json`, JSON.stringify(contracts, null, 2))
 }

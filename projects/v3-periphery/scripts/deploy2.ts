@@ -2,8 +2,8 @@ import bn from 'bignumber.js'
 import { Contract, ContractFactory, utils, BigNumber } from 'ethers'
 import { ethers, upgrades, network } from 'hardhat'
 import { linkLibraries } from '../util/linkLibraries'
-import { tryVerify } from '@summitx/common/verify'
-import { configs } from '@summitx/common/config'
+import { tryVerify } from '@muchfi/common/verify'
+import { configs } from '@muchfi/common/config'
 import fs from 'fs'
 
 type ContractJson = { abi: any; bytecode: string }
@@ -12,7 +12,7 @@ const artifacts: { [name: string]: ContractJson } = {
   QuoterV2: require('../artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json'),
   TickLens: require('../artifacts/contracts/lens/TickLens.sol/TickLens.json'),
   V3Migrator: require('../artifacts/contracts/V3Migrator.sol/V3Migrator.json'),
-  SummitXInterfaceMulticall: require('../artifacts/contracts/lens/SummitXInterfaceMulticall.sol/SummitXInterfaceMulticallV2.json'),
+  MuchFiInterfaceMulticall: require('../artifacts/contracts/lens/MuchFiInterfaceMulticall.sol/MuchFiInterfaceMulticallV2.json'),
   // eslint-disable-next-line global-require
   SwapRouter: require('../artifacts/contracts/SwapRouter.sol/SwapRouter.json'),
   // eslint-disable-next-line global-require
@@ -63,15 +63,15 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`)
   }
 
-  const deployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const deployedContracts_v2_core = await import(`@summitx/v2-core/deployments/${networkName}.json`)
-  const summitxV3PoolDeployer_address = deployedContracts.SummitXV3PoolDeployer
-  const summitxV3Factory_address = deployedContracts.SummitXV3Factory
+  const deployedContracts = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const deployedContracts_v2_core = await import(`@muchfi/v2-core/deployments/${networkName}.json`)
+  const muchfiV3PoolDeployer_address = deployedContracts.MuchFiV3PoolDeployer
+  const muchfiV3Factory_address = deployedContracts.MuchFiV3Factory
 
   const SwapRouter = new ContractFactory(artifacts.SwapRouter.abi, artifacts.SwapRouter.bytecode, owner)
-  const swapRouter = await SwapRouter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const swapRouter = await SwapRouter.deploy(muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative)
 
-  // await tryVerify(swapRouter, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])
+  // await tryVerify(swapRouter, [muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative])
   console.log('swapRouter', swapRouter.address)
 
   // const NFTDescriptor = new ContractFactory(artifacts.NFTDescriptor.abi, artifacts.NFTDescriptor.bytecode, owner)
@@ -127,7 +127,7 @@ async function main() {
     artifacts.NonfungibleTokenPositionDescriptorOffChain.bytecode,
     owner
   )
-  const baseTokenUri = 'https://nft.summitx.finance/v3/'
+  const baseTokenUri = 'https://nft.muchfi.finance/v3/'
   const nonfungibleTokenPositionDescriptor = await NonfungibleTokenPositionDescriptor.deploy(
     
   )
@@ -143,43 +143,43 @@ async function main() {
     owner
   )
   const nonfungiblePositionManager = await NonfungiblePositionManager.deploy(
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
     deployedContracts_v2_core.WNative,
     nonfungibleTokenPositionDescriptor.address
   )
 
   // await tryVerify(nonfungiblePositionManager, [
-  //   summitxV3PoolDeployer_address,
-  //   summitxV3Factory_address,
+  //   muchfiV3PoolDeployer_address,
+  //   muchfiV3Factory_address,
   //   deployedContracts_v2_core.WNative,
   //   nonfungibleTokenPositionDescriptor.address,
   // ])
   console.log('nonfungiblePositionManager', nonfungiblePositionManager.address)
 
-  const SummitXInterfaceMulticall = new ContractFactory(
-    artifacts.SummitXInterfaceMulticall.abi,
-    artifacts.SummitXInterfaceMulticall.bytecode,
+  const MuchFiInterfaceMulticall = new ContractFactory(
+    artifacts.MuchFiInterfaceMulticall.abi,
+    artifacts.MuchFiInterfaceMulticall.bytecode,
     owner
   )
 
-  const summitxInterfaceMulticall = await SummitXInterfaceMulticall.deploy()
-  console.log('SummitXInterfaceMulticall', summitxInterfaceMulticall.address)
+  const muchfiInterfaceMulticall = await MuchFiInterfaceMulticall.deploy()
+  console.log('MuchFiInterfaceMulticall', muchfiInterfaceMulticall.address)
 
-  //await tryVerify(summitxInterfaceMulticall)
+  //await tryVerify(muchfiInterfaceMulticall)
 
   const V3Migrator = new ContractFactory(artifacts.V3Migrator.abi, artifacts.V3Migrator.bytecode, owner)
   const v3Migrator = await V3Migrator.deploy(
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
     deployedContracts_v2_core.WNative,
     nonfungiblePositionManager.address
   )
   console.log('V3Migrator', v3Migrator.address)
 
   // await tryVerify(v3Migrator, [
-  //   summitxV3PoolDeployer_address,
-  //   summitxV3Factory_address,
+  //   muchfiV3PoolDeployer_address,
+  //   muchfiV3Factory_address,
   //   deployedContracts_v2_core.WNative,
   //   nonfungiblePositionManager.address,
   // ])
@@ -191,17 +191,17 @@ async function main() {
   // await tryVerify(tickLens)
 
   const QuoterV2 = new ContractFactory(artifacts.QuoterV2.abi, artifacts.QuoterV2.bytecode, owner)
-  const quoterV2 = await QuoterV2.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const quoterV2 = await QuoterV2.deploy(muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative)
   console.log('QuoterV2', quoterV2.address)
 
-    // await tryVerify(quoterV2, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])
+    // await tryVerify(quoterV2, [muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative])
 
 
     const Quoter = new ContractFactory(artifacts.Quoter.abi, artifacts.Quoter.bytecode, owner)
-  const quoter = await Quoter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const quoter = await Quoter.deploy(muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative)
   console.log('Quoter', quoter.address)
 
-  // await tryVerify(quoter, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])
+  // await tryVerify(quoter, [muchfiV3PoolDeployer_address, muchfiV3Factory_address, deployedContracts_v2_core.WNative])
 
   const contracts = {
     SwapRouter: swapRouter.address,
@@ -212,7 +212,7 @@ async function main() {
     // NFTDescriptorEx: nftDescriptorEx.address,
     NonfungibleTokenPositionDescriptor: nonfungibleTokenPositionDescriptor.address,
     NonfungiblePositionManager: nonfungiblePositionManager.address,
-    SummitXInterfaceMulticall: summitxInterfaceMulticall.address,
+    MuchFiInterfaceMulticall: muchfiInterfaceMulticall.address,
   }
 
   fs.writeFileSync(`./deployments/${networkName}.json`, JSON.stringify(contracts, null, 2))

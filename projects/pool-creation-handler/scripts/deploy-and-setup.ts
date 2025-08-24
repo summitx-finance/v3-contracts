@@ -1,8 +1,8 @@
 import { ContractFactory } from 'ethers'
 import { ethers, network } from 'hardhat'
 import fs from 'fs'
-import { configs } from '@summitx/common/config';
-import { tryVerify } from '@summitx/common/verify'
+import { configs } from '@muchfi/common/config';
+import { tryVerify } from '@muchfi/common/verify'
 
 
 
@@ -42,10 +42,10 @@ async function main() {
   // Read factory addresses from deployment files
   let v2FactoryAddress = ''
   let v3FactoryAddress = ''
-  const v3DeployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const v2DeployedContracts = await import(`@summitx/v2-core/deployments/${networkName}.json`)  
-  v2FactoryAddress = v2DeployedContracts.SummitXV2Factory
-  v3FactoryAddress = v3DeployedContracts.SummitXV3Factory
+  const v3DeployedContracts = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const v2DeployedContracts = await import(`@muchfi/v2-core/deployments/${networkName}.json`)  
+  v2FactoryAddress = v2DeployedContracts.MuchFiV2Factory
+  v3FactoryAddress = v3DeployedContracts.MuchFiV3Factory
   
   if (!v2FactoryAddress && !v3FactoryAddress) {
     throw new Error('No factories found! Deploy V2 and/or V3 factories first.')

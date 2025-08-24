@@ -3,14 +3,14 @@ import { ethers, upgrades } from "hardhat";
 import { time, mineUpTo, reset } from "@nomicfoundation/hardhat-network-helpers";
 import { TickMath } from "@uniswap/v3-sdk";
 
-import SummitXV3PoolDeployerArtifact from "@summitx/v3-core/artifacts/contracts/SummitXV3PoolDeployer.sol/SummitXV3PoolDeployer.json";
-import SummitXV3FactoryArtifact from "@summitx/v3-core/artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json";
-// import SummitXV3FactoryOwnerArtifact from "@summitx/v3-core/artifacts/contracts/SummitXV3FactoryOwner.sol/SummitXV3FactoryOwner.json";
-import SummitXV3SwapRouterArtifact from "@summitx/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json";
-import NftDescriptorOffchainArtifact from "@summitx/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptorOffChain.sol/NonfungibleTokenPositionDescriptorOffChain.json";
-import NonfungiblePositionManagerArtifact from "@summitx/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json";
-import SummitXV3LmPoolDeployerArtifact from "@summitx/v3-lm-pool/artifacts/contracts/SummitXV3LmPoolDeployer.sol/SummitXV3LmPoolDeployer.json";
-import TestLiquidityAmountsArtifact from "@summitx/v3-periphery/artifacts/contracts/test/LiquidityAmountsTest.sol/LiquidityAmountsTest.json";
+import MuchFiV3PoolDeployerArtifact from "@muchfi/v3-core/artifacts/contracts/MuchFiV3PoolDeployer.sol/MuchFiV3PoolDeployer.json";
+import MuchFiV3FactoryArtifact from "@muchfi/v3-core/artifacts/contracts/MuchFiV3Factory.sol/MuchFiV3Factory.json";
+// import MuchFiV3FactoryOwnerArtifact from "@muchfi/v3-core/artifacts/contracts/MuchFiV3FactoryOwner.sol/MuchFiV3FactoryOwner.json";
+import MuchFiV3SwapRouterArtifact from "@muchfi/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json";
+import NftDescriptorOffchainArtifact from "@muchfi/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptorOffChain.sol/NonfungibleTokenPositionDescriptorOffChain.json";
+import NonfungiblePositionManagerArtifact from "@muchfi/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json";
+import MuchFiV3LmPoolDeployerArtifact from "@muchfi/v3-lm-pool/artifacts/contracts/MuchFiV3LmPoolDeployer.sol/MuchFiV3LmPoolDeployer.json";
+import TestLiquidityAmountsArtifact from "@muchfi/v3-periphery/artifacts/contracts/test/LiquidityAmountsTest.sol/LiquidityAmountsTest.json";
 
 import ERC20MockArtifact from "./ERC20Mock.json";
 import CakeTokenArtifact from "./CakeToken.json";
@@ -35,18 +35,18 @@ describe("MasterChefV3", function () {
     reset();
 
     // Deploy factory
-    const SummitXV3PoolDeployer = await ethers.getContractFactoryFromArtifact(SummitXV3PoolDeployerArtifact);
-    const summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy();
+    const MuchFiV3PoolDeployer = await ethers.getContractFactoryFromArtifact(MuchFiV3PoolDeployerArtifact);
+    const muchfiV3PoolDeployer = await MuchFiV3PoolDeployer.deploy();
 
-    const SummitXV3Factory = await ethers.getContractFactoryFromArtifact(SummitXV3FactoryArtifact);
-    const summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer.address);
+    const MuchFiV3Factory = await ethers.getContractFactoryFromArtifact(MuchFiV3FactoryArtifact);
+    const muchfiV3Factory = await MuchFiV3Factory.deploy(muchfiV3PoolDeployer.address);
 
-    await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory.address);
+    await muchfiV3PoolDeployer.setFactoryAddress(muchfiV3Factory.address);
 
-    const SummitXV3SwapRouter = await ethers.getContractFactoryFromArtifact(SummitXV3SwapRouterArtifact);
-    const summitxV3SwapRouter = await SummitXV3SwapRouter.deploy(
-      summitxV3PoolDeployer.address,
-      summitxV3Factory.address,
+    const MuchFiV3SwapRouter = await ethers.getContractFactoryFromArtifact(MuchFiV3SwapRouterArtifact);
+    const muchfiV3SwapRouter = await MuchFiV3SwapRouter.deploy(
+      muchfiV3PoolDeployer.address,
+      muchfiV3Factory.address,
       WETH9Address
     );
 
@@ -54,19 +54,19 @@ describe("MasterChefV3", function () {
     // const NonfungibleTokenPositionDescriptor = await ethers.getContractFactoryFromArtifact(
     //   NftDescriptorOffchainArtifact
     // );
-    // const baseTokenUri = "https://nft.summitx.com/v3/";
+    // const baseTokenUri = "https://nft.muchfi.com/v3/";
     // const nonfungibleTokenPositionDescriptor = await upgrades.deployProxy(NonfungibleTokenPositionDescriptor, [
     //   baseTokenUri,
     // ]);
     // await nonfungibleTokenPositionDescriptor.deployed();
     // TODO:
-    await SummitXV3SwapRouter.deploy(summitxV3PoolDeployer.address, summitxV3Factory.address, WETH9Address);
+    await MuchFiV3SwapRouter.deploy(muchfiV3PoolDeployer.address, muchfiV3Factory.address, WETH9Address);
 
     // Deploy NFT position manager
     const NonfungiblePositionManager = await ethers.getContractFactoryFromArtifact(NonfungiblePositionManagerArtifact);
     const nonfungiblePositionManager = await NonfungiblePositionManager.deploy(
-      summitxV3PoolDeployer.address,
-      summitxV3Factory.address,
+      muchfiV3PoolDeployer.address,
+      muchfiV3Factory.address,
       WETH9Address,
       // nonfungibleTokenPositionDescriptor.address
       ethers.constants.AddressZero
@@ -75,9 +75,9 @@ describe("MasterChefV3", function () {
     const ERC20Mock = await ethers.getContractFactoryFromArtifact(ERC20MockArtifact);
 
     // Deploy factory owner contract
-    // const SummitXV3FactoryOwner = await ethers.getContractFactoryFromArtifact(SummitXV3FactoryOwnerArtifact);
-    // const summitxV3FactoryOwner = await SummitXV3FactoryOwner.deploy(summitxV3Factory.address);
-    // await summitxV3Factory.setOwner(summitxV3FactoryOwner.address);
+    // const MuchFiV3FactoryOwner = await ethers.getContractFactoryFromArtifact(MuchFiV3FactoryOwnerArtifact);
+    // const muchfiV3FactoryOwner = await MuchFiV3FactoryOwner.deploy(muchfiV3Factory.address);
+    // await muchfiV3Factory.setOwner(muchfiV3FactoryOwner.address);
 
     // Prepare for master chef v3
     const CakeToken = await ethers.getContractFactoryFromArtifact(CakeTokenArtifact);
@@ -129,14 +129,14 @@ describe("MasterChefV3", function () {
     await masterChefV2.deposit(1, await dummyTokenV3.balanceOf(admin.address));
     const firstFarmingBlock = await time.latestBlock();
 
-    const SummitXV3LmPoolDeployer = await ethers.getContractFactoryFromArtifact(SummitXV3LmPoolDeployerArtifact);
-    const summitxV3LmPoolDeployer = await SummitXV3LmPoolDeployer.deploy(
+    const MuchFiV3LmPoolDeployer = await ethers.getContractFactoryFromArtifact(MuchFiV3LmPoolDeployerArtifact);
+    const muchfiV3LmPoolDeployer = await MuchFiV3LmPoolDeployer.deploy(
       masterChefV3.address
-      // summitxV3FactoryOwner.address
+      // muchfiV3FactoryOwner.address
     );
-    // await summitxV3FactoryOwner.setLmPoolDeployer(summitxV3LmPoolDeployer.address);
-    await summitxV3Factory.setLmPoolDeployer(summitxV3LmPoolDeployer.address);
-    await masterChefV3.setLMPoolDeployer(summitxV3LmPoolDeployer.address);
+    // await muchfiV3FactoryOwner.setLmPoolDeployer(muchfiV3LmPoolDeployer.address);
+    await muchfiV3Factory.setLmPoolDeployer(muchfiV3LmPoolDeployer.address);
+    await masterChefV3.setLMPoolDeployer(muchfiV3LmPoolDeployer.address);
 
     // Deploy mock ERC20 tokens
     const tokenA = await ERC20Mock.deploy("Token A", "A");
@@ -157,10 +157,10 @@ describe("MasterChefV3", function () {
     await tokenD.mint(user1.address, ethers.utils.parseUnits("1000"));
     await tokenD.mint(user2.address, ethers.utils.parseUnits("1000"));
 
-    await tokenA.connect(admin).approve(summitxV3SwapRouter.address, ethers.constants.MaxUint256);
-    await tokenB.connect(admin).approve(summitxV3SwapRouter.address, ethers.constants.MaxUint256);
-    await tokenC.connect(admin).approve(summitxV3SwapRouter.address, ethers.constants.MaxUint256);
-    await tokenD.connect(admin).approve(summitxV3SwapRouter.address, ethers.constants.MaxUint256);
+    await tokenA.connect(admin).approve(muchfiV3SwapRouter.address, ethers.constants.MaxUint256);
+    await tokenB.connect(admin).approve(muchfiV3SwapRouter.address, ethers.constants.MaxUint256);
+    await tokenC.connect(admin).approve(muchfiV3SwapRouter.address, ethers.constants.MaxUint256);
+    await tokenD.connect(admin).approve(muchfiV3SwapRouter.address, ethers.constants.MaxUint256);
 
     await tokenA.connect(user1).approve(nonfungiblePositionManager.address, ethers.constants.MaxUint256);
     await tokenB.connect(user1).approve(nonfungiblePositionManager.address, ethers.constants.MaxUint256);
@@ -229,7 +229,7 @@ describe("MasterChefV3", function () {
     this.poolAddresses = poolAddresses;
     this.cakeToken = cakeToken;
     this.liquidityAmounts = liquidityAmounts;
-    this.swapRouter = summitxV3SwapRouter;
+    this.swapRouter = muchfiV3SwapRouter;
 
     await network.provider.send("evm_setAutomine", [false]);
   });

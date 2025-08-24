@@ -1,33 +1,33 @@
 import { BigNumber } from 'ethers'
 import { ethers } from 'hardhat'
-import { MockTimeSummitXV3Pool } from '../../typechain-types/contracts/test/MockTimeSummitXV3Pool'
+import { MockTimeMuchFiV3Pool } from '../../typechain-types/contracts/test/MockTimeMuchFiV3Pool'
 import { TestERC20 } from '../../typechain-types/contracts/test/TestERC20'
-import { SummitXV3Factory } from '../../typechain-types/contracts/SummitXV3Factory'
-import { SummitXV3PoolDeployer } from '../../typechain-types/contracts/SummitXV3PoolDeployer'
-import { TestSummitXV3Callee } from '../../typechain-types/contracts/test/TestSummitXV3Callee'
-import { TestSummitXV3Router } from '../../typechain-types/contracts/test/TestSummitXV3Router'
-import { MockTimeSummitXV3PoolDeployer } from '../../typechain-types/contracts/test/MockTimeSummitXV3PoolDeployer'
-import SummitXV3LmPoolArtifact from '@summitx/v3-lm-pool/artifacts/contracts/SummitXV3LmPool.sol/SummitXV3LmPool.json'
+import { MuchFiV3Factory } from '../../typechain-types/contracts/MuchFiV3Factory'
+import { MuchFiV3PoolDeployer } from '../../typechain-types/contracts/MuchFiV3PoolDeployer'
+import { TestMuchFiV3Callee } from '../../typechain-types/contracts/test/TestMuchFiV3Callee'
+import { TestMuchFiV3Router } from '../../typechain-types/contracts/test/TestMuchFiV3Router'
+import { MockTimeMuchFiV3PoolDeployer } from '../../typechain-types/contracts/test/MockTimeMuchFiV3PoolDeployer'
+import MuchFiV3LmPoolArtifact from '@muchfi/v3-lm-pool/artifacts/contracts/MuchFiV3LmPool.sol/MuchFiV3LmPool.json'
 
 import { Fixture } from 'ethereum-waffle'
 
 interface FactoryFixture {
-  factory: SummitXV3Factory
+  factory: MuchFiV3Factory
 }
 
 interface DeployerFixture {
-  deployer: SummitXV3PoolDeployer
+  deployer: MuchFiV3PoolDeployer
 }
 
 async function factoryFixture(): Promise<FactoryFixture> {
   const { deployer } = await deployerFixture()
-  const factoryFactory = await ethers.getContractFactory('SummitXV3Factory')
-  const factory = (await factoryFactory.deploy(deployer.address)) as SummitXV3Factory
+  const factoryFactory = await ethers.getContractFactory('MuchFiV3Factory')
+  const factory = (await factoryFactory.deploy(deployer.address)) as MuchFiV3Factory
   return { factory }
 }
 async function deployerFixture(): Promise<DeployerFixture> {
-  const deployerFactory = await ethers.getContractFactory('SummitXV3PoolDeployer')
-  const deployer = (await deployerFactory.deploy()) as SummitXV3PoolDeployer
+  const deployerFactory = await ethers.getContractFactory('MuchFiV3PoolDeployer')
+  const deployer = (await deployerFactory.deploy()) as MuchFiV3PoolDeployer
   return { deployer }
 }
 
@@ -53,14 +53,14 @@ async function tokensFixture(): Promise<TokensFixture> {
 type TokensAndFactoryFixture = FactoryFixture & TokensFixture
 
 interface PoolFixture extends TokensAndFactoryFixture {
-  swapTargetCallee: TestSummitXV3Callee
-  swapTargetRouter: TestSummitXV3Router
+  swapTargetCallee: TestMuchFiV3Callee
+  swapTargetRouter: TestMuchFiV3Router
   createPool(
     fee: number,
     tickSpacing: number,
     firstToken?: TestERC20,
     secondToken?: TestERC20
-  ): Promise<MockTimeSummitXV3Pool>
+  ): Promise<MockTimeMuchFiV3Pool>
 }
 
 // Monday, October 5, 2020 9:00:00 AM GMT-05:00
@@ -70,16 +70,16 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
   const { factory } = await factoryFixture()
   const { token0, token1, token2 } = await tokensFixture()
 
-  const MockTimeSummitXV3PoolDeployerFactory = await ethers.getContractFactory('MockTimeSummitXV3PoolDeployer')
-  const MockTimeSummitXV3PoolFactory = await ethers.getContractFactory('MockTimeSummitXV3Pool')
+  const MockTimeMuchFiV3PoolDeployerFactory = await ethers.getContractFactory('MockTimeMuchFiV3PoolDeployer')
+  const MockTimeMuchFiV3PoolFactory = await ethers.getContractFactory('MockTimeMuchFiV3Pool')
 
-  const calleeContractFactory = await ethers.getContractFactory('TestSummitXV3Callee')
-  const routerContractFactory = await ethers.getContractFactory('TestSummitXV3Router')
+  const calleeContractFactory = await ethers.getContractFactory('TestMuchFiV3Callee')
+  const routerContractFactory = await ethers.getContractFactory('TestMuchFiV3Router')
 
-  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestSummitXV3Callee
-  const swapTargetRouter = (await routerContractFactory.deploy()) as TestSummitXV3Router
+  const swapTargetCallee = (await calleeContractFactory.deploy()) as TestMuchFiV3Callee
+  const swapTargetRouter = (await routerContractFactory.deploy()) as TestMuchFiV3Router
 
-  const SummitXV3LmPoolFactory = await ethers.getContractFactoryFromArtifact(SummitXV3LmPoolArtifact)
+  const MuchFiV3LmPoolFactory = await ethers.getContractFactoryFromArtifact(MuchFiV3LmPoolArtifact)
 
   return {
     token0,
@@ -90,7 +90,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
     swapTargetRouter,
     createPool: async (fee, tickSpacing, firstToken = token0, secondToken = token1) => {
       const mockTimePoolDeployer =
-        (await MockTimeSummitXV3PoolDeployerFactory.deploy()) as MockTimeSummitXV3PoolDeployer
+        (await MockTimeMuchFiV3PoolDeployerFactory.deploy()) as MockTimeMuchFiV3PoolDeployer
       const tx = await mockTimePoolDeployer.deploy(
         factory.address,
         firstToken.address,
@@ -102,13 +102,13 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
       const receipt = await tx.wait()
       const poolAddress = receipt.events?.[0].args?.pool as string
 
-      const mockTimeSummitXV3Pool = MockTimeSummitXV3PoolFactory.attach(poolAddress) as MockTimeSummitXV3Pool
+      const mockTimeMuchFiV3Pool = MockTimeMuchFiV3PoolFactory.attach(poolAddress) as MockTimeMuchFiV3Pool
 
       await (
         await factory.setLmPool(
           poolAddress,
           (
-            await SummitXV3LmPoolFactory.deploy(
+            await MuchFiV3LmPoolFactory.deploy(
               poolAddress,
               ethers.constants.AddressZero,
               Math.floor(Date.now() / 1000)
@@ -117,7 +117,7 @@ export const poolFixture: Fixture<PoolFixture> = async function (): Promise<Pool
         )
       ).wait()
 
-      return mockTimeSummitXV3Pool
+      return mockTimeMuchFiV3Pool
     },
   }
 }

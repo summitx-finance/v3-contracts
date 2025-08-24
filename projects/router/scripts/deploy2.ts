@@ -1,6 +1,6 @@
 import { ethers, network } from 'hardhat'
-import { configs } from '@summitx/common/config'
-import { tryVerify } from '@summitx/common/verify'
+import { configs } from '@muchfi/common/config'
+import { tryVerify } from '@muchfi/common/verify'
 import { writeFileSync } from 'fs'
 
 async function main() {
@@ -11,11 +11,11 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`)
   }
 
-  const v3DeployedContracts = await import(`@summitx/v3-core/deployments/${networkName}.json`)
-  const v3PeripheryDeployedContracts = await import(`@summitx/v3-periphery/deployments/${networkName}.json`)
-  const v2DeployedContracts = await import(`@summitx/v2-core/deployments/${networkName}.json`)
-  const summitxV3PoolDeployer_address = v3DeployedContracts.SummitXV3PoolDeployer
-  const summitxV3Factory_address = v3DeployedContracts.SummitXV3Factory
+  const v3DeployedContracts = await import(`@muchfi/v3-core/deployments/${networkName}.json`)
+  const v3PeripheryDeployedContracts = await import(`@muchfi/v3-periphery/deployments/${networkName}.json`)
+  const v2DeployedContracts = await import(`@muchfi/v2-core/deployments/${networkName}.json`)
+  const muchfiV3PoolDeployer_address = v3DeployedContracts.MuchFiV3PoolDeployer
+  const muchfiV3Factory_address = v3DeployedContracts.MuchFiV3Factory
   const positionManager_address = v3PeripheryDeployedContracts.NonfungiblePositionManager
 
   /** SmartRouterHelper */
@@ -33,9 +33,9 @@ async function main() {
     },
   })
   const smartRouter = await SmartRouter.deploy(
-    v2DeployedContracts.SummitXV2Factory,
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
+    v2DeployedContracts.MuchFiV2Factory,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
     positionManager_address,
     config.stableFactory,
     config.stableInfo,
@@ -44,9 +44,9 @@ async function main() {
   console.log('SmartRouter deployed to:', smartRouter.address)
 
   await tryVerify(smartRouter, [
-    v2DeployedContracts.SummitXV2Factory,
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
+    v2DeployedContracts.MuchFiV2Factory,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
     positionManager_address,
     config.stableFactory,
     config.stableInfo,
@@ -60,18 +60,18 @@ async function main() {
     },
   })
   const mixedRouteQuoterV1 = await MixedRouteQuoterV1.deploy(
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
-    v2DeployedContracts.SummitXV2Factory,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
+    v2DeployedContracts.MuchFiV2Factory,
     config.stableFactory,
     v2DeployedContracts.WNative
   )
   console.log('MixedRouteQuoterV1 deployed to:', mixedRouteQuoterV1.address)
 
   await tryVerify(mixedRouteQuoterV1, [
-    summitxV3PoolDeployer_address,
-    summitxV3Factory_address,
-    v2DeployedContracts.SummitXV2Factory,
+    muchfiV3PoolDeployer_address,
+    muchfiV3Factory_address,
+    v2DeployedContracts.MuchFiV2Factory,
     config.stableFactory,
     v2DeployedContracts.WNative,
   ])
@@ -82,10 +82,10 @@ async function main() {
   //     SmartRouterHelper: smartRouterHelper.address,
   //   },
   // })
-  // const quoterV2 = await QuoterV2.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, v2DeployedContracts.WNative)
+  // const quoterV2 = await QuoterV2.deploy(muchfiV3PoolDeployer_address, muchfiV3Factory_address, v2DeployedContracts.WNative)
   // console.log('QuoterV2 deployed to:', quoterV2.address)
 
-  // // await tryVerify(quoterV2, [summitxV3PoolDeployer_address, summitxV3Factory_address, v2DeployedContracts.WNative])
+  // // await tryVerify(quoterV2, [muchfiV3PoolDeployer_address, muchfiV3Factory_address, v2DeployedContracts.WNative])
 
   /** TokenValidator */
   const TokenValidator = await ethers.getContractFactory('TokenValidator', {
@@ -93,10 +93,10 @@ async function main() {
       SmartRouterHelper: smartRouterHelper.address,
     },
   })
-  const tokenValidator = await TokenValidator.deploy(v2DeployedContracts.SummitXV2Factory, positionManager_address)
+  const tokenValidator = await TokenValidator.deploy(v2DeployedContracts.MuchFiV2Factory, positionManager_address)
   console.log('TokenValidator deployed to:', tokenValidator.address)
 
-  await tryVerify(tokenValidator, [v2DeployedContracts.SummitXV2Factory, positionManager_address])
+  await tryVerify(tokenValidator, [v2DeployedContracts.MuchFiV2Factory, positionManager_address])
 
   const contracts = {
     SmartRouter: smartRouter.address,

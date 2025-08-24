@@ -4,10 +4,10 @@
 
 Any contract that calls IPancakeV3PoolActions#swap must implement this interface
 
-### summitxV3SwapCallback
+### muchfiV3SwapCallback
 
 ```solidity
-function summitxV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes data) external
+function muchfiV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes data) external
 ```
 
 Called to `msg.sender` after executing a swap via IPancakeV3Pool#swap.

@@ -817,8 +817,8 @@ contract MuchFiV3Pool is IMuchFiV3Pool {
 
         emit Swap(msg.sender, recipient, amount0, amount1, state.sqrtPriceX96, state.liquidity, state.tick, protocolFeesToken0, protocolFeesToken1);
         
-        // Auto-collect protocol fees if collector is set and fees are substantial
-        _autoCollectProtocolFees();
+        // // Auto-collect protocol fees if collector is set and fees are substantial
+        // _autoCollectProtocolFees();
         
         slot0.unlocked = true;
     }

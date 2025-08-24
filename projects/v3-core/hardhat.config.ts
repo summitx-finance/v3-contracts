@@ -24,7 +24,7 @@ const LOW_OPTIMIZER_COMPILER_SETTINGS = {
 const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
-    // evmVersion: 'istanbul',
+    //evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
       runs: 20,
@@ -38,7 +38,7 @@ const LOWEST_OPTIMIZER_COMPILER_SETTINGS = {
 const DEFAULT_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
-    // evmVersion: 'istanbul',
+   // evmVersion: 'istanbul',
     optimizer: {
       enabled: true,
       runs: 20,

@@ -9,7 +9,7 @@ const artifacts: { [name: string]: ContractJson } = {
 }
 
 interface DeploymentConfig {
-  SummitXV3Factory: string
+  MuchFiV3Factory: string
   ProtocolFeeCollector: string
   Voter: string
 }

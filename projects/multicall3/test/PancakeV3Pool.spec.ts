@@ -1,9 +1,9 @@
 import { ethers, waffle } from 'hardhat'
 import { BigNumber, BigNumberish, constants, Wallet } from 'ethers'
 import { TestERC20 } from '../typechain-types/contracts/test/TestERC20'
-import { SummitXV3Factory } from '../typechain-types/contracts/SummitXV3Factory'
-import { MockTimeSummitXV3Pool } from '../typechain-types/contracts/test/MockTimeSummitXV3Pool'
-import { TestSummitXV3SwapPay } from '../typechain-types/contracts/test/TestSummitXV3SwapPay'
+import { MuchFiV3Factory } from '../typechain-types/contracts/MuchFiV3Factory'
+import { MockTimeMuchFiV3Pool } from '../typechain-types/contracts/test/MockTimeMuchFiV3Pool'
+import { TestMuchFiV3SwapPay } from '../typechain-types/contracts/test/TestMuchFiV3SwapPay'
 import checkObservationEquals from './shared/checkObservationEquals'
 import { expect } from './shared/expect'
 
@@ -27,8 +27,8 @@ import {
   MIN_SQRT_RATIO,
   SwapToPriceFunction,
 } from './shared/utilities'
-import { TestSummitXV3Callee } from '../typechain-types/contracts/test/TestSummitXV3Callee'
-import { TestSummitXV3ReentrantCallee } from '../typechain-types/contracts/test/TestSummitXV3ReentrantCallee'
+import { TestMuchFiV3Callee } from '../typechain-types/contracts/test/TestMuchFiV3Callee'
+import { TestMuchFiV3ReentrantCallee } from '../typechain-types/contracts/test/TestMuchFiV3ReentrantCallee'
 import { TickMathTest } from '../typechain-types/contracts/test/TickMathTest'
 import { SwapMathTest } from '../typechain-types/contracts/test/SwapMathTest'
 
@@ -36,17 +36,17 @@ const createFixtureLoader = waffle.createFixtureLoader
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 
-describe('SummitXV3Pool', () => {
+describe('MuchFiV3Pool', () => {
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
   let token1: TestERC20
   let token2: TestERC20
 
-  let factory: SummitXV3Factory
-  let pool: MockTimeSummitXV3Pool
+  let factory: MuchFiV3Factory
+  let pool: MockTimeMuchFiV3Pool
 
-  let swapTarget: TestSummitXV3Callee
+  let swapTarget: TestMuchFiV3Callee
 
   let swapToLowerPrice: SwapToPriceFunction
   let swapToHigherPrice: SwapToPriceFunction
@@ -610,7 +610,7 @@ describe('SummitXV3Pool', () => {
 
   // the combined amount of liquidity that the pool is initialized with (including the 1 minimum liquidity that is burned)
   const initializeLiquidityAmount = expandTo18Decimals(2)
-  async function initializeAtZeroTick(pool: MockTimeSummitXV3Pool): Promise<void> {
+  async function initializeAtZeroTick(pool: MockTimeMuchFiV3Pool): Promise<void> {
     await pool.initialize(encodePriceSqrt(1, 1))
     const tickSpacing = await pool.tickSpacing()
     const [min, max] = [getMinTick(tickSpacing), getMaxTick(tickSpacing)]
@@ -1673,8 +1673,8 @@ describe('SummitXV3Pool', () => {
 
     it('cannot reenter from swap callback', async () => {
       const reentrant = (await (
-        await ethers.getContractFactory('TestSummitXV3ReentrantCallee')
-      ).deploy()) as TestSummitXV3ReentrantCallee
+        await ethers.getContractFactory('TestMuchFiV3ReentrantCallee')
+      ).deploy()) as TestMuchFiV3ReentrantCallee
 
       // the tests happen in solidity
       await expect(reentrant.swapToReenter(pool.address)).to.be.revertedWith('Unable to reenter')
@@ -1930,10 +1930,10 @@ describe('SummitXV3Pool', () => {
   })
 
   describe('swap underpayment tests', () => {
-    let underpay: TestSummitXV3SwapPay
+    let underpay: TestMuchFiV3SwapPay
     beforeEach('deploy swap test', async () => {
-      const underpayFactory = await ethers.getContractFactory('TestSummitXV3SwapPay')
-      underpay = (await underpayFactory.deploy()) as TestSummitXV3SwapPay
+      const underpayFactory = await ethers.getContractFactory('TestMuchFiV3SwapPay')
+      underpay = (await underpayFactory.deploy()) as TestMuchFiV3SwapPay
       await token0.approve(underpay.address, constants.MaxUint256)
       await token1.approve(underpay.address, constants.MaxUint256)
       await pool.initialize(encodePriceSqrt(1, 1))

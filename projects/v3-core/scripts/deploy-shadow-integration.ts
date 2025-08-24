@@ -1,4 +1,4 @@
-import { tryVerify } from '@summitx/common/verify'
+import { tryVerify } from '@muchfi/common/verify'
 import { ContractFactory } from 'ethers'
 import { ethers, network } from 'hardhat'
 import fs from 'fs'
@@ -6,8 +6,8 @@ import fs from 'fs'
 type ContractJson = { abi: any; bytecode: string }
 const artifacts: { [name: string]: ContractJson } = {
   // Core contracts
-  SummitXV3PoolDeployer: require('../artifacts/contracts/SummitXV3PoolDeployer.sol/SummitXV3PoolDeployer.json'),
-  SummitXV3Factory: require('../artifacts/contracts/SummitXV3Factory.sol/SummitXV3Factory.json'),
+  MuchFiV3PoolDeployer: require('../artifacts/contracts/MuchFiV3PoolDeployer.sol/MuchFiV3PoolDeployer.json'),
+  MuchFiV3Factory: require('../artifacts/contracts/MuchFiV3Factory.sol/MuchFiV3Factory.json'),
   
   // Shadow Exchange integration contracts
   ProtocolFeeCollector: require('../artifacts/contracts/ProtocolFeeCollector.sol/ProtocolFeeCollector.json'),
@@ -24,33 +24,33 @@ async function main() {
   const ownerBalance = await owner.getBalance()
   console.log('ownerBalance', ownerBalance.toString())
 
-  // 1. Deploy SummitXV3PoolDeployer
+  // 1. Deploy MuchFiV3PoolDeployer
   console.log('\n=== Deploying Core Contracts ===')
   
-  const SummitXV3PoolDeployer = new ContractFactory(
-    artifacts.SummitXV3PoolDeployer.abi,
-    artifacts.SummitXV3PoolDeployer.bytecode,
+  const MuchFiV3PoolDeployer = new ContractFactory(
+    artifacts.MuchFiV3PoolDeployer.abi,
+    artifacts.MuchFiV3PoolDeployer.bytecode,
     owner
   )
-  const summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy()
-  await summitxV3PoolDeployer.deployed()
-  console.log('✅ SummitXV3PoolDeployer deployed at:', summitxV3PoolDeployer.address)
+  const muchfiV3PoolDeployer = await MuchFiV3PoolDeployer.deploy()
+  await muchfiV3PoolDeployer.deployed()
+  console.log('✅ MuchFiV3PoolDeployer deployed at:', muchfiV3PoolDeployer.address)
   
-  const v3PoolInitCodeHash = await summitxV3PoolDeployer.INIT_CODE_PAIR_HASH()
+  const v3PoolInitCodeHash = await muchfiV3PoolDeployer.INIT_CODE_PAIR_HASH()
   console.log('📋 V3_POOL_INIT_CODE_HASH:', v3PoolInitCodeHash)
 
-  // 2. Deploy SummitXV3Factory
-  const SummitXV3Factory = new ContractFactory(
-    artifacts.SummitXV3Factory.abi,
-    artifacts.SummitXV3Factory.bytecode,
+  // 2. Deploy MuchFiV3Factory
+  const MuchFiV3Factory = new ContractFactory(
+    artifacts.MuchFiV3Factory.abi,
+    artifacts.MuchFiV3Factory.bytecode,
     owner
   )
-  const summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer.address)
-  await summitxV3Factory.deployed()
-  console.log('✅ SummitXV3Factory deployed at:', summitxV3Factory.address)
+  const muchfiV3Factory = await MuchFiV3Factory.deploy(muchfiV3PoolDeployer.address)
+  await muchfiV3Factory.deployed()
+  console.log('✅ MuchFiV3Factory deployed at:', muchfiV3Factory.address)
 
-  // Set FactoryAddress for summitxV3PoolDeployer
-  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory.address)
+  // Set FactoryAddress for muchfiV3PoolDeployer
+  await muchfiV3PoolDeployer.setFactoryAddress(muchfiV3Factory.address)
   console.log('✅ Factory address set in PoolDeployer')
 
   // 3. Deploy Shadow Exchange Integration Contracts
@@ -63,7 +63,7 @@ async function main() {
     owner
   )
   const voter = await Voter.deploy(
-    summitxV3Factory.address,  // factory
+    muchfiV3Factory.address,  // factory
     ethers.constants.AddressZero,  // gaugeFactory (placeholder)
     ethers.constants.AddressZero   // feeDistributorFactory (placeholder)
   )
@@ -84,7 +84,7 @@ async function main() {
   console.log('✅ ProtocolFeeCollector deployed at:', protocolFeeCollector.address)
 
   // 4. Configure Factory with Protocol Fee Collector
-  await summitxV3Factory.setProtocolFeeCollector(protocolFeeCollector.address)
+  await muchfiV3Factory.setProtocolFeeCollector(protocolFeeCollector.address)
   console.log('✅ Protocol Fee Collector set in Factory')
 
   // 5. Create test pool (optional)
@@ -96,7 +96,7 @@ async function main() {
   const fee = 500  // 0.05%
   
   try {
-    const poolTx = await summitxV3Factory.createPool(WETH, USDC, fee)
+    const poolTx = await muchfiV3Factory.createPool(WETH, USDC, fee)
     const poolReceipt = await poolTx.wait()
     
     // Get pool address from event
@@ -118,8 +118,8 @@ async function main() {
   // 7. Save deployment info
   const contracts = {
     // Core contracts
-    SummitXV3Factory: summitxV3Factory.address,
-    SummitXV3PoolDeployer: summitxV3PoolDeployer.address,
+    MuchFiV3Factory: muchfiV3Factory.address,
+    MuchFiV3PoolDeployer: muchfiV3PoolDeployer.address,
     V3_POOL_INIT_CODE_HASH: v3PoolInitCodeHash,
     
     // Shadow Exchange integration
@@ -147,7 +147,7 @@ async function main() {
   console.log('🎉 Shadow Exchange integration deployed successfully!')
   console.log('📁 Deployment details saved to:', `./deployments/${networkName}-shadow-integration.json`)
   console.log('\n📋 Key Addresses:')
-  console.log('   Factory:', summitxV3Factory.address)
+  console.log('   Factory:', muchfiV3Factory.address)
   console.log('   ProtocolFeeCollector:', protocolFeeCollector.address)
   console.log('   Voter:', voter.address)
   console.log('   Treasury:', owner.address)
@@ -163,10 +163,10 @@ async function main() {
     console.log('\n=== Verifying Contracts ===')
     
     try {
-      await tryVerify(summitxV3PoolDeployer.address, [])
-      await tryVerify(summitxV3Factory.address, [summitxV3PoolDeployer.address])
+      await tryVerify(muchfiV3PoolDeployer.address, [])
+      await tryVerify(muchfiV3Factory.address, [muchfiV3PoolDeployer.address])
       await tryVerify(protocolFeeCollector.address, [owner.address, voter.address])
-      await tryVerify(voter.address, [summitxV3Factory.address, ethers.constants.AddressZero, ethers.constants.AddressZero])
+      await tryVerify(voter.address, [muchfiV3Factory.address, ethers.constants.AddressZero, ethers.constants.AddressZero])
       console.log('✅ Contract verification completed')
     } catch (error) {
       console.log('⚠️  Contract verification failed:', error.message)

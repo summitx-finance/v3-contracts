@@ -5,21 +5,21 @@ import { parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { assert, expect } from "chai";
 
-const SummitXStableSwapFactory = artifacts.require("stable-swap/contracts/SummitXStableSwapFactory.sol");
-const SummitXStableSwapLPFactory = artifacts.require("stable-swap/contracts/SummitXStableSwapLPFactory.sol");
-const SummitXStableSwapTwoPoolDeployer = artifacts.require("stable-swap/contracts/SummitXStableSwapTwoPoolDeployer.sol");
-const SummitXStableSwapThreePoolDeployer = artifacts.require("stable-swap/contracts/SummitXStableSwapThreePoolDeployer.sol");
-const SummitXStableSwapTwoPool = artifacts.require("stable-swap/contracts/SummitXStableSwapTwoPool.sol");
-const SummitXStableSwapThreePool = artifacts.require("stable-swap/contracts/SummitXStableSwapThreePool.sol");
-const SummitXStableSwapTwoPoolInfo = artifacts.require("stable-swap/contracts/utils/SummitXStableSwapTwoPoolInfo.sol");
-const SummitXStableSwapThreePoolInfo = artifacts.require("stable-swap/contracts/utils/SummitXStableSwapThreePoolInfo.sol");
-const SummitXStableSwapInfo = artifacts.require("stable-swap/contracts/utils/SummitXStableSwapInfo.sol");
-const LPToken = artifacts.require("stable-swap/contracts/SummitXStableSwapLP.sol");
+const MuchFiStableSwapFactory = artifacts.require("stable-swap/contracts/MuchFiStableSwapFactory.sol");
+const MuchFiStableSwapLPFactory = artifacts.require("stable-swap/contracts/MuchFiStableSwapLPFactory.sol");
+const MuchFiStableSwapTwoPoolDeployer = artifacts.require("stable-swap/contracts/MuchFiStableSwapTwoPoolDeployer.sol");
+const MuchFiStableSwapThreePoolDeployer = artifacts.require("stable-swap/contracts/MuchFiStableSwapThreePoolDeployer.sol");
+const MuchFiStableSwapTwoPool = artifacts.require("stable-swap/contracts/MuchFiStableSwapTwoPool.sol");
+const MuchFiStableSwapThreePool = artifacts.require("stable-swap/contracts/MuchFiStableSwapThreePool.sol");
+const MuchFiStableSwapTwoPoolInfo = artifacts.require("stable-swap/contracts/utils/MuchFiStableSwapTwoPoolInfo.sol");
+const MuchFiStableSwapThreePoolInfo = artifacts.require("stable-swap/contracts/utils/MuchFiStableSwapThreePoolInfo.sol");
+const MuchFiStableSwapInfo = artifacts.require("stable-swap/contracts/utils/MuchFiStableSwapInfo.sol");
+const LPToken = artifacts.require("stable-swap/contracts/MuchFiStableSwapLP.sol");
 const Token = artifacts.require("stable-swap/contracts/test/Token.sol");
 const FeeOnTransferToken = artifacts.require("exchange-protocol/contracts/test/FeeOnTransferToken.sol");
-const SummitXFactory = artifacts.require("exchange-protocol/contracts/SummitXFactory.sol");
-const SummitXPair = artifacts.require("exchange-protocol/contracts/SummitXPair.sol");
-const SummitXRouter = artifacts.require("exchange-protocol/contracts/SummitXRouter.sol");
+const MuchFiFactory = artifacts.require("exchange-protocol/contracts/MuchFiFactory.sol");
+const MuchFiPair = artifacts.require("exchange-protocol/contracts/MuchFiPair.sol");
+const MuchFiRouter = artifacts.require("exchange-protocol/contracts/MuchFiRouter.sol");
 const WrappedBNB = artifacts.require("exchange-protocol/contracts/libraries/WBNB.sol");
 const StableSwapRouterHelper = artifacts.require("./libraries/StableSwapRouterHelper.sol");
 const SmartRouter = artifacts.require("./SmartRouter.sol");
@@ -92,15 +92,15 @@ contract("SmartRouter", ([admin, bob, carol]) => {
 
 
         /** Create Stable Swap */
-        stableSwapLPFactory = await SummitXStableSwapLPFactory.new({ from: admin });
-        stableSwap2PoolDeployer = await SummitXStableSwapTwoPoolDeployer.new({ from: admin });
-        stableSwap3PoolDeployer = await SummitXStableSwapThreePoolDeployer.new({ from: admin });
-        stableSwapFactory = await SummitXStableSwapFactory.new(stableSwapLPFactory.address, stableSwap2PoolDeployer.address, stableSwap3PoolDeployer.address, {
+        stableSwapLPFactory = await MuchFiStableSwapLPFactory.new({ from: admin });
+        stableSwap2PoolDeployer = await MuchFiStableSwapTwoPoolDeployer.new({ from: admin });
+        stableSwap3PoolDeployer = await MuchFiStableSwapThreePoolDeployer.new({ from: admin });
+        stableSwapFactory = await MuchFiStableSwapFactory.new(stableSwapLPFactory.address, stableSwap2PoolDeployer.address, stableSwap3PoolDeployer.address, {
             from: admin,
         });
-        stableSwap2PoolInfo = await SummitXStableSwapTwoPoolInfo.new({ from: admin });
-        stableSwap3PoolInfo = await SummitXStableSwapThreePoolInfo.new({ from: admin });
-        stableSwapPoolInfo = await SummitXStableSwapInfo.new(stableSwap2PoolInfo.address, stableSwap3PoolInfo.address, { from: admin });
+        stableSwap2PoolInfo = await MuchFiStableSwapTwoPoolInfo.new({ from: admin });
+        stableSwap3PoolInfo = await MuchFiStableSwapThreePoolInfo.new({ from: admin });
+        stableSwapPoolInfo = await MuchFiStableSwapInfo.new(stableSwap2PoolInfo.address, stableSwap3PoolInfo.address, { from: admin });
 
         await stableSwapLPFactory.transferOwnership(stableSwapFactory.address, { from: admin });
         await stableSwap2PoolDeployer.transferOwnership(stableSwapFactory.address, { from: admin });
@@ -108,19 +108,19 @@ contract("SmartRouter", ([admin, bob, carol]) => {
 
         await stableSwapFactory.createSwapPair(BUSD.address, USDC.address, A, Fee, AdminFee, { from: admin });
         stable2PoolInfo = await stableSwapFactory.getPairInfo(BUSD.address, USDC.address);
-        stable2Pool_BUSD_USDC = await SummitXStableSwapTwoPool.at(stable2PoolInfo.swapContract);
+        stable2Pool_BUSD_USDC = await MuchFiStableSwapTwoPool.at(stable2PoolInfo.swapContract);
         stable2Pool_LP_BUSD_USDC = await LPToken.at(stable2PoolInfo.LPContract);
         stable2Pool_token0 = await Token.at(stable2PoolInfo.token0);
         stable2Pool_token1 = await Token.at(stable2PoolInfo.token1);
         await stableSwapFactory.createSwapPair(WBNB.address, BUSD.address, A, Fee, AdminFee, { from: admin });
         stable2PoolInfo_WBNB_BUSD = await stableSwapFactory.getPairInfo(WBNB.address, BUSD.address);
-        stable2Pool_WBNB_BUSD = await SummitXStableSwapTwoPool.at(stable2PoolInfo_WBNB_BUSD.swapContract);
+        stable2Pool_WBNB_BUSD = await MuchFiStableSwapTwoPool.at(stable2PoolInfo_WBNB_BUSD.swapContract);
         stable2Pool_LP_WBNB_BUSD = await LPToken.at(stable2PoolInfo_WBNB_BUSD.LPContract);
         stable2Pool_WBNB_BUSD_token0 = await Token.at(stable2PoolInfo_WBNB_BUSD.token0);
         stable2Pool_WBNB_BUSD_token1 = await Token.at(stable2PoolInfo_WBNB_BUSD.token1);
         await stableSwapFactory.createThreePoolPair(BUSD.address, USDC.address, USDT.address, A, Fee, AdminFee, { from: admin });
         stable3PoolInfo = await stableSwapFactory.getThreePoolPairInfo(BUSD.address, USDC.address);
-        stable3Pool_BUSD_USDC_USDT = await SummitXStableSwapThreePool.at(stable3PoolInfo.swapContract);
+        stable3Pool_BUSD_USDC_USDT = await MuchFiStableSwapThreePool.at(stable3PoolInfo.swapContract);
         stable3Pool_LP_BUSD_USDC_USDT = await LPToken.at(stable3PoolInfo.LPContract);
         stable3Pool_token0 = await Token.at(stable3PoolInfo.token0);
         stable3Pool_token1 = await Token.at(stable3PoolInfo.token1);

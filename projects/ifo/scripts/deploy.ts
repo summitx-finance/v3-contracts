@@ -1,6 +1,6 @@
 import { ethers, run, network } from 'hardhat'
 import { writeFileSync, existsSync, mkdirSync } from 'fs'
-import { configs } from '@summitx/common/config'
+import { configs } from '@muchfi/common/config'
 
 async function main() {
   // Get the Contract Factory

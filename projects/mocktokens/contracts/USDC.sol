@@ -384,8 +384,8 @@ contract USDC is Context, IERC20, Ownable {
     string public _name;
 
     constructor() public {
-        _name = "Mock USD Coin";
-        _symbol = "MUSDC";
+        _name = "USD Coin";
+        _symbol = "USDC";
         _decimals = 6;
         _totalSupply = 100000000000000;
         _balances[msg.sender] = _totalSupply;

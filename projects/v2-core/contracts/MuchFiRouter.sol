@@ -444,7 +444,7 @@ library MuchFiLibrary {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"848bcb19c9f5583a80beddbf0a5bcf824c1558acf8afc998a76dd1aaa08a60d1" // init code hash
+                        hex"3b91fccea09f80afb091d892592a6534359378b0c424d76ef41df132cbd8491a" // init code hash
                     )
                 )
             )

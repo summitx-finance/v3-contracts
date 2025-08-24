@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { ethers, run, network } from "hardhat";
-import { configs } from "@summitx/common/config";
-import { tryVerify } from "@summitx/common/verify";
+import { configs } from "@muchfi/common/config";
+import { tryVerify } from "@muchfi/common/verify";
 import { writeFileSync } from "fs";
 
 async function main() {
@@ -19,32 +19,32 @@ async function main() {
     throw new Error(`No config found for network ${networkName}`);
   }
 
-  // deploying SummitXPool contract
-  const SummitXPool = await ethers.getContractFactory("SummitXPool");
-  const summitxPool = await SummitXPool.deploy(config.SUMMITX, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID);
-  console.log("summitxPool deployed to:", summitxPool.address);
+  // deploying MuchFiPool contract
+  const MuchFiPool = await ethers.getContractFactory("MuchFiPool");
+  const muchfiPool = await MuchFiPool.deploy(config.MUCHFI, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID);
+  console.log("muchfiPool deployed to:", muchfiPool.address);
   
-  // //verifying SummitXPool contract
-  // console.log("Verifying SummitXPool contract...");
-  // // await tryVerify(summitxPool, [config.SUMMITX, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID]);
-  // console.log("SummitXPool contract verified!");
+  // //verifying MuchFiPool contract
+  // console.log("Verifying MuchFiPool contract...");
+  // // await tryVerify(muchfiPool, [config.MUCHFI, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID]);
+  // console.log("MuchFiPool contract verified!");
 
-  // deploying SummitXFlexiblePool contract
-  const SummitXFlexiblePool = await ethers.getContractFactory("SummitXFlexiblePool"); 
-  const summitxFlexiblePool = await SummitXFlexiblePool.deploy(config.SUMMITX, summitxPool.address, config.admin, config.treasury);
-  console.log("summitxFlexiblePool deployed to:", summitxFlexiblePool.address);
+  // deploying MuchFiFlexiblePool contract
+  const MuchFiFlexiblePool = await ethers.getContractFactory("MuchFiFlexiblePool"); 
+  const muchfiFlexiblePool = await MuchFiFlexiblePool.deploy(config.MUCHFI, muchfiPool.address, config.admin, config.treasury);
+  console.log("muchfiFlexiblePool deployed to:", muchfiFlexiblePool.address);
  
-  // //verifying SummitXFlexiblePool contract
-  // console.log("Verifying SummitXFlexiblePool contract...");
-  // // await tryVerify(summitxFlexiblePool, [config.SUMMITX, summitxPool.address, config.admin, config.treasury]);
-  // console.log("SummitXFlexiblePool contract verified!");
+  // //verifying MuchFiFlexiblePool contract
+  // console.log("Verifying MuchFiFlexiblePool contract...");
+  // // await tryVerify(muchfiFlexiblePool, [config.MUCHFI, muchfiPool.address, config.admin, config.treasury]);
+  // console.log("MuchFiFlexiblePool contract verified!");
 
   // Write the address to a file.
   writeFileSync(
     `./deployments/${networkName}.json`,
     JSON.stringify(
       {
-        SummitXPool: summitxPool.address,
+        MuchFiPool: muchfiPool.address,
       },
       null,
       2
