@@ -90,11 +90,11 @@ const config: HardhatUserConfig = {
     customChains: [
       
       {
-        network: "baseCamp",
-        chainId: 123420001114,
+        network: "dogeOSDevnet",
+        chainId: 221122420,
         urls: {
-          apiURL: "https://basecamp.cloud.blockscout.com/api",
-          browserURL: "https://basecamp.cloud.blockscout.com/",
+          apiURL: "https://blockscout.devnet.doge.xyz/api",
+          browserURL: "https://blockscout.devnet.doge.xyz/",
         },
       },
     ],

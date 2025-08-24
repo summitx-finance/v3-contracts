@@ -24,37 +24,6 @@ const baseCamp: NetworkUserConfig = {
   
   accounts: [process.env.KEY_TESTNET!],
 };
-const bscTestnet: NetworkUserConfig = {
-  url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-  chainId: 97,
-  accounts: [process.env.KEY_TESTNET!],
-};
-
-
-
-const bscMainnet: NetworkUserConfig = {
-  url: "https://bsc-dataseed.binance.org/",
-  chainId: 56,
-  accounts: [process.env.KEY_MAINNET!],
-};
-
-const goerli: NetworkUserConfig = {
-  url: "https://rpc.ankr.com/eth_goerli",
-  chainId: 5,
-  accounts: [process.env.KEY_GOERLI!],
-};
-
-const eth: NetworkUserConfig = {
-  url: "https://eth.llamarpc.com",
-  chainId: 1,
-  accounts: [process.env.KEY_ETH!],
-};
-
-const localhost: NetworkUserConfig = {
-  url: "HTTP://127.0.0.1:7545",
-  chainId: 5777,
-  accounts: [process.env.KEY_TESTNET!],
-};
 
 const mumbai: NetworkUserConfig = {
   url: "https://rpc-mumbai.maticvigil.com",
@@ -62,11 +31,7 @@ const mumbai: NetworkUserConfig = {
   accounts: [process.env.KEY_TESTNET!],
 };
 
-const sepolia: NetworkUserConfig = {
-  url: "https://eth-sepolia.g.alchemy.com/v2/wUAOjtKSS75xfUEZah0k9ODHKHDC5PO0",
-  chainId: 11155111,
-  accounts: [process.env.KEY_SEPOLIA_TESTNET!],
-};
+
 
 const config = {
   defaultNetwork: "hardhat",
@@ -87,17 +52,16 @@ const config = {
   },
   etherscan: {
     apiKey: {
-      baseCamp: process.env.ETHERSCAN_API_KEY,
-      sepolia: process.env.ETHERSCAN_API_KEY,
+      dogeOSDevnet: process.env.ETHERSCAN_API_KEY
     },
     customChains: [
       
       {
-        network: "baseCamp",
-        chainId: 123420001114,
+        network: "dogeOSDevnet",
+        chainId: 221122420,
         urls: {
-          apiURL: "https://basecamp.cloud.blockscout.com/api",
-          browserURL: "https://basecamp.cloud.blockscout.com/",
+          apiURL: "https://blockscout.devnet.doge.xyz/api",
+          browserURL: "https://blockscout.devnet.doge.xyz/",
         },
       },
     ],

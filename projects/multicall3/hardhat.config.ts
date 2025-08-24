@@ -61,11 +61,7 @@ const eth: NetworkUserConfig = {
   accounts: [process.env.KEY_ETH!],
 }
 
-const localhost: NetworkUserConfig = {
-  url: "HTTP://127.0.0.1:7545",
-  chainId: 5777,
-  accounts: [process.env.KEY_TESTNET!],
-};
+
 const mumbai: NetworkUserConfig = {
   url: "https://rpc-mumbai.maticvigil.com",
   chainId: 80001,
@@ -95,11 +91,11 @@ export default {
     customChains: [
       
       {
-        network: "baseCamp",
-        chainId: 123420001114,
+        network: "dogeOSDevnet",
+        chainId: 221122420,
         urls: {
-          apiURL: "https://basecamp.cloud.blockscout.com/api",
-          browserURL: "https://basecamp.cloud.blockscout.com/",
+          apiURL: "https://blockscout.devnet.doge.xyz/api",
+          browserURL: "https://blockscout.devnet.doge.xyz/",
         },
       },
       {
