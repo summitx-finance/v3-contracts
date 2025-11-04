@@ -80,7 +80,6 @@ const config = {
     ...(process.env.KEY_MAINNET && { bscMainnet }),
     ...(process.env.KEY_GOERLI && { goerli }),
     ...(process.env.KEY_ETH && { eth }),
-    ...(process.env.KEY_CAMP && { camp }),
     // testnet: bscTestnet,
     // mainnet: bscMainnet,
   },
