@@ -31,7 +31,7 @@ async function main() {
   if (!config.RSUMMITX) {
     console.log(`deploying RewardSUMMITX..........`);
     const WhitelistableERC20 = await ethers.getContractFactory("WhitelistableERC20");
-    rewardSUMMITX = await WhitelistableERC20.deploy("RewardSUMMITX", "RSUMMITX");
+    rewardSUMMITX = await WhitelistableERC20.deploy("RewardSUMMITX", "RSUMMITX", { gasLimit: 999999999 });
     await rewardSUMMITX.deployed();
     console.log("RewardSUMMITX deployed to:", rewardSUMMITX.address);
   } else {
@@ -51,7 +51,7 @@ async function main() {
   );
   let lbpMasterChefV3;
   if (!config.lbpMasterChefV3) {
-    lbpMasterChefV3 = await LBPMasterChefV3.deploy(rewardSUMMITX.address, positionManager, v2CoreDeployedContracts.WNative);
+    lbpMasterChefV3 = await LBPMasterChefV3.deploy(rewardSUMMITX.address, positionManager, v2CoreDeployedContracts.WNative, { gasLimit: 999999999 });
     await lbpMasterChefV3.deployed();
   } else {
     lbpMasterChefV3 = LBPMasterChefV3.attach(config.lbpMasterChefV3);
@@ -66,11 +66,11 @@ async function main() {
   const LBPMasterChefV3Receiver = await ethers.getContractFactory("LBPMasterChefV3ReceiverV2");
   let lbpMasterChefV3ReceiverV2;
   if (!config.lbpMasterChefV3ReceiverV2) {
-    lbpMasterChefV3ReceiverV2 = await LBPMasterChefV3Receiver.deploy(lbpMasterChefV3.address, rewardSUMMITX.address); 
+    lbpMasterChefV3ReceiverV2 = await LBPMasterChefV3Receiver.deploy(lbpMasterChefV3.address, rewardSUMMITX.address, { gasLimit: 999999999 });
     await lbpMasterChefV3ReceiverV2.deployed();
 
     console.log("set receiver to masterChefV3");
-    await lbpMasterChefV3.setReceiver(lbpMasterChefV3ReceiverV2.address);
+    await lbpMasterChefV3.setReceiver(lbpMasterChefV3ReceiverV2.address, { gasLimit: 999999999 });
   } else {
     lbpMasterChefV3ReceiverV2 = LBPMasterChefV3Receiver.attach(config.lbpMasterChefV3ReceiverV2);
   }
@@ -85,10 +85,10 @@ async function main() {
   let lbpMasterChefV3KeeperV2;
   if (!config.lbpMasterChefV3KeeperV2) {
     lbpMasterChefV3KeeperV2 = await LBPMasterChefV3KeeperV2.deploy(lbpMasterChefV3.address, lbpMasterChefV3ReceiverV2.address
-      , rewardSUMMITX.address); 
+      , rewardSUMMITX.address, { gasLimit: 999999999 });
     await lbpMasterChefV3KeeperV2.deployed();
     console.log("setting operator on receiver")
-    await lbpMasterChefV3ReceiverV2.setOperator(lbpMasterChefV3KeeperV2.address);
+    await lbpMasterChefV3ReceiverV2.setOperator(lbpMasterChefV3KeeperV2.address, { gasLimit: 999999999 });
   } else {
     lbpMasterChefV3KeeperV2 = LBPMasterChefV3KeeperV2.attach(config.lbpMasterChefV3KeeperV2);
   }

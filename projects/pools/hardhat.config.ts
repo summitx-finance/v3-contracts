@@ -20,9 +20,18 @@ const baseCamp: NetworkUserConfig = {
   gasPrice: "auto",
   maxFeePerGas: "auto",
   maxPriorityFeePerGas: 1_000_000_000,
-  
+
   accounts: [process.env.KEY_TESTNET!],
-};  
+};
+
+const megaethTestnetV2: NetworkUserConfig = {
+  url: "https://timothy.megaeth.com/rpc",
+  chainId: 6343,
+  accounts: [process.env.KEY_MEGA_ETH_TESTNET_V2!],
+  gas: 9999999,
+  gasPrice: 2000000,
+};
+
 const bscTestnet: NetworkUserConfig = {
   url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
   chainId: 97,
@@ -65,6 +74,7 @@ const config = {
     ...(process.env.KEY_TESTNET && { mumbai }),
     ...(process.env.KEY_TESTNET && { baseCamp }),
     ...(process.env.KEY_BASE_CAMP && { baseCamp }),
+    ...(process.env.KEY_BASE_CAMP && { megaethTestnetV2 }),
     ...(process.env.KEY_TESTNET && { localhost }),
     ...(process.env.KEY_TESTNET && { bscTestnet }),
     ...(process.env.KEY_MAINNET && { bscMainnet }),
@@ -76,9 +86,25 @@ const config = {
   etherscan: {
     apiKey: {
       baseCamp: process.env.ETHERSCAN_API_KEY,
+      megaethTestnetV2: process.env.ETHERSCAN_API_KEY,
     },
     customChains: [
-      
+      {
+        network: "baseCamp",
+        chainId: 123420001114,
+        urls: {
+          apiURL: "https://basecamp.cloud.blockscout.com/api",
+          browserURL: "https://basecamp.cloud.blockscout.com/",
+        },
+      },
+      {
+        network: "megaethTestnetV2",
+        chainId: 6343,
+        urls: {
+          apiURL: "https://megaeth-testnet.explorer.caldera.xyz/api",
+          browserURL: "https://megaeth-testnet.explorer.caldera.xyz/",
+        },
+      },
     ],
   },
   solidity: {

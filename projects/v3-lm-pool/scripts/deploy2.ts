@@ -22,13 +22,13 @@ async function main() {
   const summitxV3Factory_address = v3DeployedContracts.SummitXV3Factory
 
   const SummitXV3LmPoolDeployer = await ethers.getContractFactory('SummitXV3LmPoolDeployer')
-  const summitxV3LmPoolDeployer = await SummitXV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3)
+  const summitxV3LmPoolDeployer = await SummitXV3LmPoolDeployer.deploy(mcV3DeployedContracts.MasterChefV3, { gasLimit: 999999999 })
 
   console.log('summitxV3LmPoolDeployer deployed to:', summitxV3LmPoolDeployer.address)
 
   const summitxV3Factory = new ethers.Contract(summitxV3Factory_address, abi, owner)
 
-  await summitxV3Factory.setLmPoolDeployer(summitxV3LmPoolDeployer.address)
+  await summitxV3Factory.setLmPoolDeployer(summitxV3LmPoolDeployer.address, { gasLimit: 999999999 })
 
   const contracts = {
     SummitXV3LmPoolDeployer: summitxV3LmPoolDeployer.address,

@@ -11,7 +11,7 @@ const artifacts: { [name: string]: ContractJson } = {
   // eslint-disable-next-line global-require
   SummitXRouter: require('../artifacts/contracts/SummitXRouter.sol/SummitXRouter.json'),
   // eslint-disable-next-line global-require
-  WNATIVE: require('../artifacts/contracts/WNATIVE.sol/WCAMP.json'),
+  WNATIVE: require('../artifacts/contracts/WNATIVE.sol/WETH.json'),
   // eslint-disable-next-line global-require
   Multicall2: require('../artifacts/contracts/Multicall2.sol/Multicall2.json'),
 }
@@ -37,7 +37,7 @@ async function main() {
       artifacts.WNATIVE.bytecode,
       owner
     )
-    const wNative = await WNative.deploy()
+    const wNative = await WNative.deploy({ gasLimit: 999999999 })
     wNative_address = wNative.address
     console.log('wNative', wNative_address)
   }else{
@@ -57,7 +57,7 @@ async function main() {
     if(config.admin === '0x0000000000000000000000000000000000000000'){
       throw new Error(`Admin is not set for network ${networkName}`)
     }
-    summitxFactory = await SummitXFactory.deploy(config.admin)
+    summitxFactory = await SummitXFactory.deploy(config.admin, { gasLimit: 999999999 })
 
     summitxFactory_address = summitxFactory.address
     console.log('summitxFactory', summitxFactory_address)
@@ -79,7 +79,7 @@ async function main() {
       artifacts.SummitXRouter.bytecode,
       owner
     )
-    summitxRouter = await SummitXRouter.deploy(summitxFactory_address, wNative_address)
+    summitxRouter = await SummitXRouter.deploy(summitxFactory_address, wNative_address, { gasLimit: 999999999 })
 
     summitxRouter_address = summitxRouter.address
     console.log('summitxRouter', summitxRouter_address)
@@ -95,7 +95,7 @@ async function main() {
       artifacts.Multicall2.bytecode,
       owner
     )
-    multicall2 = await Multicall2.deploy()
+    multicall2 = await Multicall2.deploy({ gasLimit: 999999999 })
 
     multicall2_address = multicall2.address
     console.log('multicall2', multicall2_address)

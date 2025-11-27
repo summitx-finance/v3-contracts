@@ -31,7 +31,7 @@ async function main() {
     owner
   )
   if (!multicall3_address) {
-    multicall3 = await Multicall3.deploy()
+    multicall3 = await Multicall3.deploy({ gasLimit: 999999999 })
     multicall3_address = multicall3.address
     console.log('multicall3', multicall3_address)
   } else {

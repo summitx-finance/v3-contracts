@@ -15,7 +15,9 @@
     "deploy-camp": "NETWORK=camp yarn zx v3-deploy.mjs",
     "verify-camp": "NETWORK=camp yarn zx v3-verify.mjs",
     "deploy-hardhat": "NETWORK=hardhat yarn zx v3-deploy.mjs",
-    "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs"
+    "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs",
+    "deploy-megaeth-testnet-v2": "NETWORK=megaethTestnetV2 yarn zx v3-deploy.mjs",
+    "verify-megaeth-testnet-v2": "NETWORK=megaethTestnetV2 yarn zx v3-verify.mjs"
   },
   "devDependencies": {
     "zx": "^7.2.0",

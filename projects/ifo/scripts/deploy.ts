@@ -14,7 +14,7 @@ async function main() {
   if (!config.ifoDeployerV3) {
     // Deploy the contract
     console.log("Deploying.....")
-    const ifoDeployerV3 = await IFODeployerV3.deploy()
+    const ifoDeployerV3 = await IFODeployerV3.deploy({ gasLimit: 999999999 })
     await ifoDeployerV3.deployed()
 
     console.log('IFODeployerV3 deployed to:', ifoDeployerV3.address)

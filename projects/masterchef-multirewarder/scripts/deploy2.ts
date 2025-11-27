@@ -34,7 +34,7 @@ async function main() {
   );
   var masterChefV3;
   if (!config.masterChefV3) {
-    masterChefV3 = await MasterChefV3.deploy(config.SUMMITX, positionManager, v2CoreDeployedContracts.WNative);
+    masterChefV3 = await MasterChefV3.deploy(config.SUMMITX, positionManager, v2CoreDeployedContracts.WNative, { gasLimit: 999999999 });
     await masterChefV3.deployed();
   } else {
     masterChefV3 = await MasterChefV3.attach(config.masterChefV3);
@@ -47,7 +47,7 @@ async function main() {
   var MasterChefV3Receiver = await ethers.getContractFactory("MasterChefV3Receiver");
   var masterChefV3Receiver;
   if (!config.masterChefV3Receiver) {
-    masterChefV3Receiver = await MasterChefV3Receiver.deploy(config.masterChefV2, masterChefV3.address, config.SUMMITX, config.PID); 
+    masterChefV3Receiver = await MasterChefV3Receiver.deploy(config.masterChefV2, masterChefV3.address, config.SUMMITX, config.PID, { gasLimit: 999999999 });
     await masterChefV3Receiver.deployed();
   } else {
     masterChefV3Receiver = await MasterChefV3Receiver.attach(config.masterChefV3Receiver);

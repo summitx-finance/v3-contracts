@@ -21,7 +21,7 @@ async function main() {
   /** SmartRouterHelper */
   console.log('Deploying SmartRouterHelper...')
   const SmartRouterHelper = await ethers.getContractFactory('SmartRouterHelper')
-  const smartRouterHelper = await SmartRouterHelper.deploy()
+  const smartRouterHelper = await SmartRouterHelper.deploy({ gasLimit: 999999999 })
   console.log('SmartRouterHelper deployed to:', smartRouterHelper.address)
   await tryVerify(smartRouterHelper)
 
@@ -39,7 +39,8 @@ async function main() {
     positionManager_address,
     config.stableFactory,
     config.stableInfo,
-    v2DeployedContracts.WNative
+    v2DeployedContracts.WNative,
+    { gasLimit: 999999999 }
   )
   console.log('SmartRouter deployed to:', smartRouter.address)
 
@@ -64,7 +65,8 @@ async function main() {
     summitxV3Factory_address,
     v2DeployedContracts.SummitXV2Factory,
     config.stableFactory,
-    v2DeployedContracts.WNative
+    v2DeployedContracts.WNative,
+    { gasLimit: 999999999 }
   )
   console.log('MixedRouteQuoterV1 deployed to:', mixedRouteQuoterV1.address)
 
@@ -93,7 +95,7 @@ async function main() {
       SmartRouterHelper: smartRouterHelper.address,
     },
   })
-  const tokenValidator = await TokenValidator.deploy(v2DeployedContracts.SummitXV2Factory, positionManager_address)
+  const tokenValidator = await TokenValidator.deploy(v2DeployedContracts.SummitXV2Factory, positionManager_address, { gasLimit: 999999999 })
   console.log('TokenValidator deployed to:', tokenValidator.address)
 
   await tryVerify(tokenValidator, [v2DeployedContracts.SummitXV2Factory, positionManager_address])

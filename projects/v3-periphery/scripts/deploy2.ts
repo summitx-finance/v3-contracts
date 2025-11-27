@@ -69,7 +69,7 @@ async function main() {
   const summitxV3Factory_address = deployedContracts.SummitXV3Factory
 
   const SwapRouter = new ContractFactory(artifacts.SwapRouter.abi, artifacts.SwapRouter.bytecode, owner)
-  const swapRouter = await SwapRouter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const swapRouter = await SwapRouter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative, { gasLimit: 999999999 })
 
   // await tryVerify(swapRouter, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])
   console.log('swapRouter', swapRouter.address)
@@ -129,12 +129,12 @@ async function main() {
   )
   const baseTokenUri = 'https://nft.summitx.finance/v3/'
   const nonfungibleTokenPositionDescriptor = await NonfungibleTokenPositionDescriptor.deploy(
-    
+    { gasLimit: 999999999 }
   )
   await nonfungibleTokenPositionDescriptor.deployed()
   console.log('nonfungibleTokenPositionDescriptor', nonfungibleTokenPositionDescriptor.address)
 
-  await nonfungibleTokenPositionDescriptor.initialize(baseTokenUri);
+  await nonfungibleTokenPositionDescriptor.initialize(baseTokenUri, { gasLimit: 999999999 });
   // await tryVerify(nonfungibleTokenPositionDescriptor)
 
   const NonfungiblePositionManager = new ContractFactory(
@@ -146,7 +146,8 @@ async function main() {
     summitxV3PoolDeployer_address,
     summitxV3Factory_address,
     deployedContracts_v2_core.WNative,
-    nonfungibleTokenPositionDescriptor.address
+    nonfungibleTokenPositionDescriptor.address,
+    { gasLimit: 999999999 }
   )
 
   // await tryVerify(nonfungiblePositionManager, [
@@ -163,7 +164,7 @@ async function main() {
     owner
   )
 
-  const summitxInterfaceMulticall = await SummitXInterfaceMulticall.deploy()
+  const summitxInterfaceMulticall = await SummitXInterfaceMulticall.deploy({ gasLimit: 999999999 })
   console.log('SummitXInterfaceMulticall', summitxInterfaceMulticall.address)
 
   //await tryVerify(summitxInterfaceMulticall)
@@ -173,7 +174,8 @@ async function main() {
     summitxV3PoolDeployer_address,
     summitxV3Factory_address,
     deployedContracts_v2_core.WNative,
-    nonfungiblePositionManager.address
+    nonfungiblePositionManager.address,
+    { gasLimit: 999999999 }
   )
   console.log('V3Migrator', v3Migrator.address)
 
@@ -185,20 +187,20 @@ async function main() {
   // ])
 
   const TickLens = new ContractFactory(artifacts.TickLens.abi, artifacts.TickLens.bytecode, owner)
-  const tickLens = await TickLens.deploy()
+  const tickLens = await TickLens.deploy({ gasLimit: 999999999 })
   console.log('TickLens', tickLens.address)
 
   // await tryVerify(tickLens)
 
   const QuoterV2 = new ContractFactory(artifacts.QuoterV2.abi, artifacts.QuoterV2.bytecode, owner)
-  const quoterV2 = await QuoterV2.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const quoterV2 = await QuoterV2.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative, { gasLimit: 999999999 })
   console.log('QuoterV2', quoterV2.address)
 
     // await tryVerify(quoterV2, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])
 
 
     const Quoter = new ContractFactory(artifacts.Quoter.abi, artifacts.Quoter.bytecode, owner)
-  const quoter = await Quoter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative)
+  const quoter = await Quoter.deploy(summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative, { gasLimit: 999999999 })
   console.log('Quoter', quoter.address)
 
   // await tryVerify(quoter, [summitxV3PoolDeployer_address, summitxV3Factory_address, deployedContracts_v2_core.WNative])

@@ -32,7 +32,7 @@ async function main() {
     artifacts.SummitXV3PoolDeployer.bytecode,
     owner
   )
-  const summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy()
+  const summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy({ gasLimit: 999999999 })
   await summitxV3PoolDeployer.deployed()
   console.log('✅ SummitXV3PoolDeployer deployed at:', summitxV3PoolDeployer.address)
   
@@ -45,12 +45,12 @@ async function main() {
     artifacts.SummitXV3Factory.bytecode,
     owner
   )
-  const summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer.address)
+  const summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer.address, { gasLimit: 999999999 })
   await summitxV3Factory.deployed()
   console.log('✅ SummitXV3Factory deployed at:', summitxV3Factory.address)
 
   // Set FactoryAddress for summitxV3PoolDeployer
-  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory.address)
+  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory.address, { gasLimit: 999999999 })
   console.log('✅ Factory address set in PoolDeployer')
 
   // 3. Deploy Shadow Exchange Integration Contracts
@@ -65,7 +65,8 @@ async function main() {
   const voter = await Voter.deploy(
     summitxV3Factory.address,  // factory
     ethers.constants.AddressZero,  // gaugeFactory (placeholder)
-    ethers.constants.AddressZero   // feeDistributorFactory (placeholder)
+    ethers.constants.AddressZero,   // feeDistributorFactory (placeholder)
+    { gasLimit: 999999999 }
   )
   await voter.deployed()
   console.log('✅ Voter deployed at:', voter.address)
@@ -78,13 +79,14 @@ async function main() {
   )
   const protocolFeeCollector = await ProtocolFeeCollector.deploy(
     owner.address,  // treasury
-    voter.address   // voter
+    voter.address,   // voter
+    { gasLimit: 999999999 }
   )
   await protocolFeeCollector.deployed()
   console.log('✅ ProtocolFeeCollector deployed at:', protocolFeeCollector.address)
 
   // 4. Configure Factory with Protocol Fee Collector
-  await summitxV3Factory.setProtocolFeeCollector(protocolFeeCollector.address)
+  await summitxV3Factory.setProtocolFeeCollector(protocolFeeCollector.address, { gasLimit: 999999999 })
   console.log('✅ Protocol Fee Collector set in Factory')
 
   // 5. Create test pool (optional)
@@ -96,7 +98,7 @@ async function main() {
   const fee = 500  // 0.05%
   
   try {
-    const poolTx = await summitxV3Factory.createPool(WETH, USDC, fee)
+    const poolTx = await summitxV3Factory.createPool(WETH, USDC, fee, { gasLimit: 999999999 })
     const poolReceipt = await poolTx.wait()
     
     // Get pool address from event
@@ -112,7 +114,7 @@ async function main() {
   console.log('\n=== Configuring Protocol Fees ===')
   
   // Set default treasury fees to 10% (1000 basis points)
-  await protocolFeeCollector.setTreasuryFees(1000)
+  await protocolFeeCollector.setTreasuryFees(1000, { gasLimit: 999999999 })
   console.log('✅ Treasury fees set to 10%')
 
   // 7. Save deployment info

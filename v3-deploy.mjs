@@ -11,6 +11,7 @@ const networks = {
   mumbai: 'mumbai',
   baseCamp: 'baseCamp',
   camp: 'camp',
+  megaethTestnetV2: 'megaethTestnetV2',
 }
 
 let network = process.env.NETWORK
@@ -19,9 +20,9 @@ if (!network || !networks[network]) {
   throw new Error(`env NETWORK: ${network}`)
 }
 
-await $`yarn workspace @summitx/mocktokens run hardhat run scripts/deploy.ts --network ${network}`
+//await $`yarn workspace @summitx/mocktokens run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
+//await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
 //Deploy core contracts first
 await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`

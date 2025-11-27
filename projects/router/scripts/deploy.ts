@@ -12,7 +12,7 @@ async function main() {
 
     const SmartRouterHelper = await ethers.getContractFactory("SmartRouterHelper");
 
-    const smartRouterHelper = await SmartRouterHelper.deploy();
+    const smartRouterHelper = await SmartRouterHelper.deploy({ gasLimit: 999999999 });
 
     await smartRouterHelper.deployed();
 
@@ -46,6 +46,7 @@ async function main() {
         config.stableFactory[networkName],
         config.stableInfo[networkName],
         config.WETH[networkName],
+        { gasLimit: 999999999 }
     );
 
     await smartRouter.deployed();

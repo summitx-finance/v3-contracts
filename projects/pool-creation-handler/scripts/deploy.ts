@@ -28,7 +28,7 @@ async function main() {
     owner
   )
   
-  const poolCreationHandler = await PoolCreationHandler.deploy(poolHelper, poolHelperUniV2)
+  const poolCreationHandler = await PoolCreationHandler.deploy(poolHelper, poolHelperUniV2, { gasLimit: 999999999 })
   await poolCreationHandler.deployed()
   
   console.log('PoolCreationHandler deployed to:', poolCreationHandler.address)

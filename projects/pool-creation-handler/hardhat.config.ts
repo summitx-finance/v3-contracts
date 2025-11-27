@@ -11,6 +11,14 @@ const baseCamp: NetworkUserConfig = {
   accounts: [process.env.KEY_TESTNET!],
 };
 
+const megaethTestnetV2: NetworkUserConfig = {
+  url: "https://timothy.megaeth.com/rpc",
+  chainId: 6343,
+  accounts: [process.env.KEY_MEGA_ETH_TESTNET_V2!],
+  gas: 9999999,
+  gasPrice: 2000000,
+};
+
 const camp: NetworkUserConfig = {
   url: "https://rpc.camp.raas.gelato.cloud",
   accounts: [process.env.KEY_CAMP!],
@@ -37,6 +45,7 @@ const config: HardhatUserConfig = {
       url: 'http://127.0.0.1:8545',
     },
     baseCamp: baseCamp,
+    megaethTestnetV2: megaethTestnetV2,
     camp: camp,
   },
   paths: {
@@ -49,9 +58,10 @@ const config: HardhatUserConfig = {
     apiKey: {
       baseCamp: process.env.ETHERSCAN_API_KEY,
       camp: process.env.ETHERSCAN_API_KEY,
+      megaethTestnetV2: process.env.ETHERSCAN_API_KEY,
     },
     customChains: [
-      
+
       {
         network: "baseCamp",
         chainId: 123420001114,
@@ -66,6 +76,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://camp.cloud.blockscout.com/api",
           browserURL: "https://camp.cloud.blockscout.com/",
+        },
+      },
+      {
+        network: "megaethTestnetV2",
+        chainId: 6343,
+        urls: {
+          apiURL: "https://megaeth-testnet.explorer.caldera.xyz/api",
+          browserURL: "https://megaeth-testnet.explorer.caldera.xyz/",
         },
       },
     ],

@@ -36,7 +36,7 @@ async function main() {
     owner
   )
   if (!dai_address) {
-    dai = await DAI.deploy()
+    dai = await DAI.deploy({ gasLimit: 999999999 })
     dai_address = dai.address
     console.log('dai', dai_address)
   } else {
@@ -52,7 +52,7 @@ async function main() {
     owner
   )
   if (!usdt_address) {
-    usdt = await USDT.deploy()
+    usdt = await USDT.deploy({ gasLimit: 999999999 })
     usdt_address = usdt.address
     console.log('usdt', usdt_address)
   } else {
@@ -67,7 +67,7 @@ async function main() {
     owner
   )
   if (!usdc_address) {
-    usdc = await USDC.deploy()
+    usdc = await USDC.deploy({ gasLimit: 999999999 })
     usdc_address = usdc.address
     console.log('usdc', usdc_address)
   } else {

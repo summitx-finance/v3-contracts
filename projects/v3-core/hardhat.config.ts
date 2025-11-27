@@ -56,6 +56,14 @@ const baseCamp: NetworkUserConfig = {
   accounts: [process.env.KEY_BASE_CAMP!],
 }
 
+const megaethTestnetV2: NetworkUserConfig = {
+  url: "https://timothy.megaeth.com/rpc",
+  chainId: 6343,
+  accounts: [process.env.KEY_MEGA_ETH_TESTNET_V2!],
+  gas: 9999999,
+  gasPrice: 2000000,
+}
+
 const camp: NetworkUserConfig = {
   url: "https://rpc.camp.raas.gelato.cloud",
   gasPrice: "auto",
@@ -110,6 +118,7 @@ export default {
     ...(process.env.KEY_TESTNET && { mumbai }),
     ...(process.env.KEY_SEPOLIA_TESTNET && { sepolia }),
    ...(process.env.KEY_BASE_CAMP && { baseCamp }),
+   ...(process.env.KEY_BASE_CAMP && { megaethTestnetV2 }),
     ...(process.env.KEY_TESTNET && { localhost }),
     ...(process.env.KEY_TESTNET && { bscTestnet }),
     ...(process.env.KEY_MAINNET && { bscMainnet }),
@@ -121,9 +130,10 @@ export default {
     apiKey: {
       baseCamp: process.env.ETHERSCAN_API_KEY,
       camp: process.env.ETHERSCAN_API_KEY,
+      megaethTestnetV2: process.env.ETHERSCAN_API_KEY,
     },
     customChains: [
-      
+
       {
         network: "baseCamp",
         chainId: 123420001114,
@@ -138,6 +148,14 @@ export default {
         urls: {
           apiURL: "https://camp.cloud.blockscout.com/api",
           browserURL: "https://camp.cloud.blockscout.com/",
+        },
+      },
+      {
+        network: "megaethTestnetV2",
+        chainId: 6343,
+        urls: {
+          apiURL: "https://megaeth-testnet.explorer.caldera.xyz/api",
+          browserURL: "https://megaeth-testnet.explorer.caldera.xyz/",
         },
       },
     ],

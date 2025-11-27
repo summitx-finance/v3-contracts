@@ -21,7 +21,7 @@ async function main() {
 
   // deploying SummitXPool contract
   const SummitXPool = await ethers.getContractFactory("SummitXPool");
-  const summitxPool = await SummitXPool.deploy(config.SUMMITX, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID);
+  const summitxPool = await SummitXPool.deploy(config.SUMMITX, config.masterChefV2, config.admin, config.treasury, config.operator, config.PID, { gasLimit: 999999999 });
   console.log("summitxPool deployed to:", summitxPool.address);
   
   // //verifying SummitXPool contract
@@ -31,7 +31,7 @@ async function main() {
 
   // deploying SummitXFlexiblePool contract
   const SummitXFlexiblePool = await ethers.getContractFactory("SummitXFlexiblePool"); 
-  const summitxFlexiblePool = await SummitXFlexiblePool.deploy(config.SUMMITX, summitxPool.address, config.admin, config.treasury);
+  const summitxFlexiblePool = await SummitXFlexiblePool.deploy(config.SUMMITX, summitxPool.address, config.admin, config.treasury, { gasLimit: 999999999 });
   console.log("summitxFlexiblePool deployed to:", summitxFlexiblePool.address);
  
   // //verifying SummitXFlexiblePool contract

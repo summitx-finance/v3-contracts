@@ -30,7 +30,7 @@ async function main() {
   if (!config.SUMMITX) {
     console.log(`deploying SUMMITX..........`);
     const WhitelistableERC20 = await ethers.getContractFactory("WhitelistableERC20");
-    summitxToken = await WhitelistableERC20.deploy("SummitX", "SUMMITX");
+    summitxToken = await WhitelistableERC20.deploy("SummitX", "SUMMITX", { gasLimit: 999999999 });
     await summitxToken.deployed();
     console.log("SummitX deployed to:", summitxToken.address);
   } else {

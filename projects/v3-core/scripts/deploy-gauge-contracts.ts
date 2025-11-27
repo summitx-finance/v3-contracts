@@ -46,7 +46,7 @@ async function main() {
     artifacts.Gauge.bytecode,
     owner
   )
-  const gauge = await Gauge.deploy(poolAddress, deployment.Voter)
+  const gauge = await Gauge.deploy(poolAddress, deployment.Voter, { gasLimit: 999999999 })
   await gauge.deployed()
   console.log('✅ Gauge deployed at:', gauge.address)
 
@@ -58,7 +58,7 @@ async function main() {
     artifacts.FeeDistributor.bytecode,
     owner
   )
-  const feeDistributor = await FeeDistributor.deploy(gauge.address)
+  const feeDistributor = await FeeDistributor.deploy(gauge.address, { gasLimit: 999999999 })
   await feeDistributor.deployed()
   console.log('✅ FeeDistributor deployed at:', feeDistributor.address)
 

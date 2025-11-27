@@ -27,7 +27,7 @@ async function main() {
     owner
   )
   if (!summitxV3PoolDeployer_address) {
-    summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy()
+    summitxV3PoolDeployer = await SummitXV3PoolDeployer.deploy({ gasLimit: 999999999 })
 
     summitxV3PoolDeployer_address = summitxV3PoolDeployer.address
     console.log('summitxV3PoolDeployer', summitxV3PoolDeployer_address)
@@ -50,7 +50,7 @@ async function main() {
       artifacts.SummitXV3Factory.bytecode,
       owner
     )
-    summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer_address)
+    summitxV3Factory = await SummitXV3Factory.deploy(summitxV3PoolDeployer_address, { gasLimit: 999999999 })
 
     summitxV3Factory_address = summitxV3Factory.address
     console.log('summitxV3Factory', summitxV3Factory_address)
@@ -59,7 +59,7 @@ async function main() {
   }
 
   // Set FactoryAddress for summitxV3PoolDeployer.
-  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory_address);
+  await summitxV3PoolDeployer.setFactoryAddress(summitxV3Factory_address, { gasLimit: 999999999 });
 
 
   const contracts = {

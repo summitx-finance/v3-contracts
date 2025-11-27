@@ -73,7 +73,7 @@ async function main() {
     deployer
   )
   
-  const poolCreationHandler = await PoolCreationHandler.deploy(poolHelper, poolHelperUniV2)
+  const poolCreationHandler = await PoolCreationHandler.deploy(poolHelper, poolHelperUniV2, { gasLimit: 999999999 })
   await poolCreationHandler.deployed()
   
   console.log('✅ PoolCreationHandler deployed to:', poolCreationHandler.address)
@@ -93,7 +93,7 @@ async function main() {
     }
     
     // Set the handler
-    const tx1 = await v2Factory.setPoolCreationHandler(poolCreationHandler.address)
+    const tx1 = await v2Factory.setPoolCreationHandler(poolCreationHandler.address, { gasLimit: 999999999 })
     await tx1.wait()
     console.log('✅ Handler set on V2 Factory')
   }
@@ -113,7 +113,7 @@ async function main() {
     }
     
     // Set the handler
-    const tx2 = await v3Factory.setPoolCreationHandler(poolCreationHandler.address)
+    const tx2 = await v3Factory.setPoolCreationHandler(poolCreationHandler.address, { gasLimit: 999999999 })
     await tx2.wait()
     console.log('✅ Handler set on V3 Factory')
   }

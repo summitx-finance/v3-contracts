@@ -10,7 +10,7 @@ async function main() {
   const baseTokenUri = 'https://nft.summitx.com/v3/'
   const nonfungibleTokenPositionDescriptor = await upgrades.deployProxy(NonfungibleTokenPositionDescriptor, [
     baseTokenUri,
-  ])
+  ], { timeout: 0, gasLimit: 999999999 })
   await nonfungibleTokenPositionDescriptor.deployed()
   console.log('NonfungibleTokenPositionDescriptor deployed at', nonfungibleTokenPositionDescriptor.address)
 }
