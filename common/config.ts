@@ -53,8 +53,8 @@ export const configs = {
     masterChefV3: '',
     masterChefV3ReceiverV2: '',
     masterChefV3KeeperV2: '',
-    poolHelperV3: '0xc0f6Ceca9826c9b4E6C6359F9C7319860aDB9C2C',
-    poolHelperV2: '0xff222db921a67Ca4B6778ce84e339593cD9538c5',
+    poolHelperV3: '0x6C1F6f6786f80660f41fe231A134DD0CDd8f31E5',
+    poolHelperV2: '0xDDBa51355B6A5363a6a9F2309aea4E061B8789F2',
     ifoDeployerV3: '0x26b6875dD143C19F2CA945d4b083E6A96b378a8d',
     ifos: [
       {
@@ -92,8 +92,8 @@ export const configs = {
     stableInfo: '0x0000000000000000000000000000000000000000',
     SUMMITX: '',
     smartRouterHelper: '',
-    poolHelperV3: '0xc4fD5F74cd83Ee7AAE2399d82B1aC35A65aD4aD9',
-    poolHelperV2: '0x5B48794d90919401d1A2eC154FCe95903B7Df9dc',
+    poolHelperV3: '0x7B1969D5186eD2bb284C1Ee522CD140c0720Cb49',
+    poolHelperV2: '0x4245D69072bc403d5828861cb285Ed8cF6480e74',
     RSUMMITX: '0x46aFd39366Af0Ed157043361418742e7686EF44A',
     lbpMasterChefV3: '0x2D1C63d518BAcD95e5Bad9429f04f5804438346e',
     lbpMasterChefV3ReceiverV2: '',

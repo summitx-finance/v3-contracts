@@ -1,10 +1,10 @@
 {
-  "PoolCreationHandler": "0xB065bFbc3c29F92a31eAced16fabA0A46965Cf4f",
-  "poolHelper": "0xc4fD5F74cd83Ee7AAE2399d82B1aC35A65aD4aD9",
-  "poolHelperUniV2": "0x5B48794d90919401d1A2eC154FCe95903B7Df9dc",
+  "PoolCreationHandler": "0x21541866b89FCe70110F6e4073274A898c9c8a23",
+  "poolHelper": "0x7B1969D5186eD2bb284C1Ee522CD140c0720Cb49",
+  "poolHelperUniV2": "0x4245D69072bc403d5828861cb285Ed8cF6480e74",
   "v2Factory": "0xeFf237Bb973cbe9D7811bfC005fb86911a881F76",
   "v3Factory": "0xB43D16668F6E84425eC67e14Fd534CF3Cf25eFC3",
-  "deployedAt": "2025-11-04T11:51:58.618Z",
+  "deployedAt": "2025-11-08T10:04:38.109Z",
   "network": "baseCamp",
   "deployer": "0x73BcbA6ea2E2ddeC914894E964209B84daE8E6DD"
 }
