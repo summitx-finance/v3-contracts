@@ -1,0 +1,10 @@
+{
+  "PoolCreationHandler": "0xEEe571225BBb97cFd19421C3e6006cDc825c0c33",
+  "poolHelper": "0x36b718ce44223d6d4FB565e9082B16F69e04E39b",
+  "poolHelperUniV2": "0xFe5498944B504FBf57DE0C76FB770974C0C54821",
+  "v2Factory": "0xBDf73Bb6b91b42bD833339A754aE13B15D0a52A5",
+  "v3Factory": "0xc4a65C3e58D8bF9a5fef40eeB59e5c47507D6C72",
+  "deployedAt": "2025-12-01T13:16:50.293Z",
+  "network": "megaethTestnetV2",
+  "deployer": "0x73BcbA6ea2E2ddeC914894E964209B84daE8E6DD"
+}

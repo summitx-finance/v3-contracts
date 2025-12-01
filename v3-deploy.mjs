@@ -25,17 +25,17 @@ if (!network || !networks[network]) {
 //await $`yarn workspace @summitx/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
 //Deploy core contracts first
-await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/v2-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-core run hardhat run scripts/deploy.ts --network ${network}`
 
-await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
+// await $`yarn workspace @summitx/v3-periphery run hardhat run scripts/deploy2.ts --network ${network}`
 
-await $`yarn workspace @summitx/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
+// await $`yarn workspace @summitx/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
 
 // Deploy and configure PoolCreationHandler at the end
 // console.log(chalk.yellow('\nDeploying and configuring PoolCreationHandler...'))
-// await $`yarn workspace @summitx/pool-creation-handler run hardhat run scripts/deploy-and-setup.ts --network ${network}`
+await $`yarn workspace @summitx/pool-creation-handler run hardhat run scripts/deploy-and-setup.ts --network ${network}`
 
 // await $`yarn workspace @summitx/masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
 
