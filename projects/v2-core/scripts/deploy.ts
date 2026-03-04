@@ -43,7 +43,7 @@ async function main() {
   }else{
     console.log('WNATIVE is already deployed', wNative_address)
   }
-  let summitxFactory_address = ''
+  let summitxFactory_address = '0xFdaD4935C49b5225872FeA0E2C95090EA0Fb7f40'
   let summitxFactory
   const SummitXFactory = new ContractFactory(
     artifacts.SummitXV2Factory.abi,
