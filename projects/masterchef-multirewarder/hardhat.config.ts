@@ -16,8 +16,12 @@ require("dotenv").config({ path: require("find-config")(".env") });
 const fs = require("fs");
 // const deployer = fs.readFileSync(".secret_testnet").toString().trim();
 
+const dogeOSTestNet: NetworkUserConfig = {
+  url: "https://rpc.testnet.dogeos.com",
+  accounts: [process.env.KEY_DOGEOS_TESTNET!],
+};
 const dogeOSDevNet: NetworkUserConfig = {
-  url: "https://rpc.devnet.doge.xyz",
+  url: "https://rpc.testnet.dogeos.com",
   accounts: [process.env.KEY_DOGEOS_DEVNET || ''],
 };
 
@@ -35,11 +39,19 @@ const config = {
     },
     customChains: [
       {
+        network: "dogeOSTestNet",
+        chainId: 6281971,
+        urls: {
+          apiURL: "https://blockscout.testnet.doge.xyz/api",
+          browserURL: "https://blockscout.testnet.doge.xyz/",
+        },
+      },
+      {
         network: "dogeOSDevNet",
         chainId: 10000,
         urls: {
-          apiURL: "https://rpc.devnet.doge.xyz/api",
-          browserURL: "https://rpc.devnet.doge.xyz",
+          apiURL: "https://rpc.testnet.dogeos.com/api",
+          browserURL: "https://rpc.testnet.dogeos.com",
         },
       },
     ],

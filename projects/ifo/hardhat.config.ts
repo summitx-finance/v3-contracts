@@ -14,8 +14,12 @@ import "dotenv/config";
 
 require("dotenv").config({ path: require("find-config")(".env") });
 
+const dogeOSTestNet: NetworkUserConfig = {
+  url: "https://rpc.testnet.dogeos.com",
+  accounts: [process.env.KEY_DOGEOS_TESTNET!],
+};
 const dogeOSDevNet: NetworkUserConfig = {
-  url: "https://rpc.devnet.doge.xyz",
+  url: "https://rpc.testnet.dogeos.com",
   accounts: [process.env.KEY_DOGEOS_DEVNET!],
 };
 
@@ -23,7 +27,8 @@ const config = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {},
-    dogeOSDevNet
+    dogeOSDevNet,
+    dogeOSTestNet
   },
   etherscan: {
     apiKey: {
@@ -31,11 +36,19 @@ const config = {
     },
     customChains: [
       {
+        network: "dogeOSTestNet",
+        chainId: 6281971,
+        urls: {
+          apiURL: "https://blockscout.testnet.doge.xyz/api",
+          browserURL: "https://blockscout.testnet.doge.xyz/",
+        },
+      },
+      {
         network: "dogeOSDevnet",
         chainId: 221122420,
         urls: {
-          apiURL: "https://blockscout.devnet.doge.xyz/api",
-          browserURL: "https://blockscout.devnet.doge.xyz/",
+          apiURL: "https://blockscout.testnet.dogeos.com/api",
+          browserURL: "https://blockscout.testnet.dogeos.com/",
         },
       },
     ],

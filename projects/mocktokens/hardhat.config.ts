@@ -18,8 +18,12 @@ const DEFAULT_COMPILER_SETTINGS = {
   },
 }
 
+const dogeOSTestNet: NetworkUserConfig = {
+  url: "https://rpc.testnet.dogeos.com",
+  accounts: [process.env.KEY_DOGEOS_TESTNET!],
+};
 const dogeOSDevNet: NetworkUserConfig = {
-  url: "https://rpc.devnet.doge.xyz",
+  url: "https://rpc.testnet.dogeos.com",
   accounts: [process.env.KEY_DOGEOS_DEVNET!],
   
 };
@@ -30,7 +34,8 @@ export default {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
-    dogeOSDevNet
+    dogeOSDevNet,
+    dogeOSTestNet
   },
   etherscan: {
     apiKey: {
@@ -38,11 +43,19 @@ export default {
     },
     customChains: [
       {
+        network: "dogeOSTestNet",
+        chainId: 6281971,
+        urls: {
+          apiURL: "https://blockscout.testnet.doge.xyz/api",
+          browserURL: "https://blockscout.testnet.doge.xyz/",
+        },
+      },
+      {
         network: "dogeOSDevnet",
         chainId: 221122420,
         urls: {
-          apiURL: "https://blockscout.devnet.doge.xyz/api",
-          browserURL: "https://blockscout.devnet.doge.xyz/",
+          apiURL: "https://blockscout.testnet.dogeos.com/api",
+          browserURL: "https://blockscout.testnet.dogeos.com/",
         },
       }
     ],

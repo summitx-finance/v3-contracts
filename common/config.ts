@@ -45,6 +45,53 @@ export const configs = {
       },
     ],
   },
+  dogeOSTestNet: {
+    WNATIVE: '0xF6BDB158A5ddF77F1B83bC9074F6a472c58D78aE',
+    admin: '0xDa4dD6614fb07F4Eececa864b4Ff9E8e4C3B0056',
+    nativeCurrencyLabel: 'WDOGE',
+    v2Factory: '',
+    stableFactory: '0x0000000000000000000000000000000000000000',
+    stableInfo: '0x0000000000000000000000000000000000000000',
+    MUCHFI: '',
+    smartRouterHelper: '',
+    RMUCHFI: '0x46aFd39366Af0Ed157043361418742e7686EF44A',
+    lbpMasterChefV3: '0x2D1C63d518BAcD95e5Bad9429f04f5804438346e',
+    lbpMasterChefV3ReceiverV2: '',
+    lbpMasterChefV3KeeperV2: '',
+    masterChefV3: '',
+    masterChefV3ReceiverV2: '',
+    masterChefV3KeeperV2: '',
+    poolHelperV3: '0x0000000000000000000000000000000000000000',
+    poolHelperV2: '0x0000000000000000000000000000000000000000',
+    ifoDeployerV3: '0x26b6875dD143C19F2CA945d4b083E6A96b378a8d',
+    ifos: [
+      {
+        ifoAddress: '0x420a06CDb8cf64Bc43064548459C3e81bd614955',
+        lpToken: '0xea911b76c5681fd2a46cf951b320c7e39186f3f0',
+        offeringToken: '0xbb15358ee96e57edc1621705f7cbb9815b1ac949',
+        startBlock: '5859397',
+        endBlock: '5902597',
+        adminAddress: '0x705A9ccEEdeab1DCa662fccF72cC5000B80572D8',
+        pools: [
+          {
+            offeringAmountPool: '1500000000000000000000000',
+            raisingAmountPool: '300000000000',
+            limitPerUserInLP: '100000000000',
+            hasTax: false,
+            pid: 0,
+          },
+          {
+            offeringAmountPool: '6000000000000000000000000',
+            raisingAmountPool: '1200000000000',
+            limitPerUserInLP: '0',
+            hasTax: false,
+            pid: 1,
+          },
+        ],
+      },
+    ],
+  },
+  
   
   hardhat: {
     WNATIVE: '0x5FbDB2315678afecb367f032d93F642f64180aa3',

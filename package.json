@@ -13,7 +13,9 @@
     "deploy-hardhat": "NETWORK=hardhat yarn zx v3-deploy.mjs",
     "verify-hardhat": "NETWORK=hardhat yarn zx v3-verify.mjs",
     "deploy-dogeOSDevNet": "NETWORK=dogeOSDevNet yarn zx v3-deploy.mjs",
-    "verify-dogeOSDevNet": "NETWORK=dogeOSDevNet yarn zx v3-verify.mjs"
+    "verify-dogeOSDevNet": "NETWORK=dogeOSDevNet yarn zx v3-verify.mjs",
+    "deploy-dogeOSTestNet": "NETWORK=dogeOSTestNet yarn zx v3-deploy.mjs",
+    "verify-dogeOSTestNet": "NETWORK=dogeOSTestNet yarn zx v3-verify.mjs"
   },
   "devDependencies": {
     "zx": "^7.2.0",

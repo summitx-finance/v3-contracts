@@ -5,6 +5,7 @@ const networks = {
 
     hardhat: 'hardhat',
     dogeOSDevNet: 'dogeOSDevNet',
+    dogeOSTestNet: 'dogeOSTestNet',
 }
 
 let network = process.env.NETWORK
@@ -13,9 +14,9 @@ if (!network || !networks[network]) {
   throw new Error(`env NETWORK: ${network}`)
 }
 
-// await $`yarn workspace @muchfi/mocktokens run hardhat run scripts/deploy.ts --network ${network}`
+await $`yarn workspace @muchfi/mocktokens run hardhat run scripts/deploy.ts --network ${network}`
 
-// await $`yarn workspace @muchfi/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
+await $`yarn workspace @muchfi/multicall3 run hardhat run scripts/deploy.ts --network ${network}`
 
 // // Deploy core contracts first
 await $`yarn workspace @muchfi/v2-core run hardhat run scripts/deploy.ts --network ${network}`
@@ -26,7 +27,7 @@ await $`yarn workspace @muchfi/v3-periphery run hardhat run scripts/deploy2.ts -
 
 await $`yarn workspace @muchfi/smart-router run hardhat run scripts/deploy2.ts --network ${network}`
 
-await $`yarn workspace @muchfi/pool-creation-handler run hardhat run scripts/deploy-and-setup.ts --network ${network}`
+// await $`yarn workspace @muchfi/pool-creation-handler run hardhat run scripts/deploy-and-setup.ts --network ${network}`
 
 // await $`yarn workspace @muchfi/masterchef-v3 run hardhat run scripts/deploy2.ts --network ${network}`
 
